@@ -6,13 +6,20 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/26 13:48:26 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:44:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int main(void)
+int	failed(char *command, char *message)
+{
+	printf("%s\n", message);
+	free(command);
+	return (0);
+}
+
+int	main(void)
 {
     char *command;
     char *path;
@@ -22,8 +29,7 @@ int main(void)
     {
         command = readline("shell> ");
         if (command == NULL)
-            break;
-
+            failed(command, "Value stored is NULL");
         if (strlen(command) == 0)
             continue;
 
@@ -39,24 +45,25 @@ int main(void)
 
         path = getenv("PATH");
         if (path == NULL)
+		failed(command, "Unable to retrieve path");
+
+        // Search for the executable in the directories specified by PATH
+        char *dir = strtok(path, ":");
+        while (dir != NULL)
         {
-            fprintf(stderr, "Unable to get the value of the PATH variable\n");
-            break;
+            char exec_path[MAX_PATH_LENGTH];
+            strncpy(exec_path, dir, sizeof(exec_path));
+            strncat(exec_path, "/", sizeof(exec_path) - strlen(exec_path) - 1);
+            strncat(exec_path, args[0], sizeof(exec_path) - strlen(exec_path) - 1);
+
+            // Execute the command
+            execve(exec_path, args, NULL);
+
+            dir = strtok(NULL, ":");
         }
 
-        char exec_path[MAX_PATH_LENGTH];
-        strcpy(exec_path, path);
-        strcat(exec_path, "/");
-        strcat(exec_path, args[0]);
-
-        // Execute the command
-        execve(exec_path, args, NULL);
-
-        // execve failed, print error
-        perror("execve");
-        break;
+        fprintf(stderr, "Command not found: %s\n", args[0]);
     }
-
     free(command);
-    return 0;
+    return (0);
 }
