@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/26 16:06:38 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:48:44 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ int	main(void)
 	while (1)
 	{
 		command = readline("shell> ");
-		// if (command == NULL)
-		// 	failed(command, "Value stored is NULL");
+		if (command == NULL)
+			printf("Value stored is NULL");
 		if (strlen(command) == 0)
 			continue;
 
