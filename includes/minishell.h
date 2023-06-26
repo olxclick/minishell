@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/26 14:37:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/26 17:30:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,14 @@
 
 #define MAX_ARGS 64
 #define MAX_PATH_LENGTH 256
+
+typedef struct s_args
+{
+	char *expression[MAX_ARGS];
+	size_t len;
+}		t_args;
+
+int	process(char **env, char *input);
+void	loop(char **env);
 
 #endif
