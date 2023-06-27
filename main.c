@@ -6,19 +6,18 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/26 17:33:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:34:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-void	loop(char **env)
+void	loop()
 {
 	char	*input;
 
 	while (1)
 	{
-		set_pid();
 		input = readline("shell--> ");
 		if (!input)
 		{
@@ -27,37 +26,42 @@ void	loop(char **env)
 			break ;
 		}
 		add_history(input);
-		if (process(env, input))
+		if (process(input))
 			break ;
 	}
 }
 
-int	process(char **env, char *input)
+int	process(char *input)
 {
-	t_args	args;
+	t_args	*args;
+	size_t	i;
 
-	//fazer funcao para separar o input em tokens conforme (" ", "|", "<>")
+	i = 0;
+	args = format_input(input);
 	char	*path;
 	path = getenv("PATH");
 	if (path == NULL)
 		printf("Unable to retrieve path");
-	char *dir = strtok(path, ":");
-	while (dir != NULL)
+	while (i < args->len)
 	{
-		char exec_path[MAX_PATH_LENGTH];
-		strncpy(exec_path, dir, sizeof(exec_path));
-		strncat(exec_path, "/", sizeof(exec_path) - strlen(exec_path) - 1);
-		strncat(exec_path, args[0], sizeof(exec_path) - strlen(exec_path) - 1);
-		execve(exec_path, args, NULL);
-		dir = strtok(NULL, ":");
+		char *dir = strtok(path, ":");
+		while (dir != NULL)
+		{
+			char exec_path[MAX_PATH_LENGTH];
+			strncpy(exec_path, dir, sizeof(exec_path));
+			strncat(exec_path, "/", sizeof(exec_path) - strlen(exec_path) - 1);
+			strncat(exec_path, args->expression[i], sizeof(exec_path) - strlen(exec_path) - 1);
+			execve(exec_path, args->expression, NULL);
+			dir = strtok(NULL, ":");
+		}
+		i++;
 	}
+	return (1);
 }
 
-int	main(int argc, char **argv, char **env)
+int	main()
 {
-	(void)argc;
-	(void)argv;
-	loop(env);
+	loop();
 	rl_clear_history();
 	return (0);
 }
