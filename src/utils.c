@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 14:28:39 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 15:47:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,54 @@ t_args	*format_input(char *input)
 	size_t	i;
 	size_t	j;
 	size_t	k;
+	char	*full_token;
 
-	k = 1;
+	k = 0;
 	i = 0;
 	j = 0;
 	args = initialize_args();
-	while ((input[i]) && (input[i] != ' ' && input[i] != '|' && input[i] != '>' && input[i] != '<'))
+	full_token = malloc((ft_strlen(input) + 1) * sizeof(char));
+	ft_strlcpy(full_token, input, ft_strlen(input) + 1);
+	if (full_token[i])
 	{
-		args->expression[0] = malloc((ft_strlen(input) + 1) * sizeof(char));
-		ft_strcpy(args->expression[0], input);
-		i++;
-	}
-	args->len++;
-	if (input[i])
-	{
-		while (input[i])
+		while (full_token[i])
 		{
-			if (input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<')
+			while ((full_token[j]) && full_token[j] != '|' && full_token[j] != '>' && full_token[j] != '<')
+				j++;
+			if (j > i)
 			{
-				j = i++;
-				while ((input[j]) && (input[j] != ' ' && input[j] != '|' && input[j] != '>' && input[j] != '<'))
-				{
-					args->expression[k] = malloc((strlen(input) + 1) * sizeof(char));
-					ft_strcpy(args->expression[k], input + j);
-					j++;
-				}
-			k++;
-			args->len++;
+				args->expression[k] = malloc(sizeof(char) * (j - i) + 1);
+				ft_strlcpy(args->expression[k], &full_token[i], (j - i) + 1);
+				k++;
+				args->len++;
 			}
+			i = j;
 		}
-		i++;
 	}
+	free(full_token);
 	return (args);
 }
 
-size_t	ft_strcpy(char *dest, const char *src)
+size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 {
 	size_t	i;
 
 	i = 0;
-	while (src[i] != '\0')
+	if (size == 0)
+	{
+		while (src[i])
+			i++;
+		return (i);
+	}
+	while (i < size - 1 && src[i] != '\0')
 	{
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
+	if (i < size)
+		dest[i] = '\0';
+	while (src[i] != '\0')
+		i++;
 	return (i);
 }
 
