@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/27 14:34:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 14:28:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	loop()
 			break ;
 		}
 		add_history(input);
-		if (process(input))
+		if (!process(input))
+		{
+			printf("hello guys\n");
 			break ;
+		}
+		printf("hello guys\n");
 	}
 }
 
@@ -41,7 +45,10 @@ int	process(char *input)
 	char	*path;
 	path = getenv("PATH");
 	if (path == NULL)
+	{
 		printf("Unable to retrieve path");
+		return (0);
+	}
 	while (i < args->len)
 	{
 		char *dir = strtok(path, ":");
@@ -56,6 +63,7 @@ int	process(char *input)
 		}
 		i++;
 	}
+	printf("end of process\n");
 	return (1);
 }
 

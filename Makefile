@@ -6,11 +6,11 @@
 #    By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:31:03 by jbranco-          #+#    #+#              #
-#    Updated: 2023/06/27 14:19:48 by jbranco-         ###   ########.fr        #
+#    Updated: 2023/06/28 14:10:08 by jbranco-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = main.c utils.c
+SRC = minishell.c src/utils.c
 OBJS = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -fPIE
 

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/27 14:38:33 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 14:23:09 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,7 @@ int	process(char *input);
 void	loop();
 t_args	*format_input(char *input);
 t_args	*initialize_args();
+size_t	ft_strcpy(char *dest, const char *src);
+size_t	ft_strlen(char *str);
 
 #endif
