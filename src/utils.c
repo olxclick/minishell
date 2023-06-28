@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 22:11:24 by pedda-si         ###   ########.fr       */
+/*   Updated: 2023/06/28 23:39:45 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,6 @@ t_args	*format_input(char *input)
 		}
 	}
 	i = 0;
-	while (i < args->len)
-		printf("Args--> %s\n", args->expression[i++]);
 	free(full_token);
 	return (args);
 }
