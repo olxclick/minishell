@@ -6,11 +6,33 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 15:47:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 16:37:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	check_mid_token(t_args *args, char *full_token, size_t j, size_t k)
+{
+	if (full_token[j] == '|')
+	{	
+		args->expression[k] = malloc(2);
+		args->expression[k][0] = '|';
+		args->expression[k][1] = '\0';
+	}
+	else if (full_token[j] == '>')
+	{
+		args->expression[k] = malloc(2);
+		args->expression[k][0] = '>';
+		args->expression[k][1] = '\0';
+	}
+	else if (full_token[j] == '<')
+	{
+		args->expression[k] = malloc(2);
+		args->expression[k][0] = '<';
+		args->expression[k][1] = '\0';
+	}
+}
 
 t_args	*format_input(char *input)
 {
@@ -39,9 +61,19 @@ t_args	*format_input(char *input)
 				k++;
 				args->len++;
 			}
+			if (full_token[j] == '|' || full_token[j] == '>' || full_token[j] == '<')
+			{
+				check_mid_token(args, full_token, j, k);
+				k++;
+				args->len++;
+				j++;
+			}
 			i = j;
 		}
 	}
+	i = 0;
+	while (i < args->len)
+		printf("Args--> %s\n", args->expression[i++]);
 	free(full_token);
 	return (args);
 }

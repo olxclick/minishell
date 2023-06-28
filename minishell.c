@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 15:38:57 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 15:59:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,56 +21,6 @@ void	free_all(t_args *args)
 		free(args->expression[i++]);
 	free(args);
 }
-
-// void	loop()
-// {
-// 	t_args	*args;
-// 	char	*input;
-
-// 	while (1)
-// 	{
-// 		input = readline("shell--> ");
-// 		if (!input)
-// 		{
-// 			printf("exit\n");
-// 			free(input);
-// 			break ;
-// 		}
-// 		add_history(input);
-// 		args = format_input(input);
-// 		if (process(args))
-// 			free_all(args);
-// 	}
-// }
-
-// int	process(t_args *args)
-// {
-// 	size_t	i;
-
-// 	i = 0;
-// 	char	*path;
-// 	path = getenv("PATH");
-// 	if (path == NULL)
-// 	{
-// 		printf("Unable to retrieve path");
-// 		return (0);
-// 	}
-// 	while (i < args->len)
-// 	{
-// 		char *dir = strtok(path, ":");
-// 		while (dir != NULL)
-// 		{
-// 			char exec_path[MAX_PATH_LENGTH];
-// 			strncpy(exec_path, dir, sizeof(exec_path));
-// 			strncat(exec_path, "/", sizeof(exec_path) - strlen(exec_path) - 1);
-// 			strncat(exec_path, args->expression[i], sizeof(exec_path) - strlen(exec_path) - 1);
-// 			execve(exec_path, args->expression, NULL);
-// 			dir = strtok(NULL, ":");
-// 		}
-// 		i++;
-// 	}
-// 	return (1);
-// }
 
 int	main()
 {
