@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 16:37:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/06/28 22:11:24 by pedda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,45 @@ void	check_mid_token(t_args *args, char *full_token, size_t j, size_t k)
 	}
 }
 
+size_t		skip_spaces(char *full_token, size_t j, bool pipe)
+{
+	size_t	i;
+
+	i = 0;
+	if (pipe == true)
+	{
+		while (full_token[j] == ' ')
+		{
+			i++;
+			j++;
+		}
+	}
+	else
+	{
+		j--;
+		while (full_token[j] == ' ')
+		{
+			j--;
+			i++;
+		}
+	}
+	return (i);
+}
+
 t_args	*format_input(char *input)
 {
 	t_args *args;
 	size_t	i;
 	size_t	j;
 	size_t	k;
+	size_t	spaces;
+	bool	pipe;
 	char	*full_token;
 
 	k = 0;
 	i = 0;
 	j = 0;
+	pipe = false;
 	args = initialize_args();
 	full_token = malloc((ft_strlen(input) + 1) * sizeof(char));
 	ft_strlcpy(full_token, input, ft_strlen(input) + 1);
@@ -52,12 +80,21 @@ t_args	*format_input(char *input)
 	{
 		while (full_token[i])
 		{
+			if (pipe == true)
+			{
+				spaces = skip_spaces(full_token, j, pipe);
+				i += spaces;
+				spaces = skip_spaces(full_token, j, pipe);
+				j += spaces;
+				pipe = false;
+			}
 			while ((full_token[j]) && full_token[j] != '|' && full_token[j] != '>' && full_token[j] != '<')
 				j++;
+			spaces = skip_spaces(full_token, j, pipe);
 			if (j > i)
 			{
-				args->expression[k] = malloc(sizeof(char) * (j - i) + 1);
-				ft_strlcpy(args->expression[k], &full_token[i], (j - i) + 1);
+				args->expression[k] = malloc(sizeof(char) * (j - i - spaces) + 1);
+				ft_strlcpy(args->expression[k], &full_token[i], (j - i - spaces) + 1);
 				k++;
 				args->len++;
 			}
@@ -67,6 +104,7 @@ t_args	*format_input(char *input)
 				k++;
 				args->len++;
 				j++;
+				pipe = true;
 			}
 			i = j;
 		}
