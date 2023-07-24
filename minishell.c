@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 15:59:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:07:02 by pedda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,30 +53,63 @@ void	loop()
 	}
 }
 
+char	*exec_cmd(t_args *args, size_t i, char *exec_path, char *dir)
+{
+	size_t len;
+
+	len = sizeof(exec_path);
+	snprintf(exec_path, len, "%s/%s", dir, args->expression[i]);
+	execve(exec_path, args->expression, NULL);
+	dir = strtok(NULL, ":");
+	return (dir);
+}
+
 int	process(t_args *args)
 {
-	size_t	i;
-	char	*path;
-
-	i = 0;
-	path = getenv("PATH");
-	if (path == NULL)
-	{
-		printf("Unable to retrieve path\n");
-		return (0);
-	}
-	while (i < args->len)
-	{
-		char exec_path[MAX_PATH_LENGTH];
-		char *dir = strtok(path, ":");
-
-		while (dir != NULL)
-		{
-			snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->expression[i]);
-			execve(exec_path, args->expression, NULL);
-			dir = strtok(NULL, ":");
-		}
-		i++;
-	}
-	return (1);
+	size_t i;
+    char *path;
+    
+    i = 0;
+    path = getenv("PATH");
+    if (path == NULL) {
+        printf("Unable to retrieve path\n");
+        return 0;
+    }
+    
+    while (i < args->len) {
+        pid_t pid = fork();
+        
+        if (pid < 0) {
+            printf("Fork failed\n");
+            return 0;
+        } else if (pid == 0) {
+            // Child process
+            
+            char exec_path[MAX_PATH_LENGTH];
+            char *dir = strtok(path, ":");
+            
+            while (dir != NULL) {
+                snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->expression[i]);
+                execve(exec_path, args->expression, NULL);
+                dir = strtok(NULL, ":");
+            }
+            
+            // If execve fails, exit the child process
+            exit(1);
+        } else {
+            // Parent process
+            int status;
+            waitpid(pid, &status, 0);
+            
+            // Check if child process terminated normally
+            /*if (WIFEXITED(status)) {
+                int exit_status = WEXITSTATUS(status);
+                printf("Child process exited with status: %d\n", exit_status);
+            }*/
+        }
+        
+        i++;
+    }
+    
+    return 1;
 }

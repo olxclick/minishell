@@ -6,7 +6,7 @@
 /*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 22:11:24 by pedda-si         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:37:22 by pedda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,9 @@ t_args	*format_input(char *input)
 		}
 	}
 	i = 0;
-	while (i < args->len)
+	/*while (i < args->len)
 		printf("Args--> %s\n", args->expression[i++]);
-	free(full_token);
+	free(full_token);*/
 	return (args);
 }
 
@@ -159,4 +159,24 @@ t_args	*initialize_args()
 	while (i < MAX_ARGS)
 		args->expression[i++] = NULL;
 	return (args);
+}
+
+char	*ft_strdup(char *s)
+{
+	int		len;
+	int		i;
+	char	*alloc;
+
+	len = ft_strlen(s);
+	i = 0;
+	alloc = malloc(sizeof(char) * (len + 1));
+	if (!alloc)
+		return (NULL);
+	while (i < len)
+	{
+		alloc[i] = s[i];
+		++i;
+	}
+	alloc[i] = '\0';
+	return (alloc);
 }
