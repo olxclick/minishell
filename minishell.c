@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/24 15:07:02 by pedda-si         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:22:26 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ void	free_all(t_args *args)
 	while (i < args->len)
 		free(args->expression[i++]);
 	free(args);
+	rl_clear_history();
 }
 
 int	main()
 {
 	loop();
-	rl_clear_history();
 	return (0);
 }
 
@@ -76,7 +76,8 @@ int	process(t_args *args)
         return 0;
     }
     
-    while (i < args->len) {
+    while (i < args->len) 
+    {
         pid_t pid = fork();
         
         if (pid < 0) {
@@ -87,8 +88,8 @@ int	process(t_args *args)
             
             char exec_path[MAX_PATH_LENGTH];
             char *dir = strtok(path, ":");
-            
             while (dir != NULL) {
+		check_builtin(args);
                 snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->expression[i]);
                 execve(exec_path, args->expression, NULL);
                 dir = strtok(NULL, ":");
@@ -110,6 +111,5 @@ int	process(t_args *args)
         
         i++;
     }
-    
     return 1;
 }

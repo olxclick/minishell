@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/05 17:37:29 by pedda-si         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:20:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@ typedef struct s_args
 
 int	process(t_args*args);
 void	loop();
+void	free_all(t_args *args);
+void	exit_function(t_args *args);
+void	check_builtin(t_args *args);
 t_args	*format_input(char *input);
+int	ft_strcmp(char *s1, char *s2);
 t_args	*initialize_args();
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(char *str);
