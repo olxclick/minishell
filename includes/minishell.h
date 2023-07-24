@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: pedda-si <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/06/28 15:33:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/05 17:37:29 by pedda-si         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 # include <stdint.h>
 
 #define MAX_ARGS 64
-#define MAX_PATH_LENGTH 256
+#define MAX_PATH_LENGTH 1024
 
 typedef struct s_args
 {
 	char	*expression[MAX_ARGS];
 	size_t	len;
-}			t_args;	
+}			t_args;
 
 int	process(t_args*args);
 void	loop();
@@ -39,5 +39,6 @@ t_args	*format_input(char *input);
 t_args	*initialize_args();
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(char *str);
+char	*ft_strdup(char *s);
 
 #endif
