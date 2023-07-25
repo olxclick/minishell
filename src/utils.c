@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 16:40:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:25:00 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ t_args	*format_input(t_args *args, char *input)
 			spaces = skip_spaces(full_token, j, pipe);
 			if (j > i)
 			{
+				if (args->expression[k])
+					free(args->expression[k]);
 				args->expression[k] = malloc(sizeof(char) * (j - i - spaces) + 1);
 				ft_strlcpy(args->expression[k], &full_token[i], (j - i - spaces) + 1);
 				k++;

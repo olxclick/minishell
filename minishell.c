@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 16:41:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:19:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,7 @@ int	process(t_args *args, t_pid *proccess)
 			{
 				check_builtin(args, proccess);
 				snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->expression[i]);
-				if (execve(exec_path, args->expression, NULL) == -1)
-				{
-					printf("command not found\n");
-					break ;
-				}
+				execve(exec_path, args->expression, NULL);
 				dir = strtok(NULL, ":");
 			}
 			free_all(args, proccess);
