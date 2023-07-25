@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 22:19:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:32:00 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,11 @@ void	loop(t_args *args, t_pid *proccess)
 		add_history(input);
 		args = format_input(args, input);
 		if (args)
-			process(args, proccess);
+		{
+			free(input);
+			if (!process(args, proccess))
+				break ;
+		}
 	}
 }
 
