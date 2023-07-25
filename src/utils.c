@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/24 16:25:44 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:40:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,8 @@ size_t		skip_spaces(char *full_token, size_t j, bool pipe)
 	return (i);
 }
 
-t_args	*format_input(char *input)
+t_args	*format_input(t_args *args, char *input)
 {
-	t_args *args;
 	size_t	i;
 	size_t	j;
 	size_t	k;
@@ -73,7 +72,6 @@ t_args	*format_input(char *input)
 	i = 0;
 	j = 0;
 	pipe = false;
-	args = initialize_args();
 	full_token = malloc((ft_strlen(input) + 1) * sizeof(char));
 	ft_strlcpy(full_token, input, ft_strlen(input) + 1);
 	if (full_token[i])
@@ -108,11 +106,10 @@ t_args	*format_input(char *input)
 			}
 			i = j;
 		}
+		free(full_token);
+		free(input);
 	}
 	i = 0;
-	/*while (i < args->len)
-		printf("Args--> %s\n", args->expression[i++]);
-	free(full_token);*/
 	return (args);
 }
 
@@ -159,15 +156,25 @@ int	ft_strcmp(char *s1, char *s2)
 	return (s1[i] - s2[i]);
 }
 
-void	check_builtin(t_args *args)
+void	check_builtin(t_args *args, t_pid *proccess)
 {
-	if (ft_strcmp(args->expression[0], "exit") == 0)	
-		exit_function(args);
+	if (ft_strcmp(args->expression[0], "exit") == 0)
+		exit_function(args, proccess);
+}
+
+t_pid	*initialize_pid()
+{
+	t_pid	*proccess;
+
+	proccess = malloc(sizeof(t_pid));
+	proccess->pid = 0;
+	proccess->state = 0;
+	return (proccess);
 }
 
 t_args	*initialize_args()
 {
-	t_args *args = malloc(sizeof(t_args));
+	t_args	*args = malloc(sizeof(t_args));
 	int	i;
 
 	i = 0;

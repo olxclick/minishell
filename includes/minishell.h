@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/24 16:20:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:33:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,19 @@ typedef struct s_args
 	size_t	len;
 }			t_args;
 
-int	process(t_args*args);
-void	loop();
-void	free_all(t_args *args);
-void	exit_function(t_args *args);
-void	check_builtin(t_args *args);
-t_args	*format_input(char *input);
+typedef struct s_pid
+{
+	pid_t	pid;
+	int	state;
+}			t_pid;
+
+int	process(t_args *args, t_pid *proccess);
+void	loop(t_args *args, t_pid *proccess);
+void	free_all(t_args *args, t_pid *proccess);
+void	exit_function(t_args *args, t_pid *proccess);
+void	check_builtin(t_args *args, t_pid *proccess);
+t_args	*format_input(t_args *args, char *input);
+t_pid	*initialize_pid();
 int	ft_strcmp(char *s1, char *s2);
 t_args	*initialize_args();
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
