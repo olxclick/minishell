@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,7 +7,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/26 00:43:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 14:22:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +21,7 @@ void	free_all(t_args *args, t_pid *proccess)
 	if (args)
 	{
 		while (i < args->len)
-			free(args->tokens[i++]);
+			free(args->args[i++]);
 		free(args);
 	}
 	if (proccess)
@@ -30,19 +31,15 @@ void	free_all(t_args *args, t_pid *proccess)
 
 int	main()
 {
-	t_args	*args;
-	t_pid	*proccess;
-
-	proccess = initialize_pid();
-	args = initialize_args();
-	loop(args, proccess);
+	loop();
 	return (0);
 }
 
-void	loop(t_args *args, t_pid *proccess)
+void	loop()
 {
-	static char	*input;
-	(void)proccess;
+	// t_list	*expressions;
+	t_token	token;
+	char	*input;
 	while (1)
 	{
 		input = readline("shell--> ");
@@ -53,7 +50,18 @@ void	loop(t_args *args, t_pid *proccess)
 			break;
 		}
 		add_history(input);
-		args = set_args_tokens(input, args);
+		token = set_args_tokens(input);
+		printf("%s\n", token.token[0]);
+		printf("%s\n", token.token[1]);
+		printf("%s\n", token.token[2]);
+		// expressions = get_all_tokens(token);
+		// while (expressions)
+		// {
+		// 	for (int i = 0; ((t_args *)expressions->content)->args[i]; i++)
+		// 		printf("Token: %s\n", ((t_args *)expressions->content)->args[i]);
+		// 	printf("State: %d\n", ((t_args *)expressions->content)->state);
+		// 	expressions = expressions->next;
+		// }
 		/*
 		if (args)
 			if (!process(args, proccess))
@@ -62,6 +70,7 @@ void	loop(t_args *args, t_pid *proccess)
 	}
 }
 
+/*
 int	process(t_args *args, t_pid *proccess)
 {
 	size_t i;
@@ -110,3 +119,4 @@ int	process(t_args *args, t_pid *proccess)
 	}
 	return (1);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/26 00:25:50 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 17:51:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <sys/types.h>
 # include <stdint.h>
+# include "../libft/libft.h"
 
 #define MAX_ARGS 64
 #define MAX_PATH_LENGTH 1024
@@ -30,14 +31,26 @@
 typedef enum
 {
 	CMD,
-	PIPE
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_APPEND,
+	HEREDOC,
+	DOC, //FILE
+	DEFAULT
 }	t_state;
 
 typedef struct s_args
 {
-	char	*tokens[MAX_ARGS];
+	char	**args;
+	t_state	state;
 	size_t	len;
 }			t_args;
+
+typedef struct s_token
+{
+	char	**token;
+}			t_token;
 
 typedef struct s_pid
 {
@@ -45,19 +58,23 @@ typedef struct s_pid
 }			t_pid;
 
 int	process(t_args *args, t_pid *proccess);
-void	loop(t_args *args, t_pid *proccess);
+void	loop();
 void	free_all(t_args *args, t_pid *proccess);
 void	exit_function(t_args *args, t_pid *proccess);
 void	check_builtin(t_args *args, t_pid *proccess);
 t_args	*format_input(t_args *args, char *input);
-t_pid	*initialize_pid();
-int	ft_strcmp(char *s1, char *s2);
-char	*ft_substr(char const *s, unsigned int start, size_t len);
-t_args	*initialize_args();
-size_t	ft_strlcpy(char *dest, const char *src, size_t size);
-size_t	ft_strlen(char *str);
-t_args	*set_args_tokens(char *input, t_args *args);
+t_token set_args_tokens(char *input);
+t_args    *get_parsed(t_token t);
 char	*get_token(char *input);
-char	*ft_strdup(char *s);
+char	*operator_return(char *token, char *input, int i);
+t_list    *get_all_tokens(t_token t);
+char **get_args(t_token t, int end);
+static inline int is_delim(char *token)
+{
+    return (ft_strcmp(token, "|") || ft_strcmp(token, "<") || ft_strcmp(token, ">")
+        || ft_strcmp(token, "<<") || ft_strcmp(token, ">>"));
+}
+t_state	get_state(t_args *args, t_state prev_state);
+t_state	get_delim(char *token);
 
 #endif
