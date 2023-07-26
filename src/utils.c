@@ -6,111 +6,70 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 22:31:35 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 01:10:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	check_mid_token(t_args *args, char *full_token, size_t j, size_t k)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	if (full_token[j] == '|')
-	{	
-		args->expression[k] = malloc(2);
-		args->expression[k][0] = '|';
-		args->expression[k][1] = '\0';
-	}
-	else if (full_token[j] == '>')
-	{
-		args->expression[k] = malloc(2);
-		args->expression[k][0] = '>';
-		args->expression[k][1] = '\0';
-	}
-	else if (full_token[j] == '<')
-	{
-		args->expression[k] = malloc(2);
-		args->expression[k][0] = '<';
-		args->expression[k][1] = '\0';
-	}
-}
-
-size_t		skip_spaces(char *full_token, size_t j, bool pipe)
-{
-	size_t	i;
-
-	i = 0;
-	if (pipe == true)
-	{
-		while (full_token[j] == ' ')
-		{
-			i++;
-			j++;
-		}
-	}
-	else
-	{
-		j--;
-		while (full_token[j] == ' ')
-		{
-			j--;
-			i++;
-		}
-	}
-	return (i);
-}
-
-t_args	*format_input(t_args *args, char *input)
-{
+	char	*new_str;
 	size_t	i;
 	size_t	j;
-	size_t	k;
-	size_t	spaces;
-	bool	pipe;
-	char	*full_token;
 
-	k = 0;
-	i = 0;
+	if (!s || !(new_str = (char *)malloc(len + 1)))
+		return (0);
+	i = start;
 	j = 0;
-	pipe = false;
-	full_token = malloc((ft_strlen(input) + 1) * sizeof(char));
-	ft_strlcpy(full_token, input, ft_strlen(input) + 1);
-	if (full_token[i])
+	while (i < ft_strlen((char *)s) && j < len)
+		new_str[j++] = s[i++];
+	new_str[j] = '\0';
+	return (new_str);
+}
+
+char	*get_token(char *input)
+{
+	size_t	i = 0;
+	char    *token;
+
+	while (input[i])
 	{
-		while (full_token[i])
+		if (input[i] == ' ')
 		{
-			if (pipe == true)
-			{
-				spaces = skip_spaces(full_token, j, pipe);
-				i += spaces;
-				spaces = skip_spaces(full_token, j, pipe);
-				j += spaces;
-				pipe = false;
-			}
-			while ((full_token[j]) && full_token[j] != '|' && full_token[j] != '>' && full_token[j] != '<')
-				j++;
-			spaces = skip_spaces(full_token, j, pipe);
-			if (j > i)
-			{
-				if (args->expression[k])
-					free(args->expression[k]);
-				args->expression[k] = malloc(sizeof(char) * (j - i - spaces) + 1);
-				ft_strlcpy(args->expression[k], &full_token[i], (j - i - spaces) + 1);
-				k++;
-				args->len++;
-			}
-			if (full_token[j] == '|' || full_token[j] == '>' || full_token[j] == '<')
-			{
-				check_mid_token(args, full_token, j, k);
-				k++;
-				args->len++;
-				j++;
-				pipe = true;
-			}
-			i = j;
+			token = ft_substr(input, 0, i);
+			break ;
 		}
-		free(full_token);
+		//ultima palavra
+		else if (input[i + 1] == '\0')
+		{
+			token = ft_substr(input, 0, i + 1);
+			break ;
+		}
+		i++;
 	}
-	i = 0;
+	return (token);
+}
+
+t_args *set_args_tokens(char *input, t_args *args)
+{
+	char *token;
+	size_t j = 0;
+
+	while (*input && *input == ' ')
+		input++;
+	while (*input)
+	{
+		token = get_token(input);
+		if (!token)
+			break;
+		args->tokens[j] = token;
+		input += ft_strlen(token);
+		while (*input && *input == ' ')
+			input++;
+		j++;
+	}
+	args->tokens[j] = NULL; // Set the last element to NULL to mark the end
 	return (args);
 }
 
@@ -159,7 +118,7 @@ int	ft_strcmp(char *s1, char *s2)
 
 void	check_builtin(t_args *args, t_pid *proccess)
 {
-	if (ft_strcmp(args->expression[0], "exit") == 0)
+	if (ft_strcmp(args->tokens[0], "exit") == 0)
 		exit_function(args, proccess);
 }
 
@@ -169,7 +128,6 @@ t_pid	*initialize_pid()
 
 	proccess = malloc(sizeof(t_pid));
 	proccess->pid = 0;
-	proccess->state = 0;
 	return (proccess);
 }
 
@@ -181,7 +139,7 @@ t_args	*initialize_args()
 	i = 0;
 	args->len = 0;
 	while (i < MAX_ARGS)
-		args->expression[i++] = NULL;
+		args->tokens[i++] = NULL;
 	return (args);
 }
 

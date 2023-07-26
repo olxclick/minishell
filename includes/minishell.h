@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 16:33:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:25:50 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,21 @@
 #define MAX_ARGS 64
 #define MAX_PATH_LENGTH 1024
 
+typedef enum
+{
+	CMD,
+	PIPE
+}	t_state;
+
 typedef struct s_args
 {
-	char	*expression[MAX_ARGS];
+	char	*tokens[MAX_ARGS];
 	size_t	len;
 }			t_args;
 
 typedef struct s_pid
 {
 	pid_t	pid;
-	int	state;
 }			t_pid;
 
 int	process(t_args *args, t_pid *proccess);
@@ -47,9 +52,12 @@ void	check_builtin(t_args *args, t_pid *proccess);
 t_args	*format_input(t_args *args, char *input);
 t_pid	*initialize_pid();
 int	ft_strcmp(char *s1, char *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
 t_args	*initialize_args();
 size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(char *str);
+t_args	*set_args_tokens(char *input, t_args *args);
+char	*get_token(char *input);
 char	*ft_strdup(char *s);
 
 #endif

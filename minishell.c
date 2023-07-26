@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/25 22:32:00 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 00:43:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_all(t_args *args, t_pid *proccess)
 	if (args)
 	{
 		while (i < args->len)
-			free(args->expression[i++]);
+			free(args->tokens[i++]);
 		free(args);
 	}
 	if (proccess)
@@ -41,8 +41,8 @@ int	main()
 
 void	loop(t_args *args, t_pid *proccess)
 {
-	char	*input;
-
+	static char	*input;
+	(void)proccess;
 	while (1)
 	{
 		input = readline("shell--> ");
@@ -53,13 +53,12 @@ void	loop(t_args *args, t_pid *proccess)
 			break;
 		}
 		add_history(input);
-		args = format_input(args, input);
+		args = set_args_tokens(input, args);
+		/*
 		if (args)
-		{
-			free(input);
 			if (!process(args, proccess))
 				break ;
-		}
+		*/
 	}
 }
 
@@ -76,6 +75,9 @@ int	process(t_args *args, t_pid *proccess)
 	}
 	while (i < args->len) 
 	{
+		int pipe_fd[2];
+		pipe(pipe_fd);//fd0 = read fd1 =write
+		//comunicar com o pai
 		proccess->pid = fork();
 		if (proccess->pid < 0)
 		{
@@ -89,8 +91,8 @@ int	process(t_args *args, t_pid *proccess)
 			while (dir != NULL)
 			{
 				check_builtin(args, proccess);
-				snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->expression[i]);
-				execve(exec_path, args->expression, NULL);
+				snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->tokens[i]);
+				execve(exec_path, args->tokens, NULL);
 				dir = strtok(NULL, ":");
 			}
 			free_all(args, proccess);
@@ -100,6 +102,9 @@ int	process(t_args *args, t_pid *proccess)
 		{
 			int status;
 			waitpid(proccess->pid, &status, 0);
+			//caso pipe
+			//ls | wc
+			//CMD PIPE CMD
 		}
 		i++;
 	}
