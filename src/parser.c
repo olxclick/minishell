@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/26 17:33:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/27 00:44:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ char **get_args(t_token t, int end)
 	return (args);
 }
 
-// t_list    *get_all_tokens(t_token t)
-// {
-//     t_list *head;
-//     t_args *expr;
-    
-//     expr = get_parsed(t);
-//     head = ft_lstnew(expr);
-//     while (expr)
-//     {//[ls] [a] [|] [wc]
-//         t.token += expr->len; //passar para o/os proximo token
-//         expr = get_parsed(t);
-//         ft_lstadd_back(&head, ft_lstnew(expr));//adicionar a nova expressão à lista
-//     }
-//     return (head);
-// }
+t_list    *get_all_tokens(t_token t)
+{
+	t_list *head;
+	t_args *expr;
+
+	expr = get_parsed(t);
+	head = ft_lstnew(expr);
+	while (expr)
+	{
+		t.token += expr->len; //passar para o/os proximo token
+		expr = get_parsed(t);
+		ft_lstadd_back(&head, ft_lstnew(expr));//adicionar a nova expressão à lista
+	}
+	return (head);
+}
 
 t_args    *get_parsed(t_token t)
 {
@@ -57,22 +57,18 @@ t_args    *get_parsed(t_token t)
 		if (is_delim(t.token[i]) || !t.token[i + 1])
 		{
 			//copia o ultimo
-            		if (i == 0)
+			expression->len = i;
+			if (i == 0)
 			{
-				//pipe ou redir
 				expression->len = 1;
 				expression->args = get_args(t, 1);
-				expression->state = get_state(expression, prev_state);
-                		return (expression);
 			}
-			expression->len = i;
-			if (!t.token[i + 1])
-				expression->args = get_args(t, i + 1);
+			//more than one args
 			else
 				expression->args = get_args(t, i);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
-            		return (expression);
+			return (expression);
 		}
 	  	i++;
 	}
@@ -84,11 +80,12 @@ t_state	get_state(t_args *expression, t_state prev_state)
 {
    	t_state state;
 
-	state = CMD;
 	if (prev_state >= 2 && prev_state <= 5)
 		state = DOC;
 	else if (expression->len == 1 && is_delim(expression->args[0]))
       		state = get_delim(expression->args[0]);
+	else
+		state = CMD;
 	return (state);
 }
 

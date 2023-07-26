@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tokening.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/26 17:58:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/26 23:39:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ char	*get_token(char *input)
 	token = NULL;
 	while (input[i])
 	{
-		if (input[i] == ' ')
-		{
-			token = ft_substr(input, 0, i);
-			break ;
-		}
-		else if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
 		{
 			token = operator_return(token, input, i);
+			break ;
+		}
+		else if (input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<')
+		{
+			token = ft_substr(input, 0, i);
 			break ;
 		}
 		//ultima palavra
@@ -45,34 +45,38 @@ char	*get_token(char *input)
 char	*operator_return(char *token, char *input, int i)
 {
 	if (input[i] == '|')
-		token = ft_substr(input, 0, sizeof("|"));
+		token = ft_substr(input, 0, sizeof("|") - 1);
+	else if (input[i] == '>' && input[i + 1] == '>')
+		token = ft_substr(input, 0, sizeof(">>") - 1);
+	else if (input[i] == '<' && input[i + 1] == '<')
+		token = ft_substr(input, 0, sizeof("<<") - 1);
 	else if (input[i] == '>')
-		token = ft_substr(input, 0, sizeof(">"));
+		token = ft_substr(input, 0, sizeof(">") - 1);
 	else if (input[i] == '<')
-		token = ft_substr(input, 0, sizeof("<"));
+		token = ft_substr(input, 0, sizeof("<") - 1);
 	return (token);
 }
 
-char	**ft_realloc(char **old_map, size_t new_size)
+char	**ft_realloc(char **str, size_t new_size)
 {
-	char	**new_map;
+	char	**new_str;
 	size_t	i;
 
-	new_map = (char **)malloc(new_size * sizeof(char *));
-	if (!new_map)
+	new_str = (char **)malloc(new_size * sizeof(char *));
+	if (!new_str)
 		return (0);
 	i = 0;
 	if (new_size > 1)
 	{
 		while (i < new_size - 1)
 		{
-			new_map[i] = old_map[i];
+			new_str[i] = str[i];
 			i++;
 		}
 	}
-	new_map[new_size - 1] = NULL;
-	free(old_map);
-	return (new_map);
+	new_str[new_size - 1] = NULL;
+	free(str);
+	return (new_str);
 }
 
 t_token set_args_tokens(char *input)
@@ -100,8 +104,3 @@ t_token set_args_tokens(char *input)
 	return (t);
 }
 
-void	check_builtin(t_args *args, t_pid *proccess)
-{
-	if (ft_strcmp(args->args[0], "exit") == 0)
-		exit_function(args, proccess);
-}

@@ -13,32 +13,29 @@
 
 #include "includes/minishell.h"
 
-void	free_all(t_args *args, t_pid *proccess)
+t_params	init_params(t_params params)
 {
-	size_t	i;
-
-	i = 0;
-	if (args)
-	{
-		while (i < args->len)
-			free(args->args[i++]);
-		free(args);
-	}
-	if (proccess)
-		free(proccess);
-	rl_clear_history();
+	params.input_fd = STDIN_FILENO;
+	params.output_fd = STDOUT_FILENO;
+	return (params);
 }
 
-int	main()
+int	main(int argc, char **argv, char **envs)
 {
-	loop();
+	(void)argc;
+	(void)argv;
+	char	**my_envs;
+
+	my_envs = set_envs(envs);
+	loop(my_envs);
 	return (0);
 }
 
-void	loop()
+void	loop(char **my_envs)
 {
-	// t_list	*expressions;
+	t_list	*expressions;
 	t_token	token;
+	t_params	params;
 	char	*input;
 	while (1)
 	{
@@ -51,72 +48,21 @@ void	loop()
 		}
 		add_history(input);
 		token = set_args_tokens(input);
-		printf("%s\n", token.token[0]);
-		printf("%s\n", token.token[1]);
-		printf("%s\n", token.token[2]);
-		// expressions = get_all_tokens(token);
-		// while (expressions)
-		// {
-		// 	for (int i = 0; ((t_args *)expressions->content)->args[i]; i++)
-		// 		printf("Token: %s\n", ((t_args *)expressions->content)->args[i]);
-		// 	printf("State: %d\n", ((t_args *)expressions->content)->state);
-		// 	expressions = expressions->next;
-		// }
-		/*
-		if (args)
-			if (!process(args, proccess))
-				break ;
-		*/
+		expressions = get_all_tokens(token);
+		params = init_params(params);
+		executor(expressions, my_envs, params);
+		// print_list(expressions);
 	}
 }
 
-/*
-int	process(t_args *args, t_pid *proccess)
+void	print_list(t_list *expressions)
 {
-	size_t i;
-    	char *path;
-
-   	i = 0;
-   	path = getenv("PATH");
-	if (path == NULL) {
-		printf("Unable to retrieve path\n");
-		return (0);
-	}
-	while (i < args->len) 
+	while (expressions->next)
 	{
-		int pipe_fd[2];
-		pipe(pipe_fd);//fd0 = read fd1 =write
-		//comunicar com o pai
-		proccess->pid = fork();
-		if (proccess->pid < 0)
-		{
-			printf("Fork failed\n");
-			return (0);
-		}
-		else if (proccess->pid == 0) //child
-		{
-			char exec_path[MAX_PATH_LENGTH];
-			char *dir = strtok(path, ":");
-			while (dir != NULL)
-			{
-				check_builtin(args, proccess);
-				snprintf(exec_path, sizeof(exec_path), "%s/%s", dir, args->tokens[i]);
-				execve(exec_path, args->tokens, NULL);
-				dir = strtok(NULL, ":");
-			}
-			free_all(args, proccess);
-			exit(1);
-		}
-		else //parent
-		{
-			int status;
-			waitpid(proccess->pid, &status, 0);
-			//caso pipe
-			//ls | wc
-			//CMD PIPE CMD
-		}
-		i++;
+		int i = 0;
+		while (((t_args *)expressions->content)->args[i])
+			printf("Token: %s\n", ((t_args *)expressions->content)->args[i++]);
+		printf("State: %d\n", ((t_args *)expressions->content)->state);
+		expressions = expressions->next;
 	}
-	return (1);
 }
-*/

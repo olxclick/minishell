@@ -6,12 +6,12 @@
 #    By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:31:03 by jbranco-          #+#    #+#              #
-#    Updated: 2023/07/26 17:23:17 by jbranco-         ###   ########.fr        #
+#    Updated: 2023/07/26 23:37:48 by jbranco-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-SRC = minishell.c src/utils.c src/builtins.c src/parser.c
+SRC = minishell.c src/tokening.c src/builtins.c src/parser.c src/frees.c src/envs.c src/handler.c src/executor.c
 OBJS = $(SRC:.c=.o)
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -fPIE
 LIBFT_A = libft/libft.a
