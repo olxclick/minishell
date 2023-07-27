@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 19:08:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/27 19:15:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ char **get_args(t_token t, int end)
 
 	i = 0;
     	args = malloc((end + 2) * sizeof(char *));
-    	while (i <= end)
+    	while (i < end)
 	{
 		args[i] = ft_strdup(t.token[i]);
+		printf("Arg: %s\n", args[i]);
 		i++;
 	}
 	args[i] = NULL;
@@ -58,7 +59,10 @@ t_args    *get_parsed(t_token t)
 		{
 			//copia o ultimo
 			expression->len = i + 1;
-			expression->args = get_args(t, i);
+			if (!t.token[i + 1])
+				expression->args = get_args(t, i + 1);
+			else
+				expression->args = get_args(t, i);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
 			return (expression);
