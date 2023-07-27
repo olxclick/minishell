@@ -79,6 +79,7 @@ void    executor(t_list *expressions, char **envs, t_params params)
 	if (params.pid == 0)//child
 	{
 		expr = expressions->content;
+		is_builtin(expr);
 		handle_pipes(expressions, params);
           	exec(expr, envs);
 	}
@@ -88,6 +89,8 @@ void    executor(t_list *expressions, char **envs, t_params params)
 		if (params.input_fd != STDIN_FILENO)
 			close(params.input_fd);
 		wait(NULL);
+		expr = expressions->content;
+		is_builtin(expr);
         	while (expressions->next)
 		{
 			expr = expressions->content;
