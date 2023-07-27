@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 00:12:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:24:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	free_all(t_args *args)
 	size_t	i;
 
 	i = 0;
-    while (i < args->len)
-        free(args->args[i++]);
-    free(args);
+	while (i < args->len)
+		free(args->args[i++]);
+	free(args);
 	rl_clear_history();
 }
 
@@ -31,4 +31,9 @@ void	free_envs(char **my_envs)
 	while (my_envs[i])
 		free(my_envs[i++]);
 	free(my_envs);
+}
+
+void	free_list(t_list* list)
+{
+	free(list);
 }

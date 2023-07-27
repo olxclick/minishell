@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 16:40:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/27 18:39:46 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct s_args
 	char	**args;
 	t_state	state;
 	size_t	len;
+	int	exited;
 }			t_args;
 
 typedef struct s_params
@@ -64,13 +65,15 @@ typedef struct s_token
 void	loop(char **my_envs);
 void	free_all(t_args *args);
 char	*get_path(char *expr, char **envs);
-int	is_builtin(t_args *args);
-void	do_exit(t_args *args);
+int	is_builtin(t_args *expr);
+int	do_exit(t_args *expr);
+int	do_echo(t_args *expr);
 int	search_path(char **envs, char *to_find);
 t_token set_args_tokens(char *input);
 void	exec(t_args *expr, char **my_envs);
 void    executor(t_list *expressions, char **envs, t_params params);
 t_args    *get_parsed(t_token t);
+void	free_list(t_list* list);
 char	*get_token(char *input);
 char	*operator_return(char *token, char *input, int i);
 t_list    *get_all_tokens(t_token t);

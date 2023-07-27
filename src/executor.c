@@ -64,10 +64,9 @@ void	exec(t_args *expr, char **my_envs)
     	char    *path;
 
         // procura o caminho de N cmd que está na posicao 0
-        path = get_path(expr->args[0], my_envs);
-	/*Distinguir no futuro os nossos builtins dos que ja estao implementados*/
-        expr->args[expr->len] = 0;
-    	execve(path, expr->args, my_envs);
+	path = get_path(expr->args[0], my_envs);
+	expr->args[expr->len] = 0;
+	execve(path, expr->args, my_envs);
 }
 
 void    executor(t_list *expressions, char **envs, t_params params)
@@ -79,9 +78,11 @@ void    executor(t_list *expressions, char **envs, t_params params)
 	if (params.pid == 0)//child
 	{
 		expr = expressions->content;
-		is_builtin(expr);
-		handle_pipes(expressions, params);
-          	exec(expr, envs);
+		if (!is_builtin(expr))
+		{
+			handle_pipes(expressions, params);
+          		exec(expr, envs);
+		}
 	}
 	else //parent
 	{
@@ -89,8 +90,6 @@ void    executor(t_list *expressions, char **envs, t_params params)
 		if (params.input_fd != STDIN_FILENO)
 			close(params.input_fd);
 		wait(NULL);
-		expr = expressions->content;
-		is_builtin(expr);
         	while (expressions->next)
 		{
 			expr = expressions->content;
