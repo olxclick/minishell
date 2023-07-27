@@ -34,6 +34,7 @@ char	*get_path(char *expr, char **envs)
 	size_t		i;
 
 	(void)expr;
+	bin = NULL;
    	//verificar se existe PATH nas nossas envs
 	if (search_path(envs, "PATH") != -1)
 	{

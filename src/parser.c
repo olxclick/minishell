@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 00:44:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/27 15:49:45 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_state	get_delim(char *token)
 {
 	t_state state;
 
+	state = DEFAULT;
 	if (ft_strcmp(token, "|") == 0)
 		state = PIPE;
 	else if (ft_strcmp(token, ">") == 0)
