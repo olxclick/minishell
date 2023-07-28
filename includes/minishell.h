@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 18:39:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:46:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,15 @@ char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params parameters);
 t_state	get_state(t_args *args, t_state prev_state);
 void print_list(t_list *head);
-t_state	get_delim(char *token);
+t_state	get_delim_state(char *token);
 char	**ft_realloc(char **str, size_t new_size);
 char **set_envs(char **envs);
 void	free_envs(char **my_envs);
+char	*proccess_delim(char  *delim);
 static inline int is_delim(char *token)
 {
-    return (ft_strcmp(token, "|") == 0 || ft_strcmp(token, "<") == 0 || ft_strcmp(token, ">") == 0
-        || ft_strcmp(token, "<<") == 0 || ft_strcmp(token, ">>") == 0);
+    return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)
+        || (ft_strcmp(token, "<<") == 0) || (ft_strcmp(token, ">>") == 0);
 }
 static inline void    close_file_descriptors(t_params params)
 {

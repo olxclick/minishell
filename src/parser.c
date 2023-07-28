@@ -6,23 +6,23 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 19:15:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/28 00:58:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char **get_args(t_token t, int end)
+char	**get_args(t_token t, int end)
 {
 	int i;
     	char **args;
 
 	i = 0;
     	args = malloc((end + 2) * sizeof(char *));
-    	while (i < end)
+	while (i <= end)
 	{
 		args[i] = ft_strdup(t.token[i]);
-		printf("Arg: %s\n", args[i]);
+		printf("Args created: %s\n", args[i]);
 		i++;
 	}
 	args[i] = NULL;
@@ -54,19 +54,18 @@ t_args    *get_parsed(t_token t)
 	i = 0;
     	expression = malloc(sizeof(t_args));
 	while (t.token[i])
-	{//[ls] [a]  [|] [wc] 
-		if (is_delim(t.token[i]) || !t.token[i + 1])
+	{//[ls] [a]  [|] [wc]
+		if ((is_delim(t.token[i])) || (!t.token[i + 1]))
 		{
-			//copia o ultimo
+			// printf("OU E DELIM OU NAO EXISTE PROXIMO: %s\n", t.token[i]);
 			expression->len = i + 1;
-			if (!t.token[i + 1])
-				expression->args = get_args(t, i + 1);
-			else
-				expression->args = get_args(t, i);
+			expression->args = get_args(t, i);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
+			printf("STATE: %d\n", expression->state);
 			return (expression);
 		}
+		
 	  	i++;
 	}
     	free(expression);
@@ -80,13 +79,13 @@ t_state	get_state(t_args *expression, t_state prev_state)
 	if (prev_state >= 2 && prev_state <= 5)
 		state = DOC;
 	else if (expression->len == 1 && is_delim(expression->args[0]))
-      		state = get_delim(expression->args[0]);
+      		state = get_delim_state(expression->args[0]);
 	else
 		state = CMD;
 	return (state);
 }
 
-t_state	get_delim(char *token)
+t_state	get_delim_state(char *token)
 {
 	t_state state;
 
