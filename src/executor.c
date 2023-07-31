@@ -69,33 +69,36 @@ void	exec(t_args *expr, char **my_envs)
 	execve(path, expr->args, my_envs);
 }
 
-void    executor(t_list *expressions, char **envs, t_params params)
+void    executor(t_list *expressions, char **envs, t_params *params)
 {
 	t_args  *expr;
 	//create the fd's
-	pipe(params.pipe_fd);
-	params.pid = fork();
-	if (params.pid == 0)//child
+	pipe(params->pipe_fd);
+	params->pid = fork();
+	expr = expressions->content;
+	if (params->pid == 0)//child
 	{
-		expr = expressions->content;
-		if (!is_builtin(expr))
+		handle_pipes(expressions, params);
+		if (is_builtin(expr->args[0]))
 		{
-			handle_pipes(expressions, params);
-          		exec(expr, envs);
+			exec_builtin(expr, params);
+			exit(0);
 		}
+		else
+			exec(expr, envs);
 	}
 	else //parent
 	{
-       		close(params.pipe_fd[W]);
-		if (params.input_fd != STDIN_FILENO)
-			close(params.input_fd);
+       		close(params->pipe_fd[W]);
+		if (params->input_fd != STDIN_FILENO)
+			close(params->input_fd);
 		wait(NULL);
         	while (expressions->next)
 		{
 			expr = expressions->content;
 			if (expr->state == PIPE)// ls | wc pipe_fd[1]
 			{
-				params.input_fd = params.pipe_fd[R];
+				params->input_fd = params->pipe_fd[R];
 				expressions = expressions->next;
 				executor(expressions, envs, params);
 				break ;

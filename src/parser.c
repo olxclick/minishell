@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 16:00:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:51:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_list    *get_all_tokens(t_token t)
 
 t_args    *get_parsed(t_token t)
 {
-    	t_args *expression;
+    	t_args	*expression;
 	int	i;
     	static t_state prev_state = DEFAULT;
 
@@ -64,7 +64,7 @@ t_args    *get_parsed(t_token t)
 			else 
 			{	
 				expression->args = get_args(t, i + 1);
-				expression->len = i;
+				expression->len = (!t.token[i + 1]) ? i + 1 : i;
 			}
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;

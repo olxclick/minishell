@@ -6,35 +6,40 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 18:55:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:05:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	is_builtin(t_args *expr)
+int	is_builtin(char *cmd)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < expr->len)
-	{
-		if (ft_strcmp(expr->args[i], "exit") == 0)
-			return (do_exit(expr));
-		else if (ft_strcmp(expr->args[i], "echo") == 0)
-			return (do_echo(expr));
-		// if (ft_strcmp(args->args[i], "cd") == 0)
-		// 	do_cd(args);
-		// if (ft_strcmp(args->args[i], "export") == 0)
-		// 	do_export(args);
-		// if (ft_strcmp(args->args[i], "unset") == 0)
-		// 	do_unset(args);
-		i++;
-	}
-	return (0);
+	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "cd") == 0)
+        || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
 }
 
-int	do_echo(t_args *expr)
+void	do_pwd()
+{
+	char	cwd[PATH_MAX];
+
+	printf("%s\n", getcwd(cwd, PATH_MAX));
+}
+
+void	exec_builtin(t_args *expr, t_params *params)
+{
+	if (ft_strcmp(expr->args[0], "exit") == 0)
+		do_exit(expr, params);
+	else if (ft_strcmp(expr->args[0], "echo") == 0)
+		do_echo(expr);
+	else if (ft_strcmp(expr->args[0], "pwd") == 0)
+		do_pwd(expr);
+	// if (ft_strcmp(args->args[i], "export") == 0)
+	// 	do_export(args);
+	// if (ft_strcmp(args->args[i], "unset") == 0)
+	// 	do_unset(args);
+}
+
+void	do_echo(t_args *expr)
 {
 	size_t	i;
 	size_t	flag;
@@ -52,12 +57,11 @@ int	do_echo(t_args *expr)
 			flag = 0;
 	}
 	printf("\n");
-	return (1);
 }
 
-int	do_exit(t_args *expr)
+void	do_exit(t_args *expr, t_params *params)
 {
-	expr->exited = 1;
-	rl_clear_history();
-	exit(1);
+	params->exited = 1;
+	printf("exited????????????????????????? -----> %ld\n", params->exited);
+	(void)expr;
 }

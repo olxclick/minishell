@@ -6,22 +6,11 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 18:24:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:28:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	free_all(t_args *args)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < args->len)
-		free(args->args[i++]);
-	free(args);
-	rl_clear_history();
-}
 
 void	free_envs(char **my_envs)
 {
@@ -33,7 +22,25 @@ void	free_envs(char **my_envs)
 	free(my_envs);
 }
 
-void	free_list(t_list* list)
-{
-	free(list);
+void free_args(t_args *expression) {
+	if (expression == NULL)
+		return;
+
+	for (size_t i = 0; expression->args[i]; i++) {
+		free(expression->args[i]);
+	}
+	free(expression->args);
+	free(expression);
+}
+
+void free_list(t_list *head) {
+	t_list *current = head;
+	t_list *next;
+
+	while (current != NULL) {
+		next = current->next;
+		free_args(current->content);
+		free(current);
+		current = next;
+	}
 }

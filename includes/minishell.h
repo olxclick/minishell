@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/28 00:46:16 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:06:15 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <string.h>
 # include <sys/types.h>
+# include <linux/limits.h>
 # include <stdint.h>
 # include "../libft/libft.h"
 
@@ -46,7 +47,6 @@ typedef struct s_args
 	char	**args;
 	t_state	state;
 	size_t	len;
-	int	exited;
 }			t_args;
 
 typedef struct s_params
@@ -55,6 +55,7 @@ typedef struct s_params
 	int	input_fd;
 	int	output_fd;
 	pid_t	pid;
+	size_t	exited;
 }			t_params;
 
 typedef struct s_token
@@ -63,39 +64,42 @@ typedef struct s_token
 }			t_token;
 
 void	loop(char **my_envs);
-void	free_all(t_args *args);
 char	*get_path(char *expr, char **envs);
-int	is_builtin(t_args *expr);
-int	do_exit(t_args *expr);
-int	do_echo(t_args *expr);
+int	is_builtin(char *cmd);
+size_t	process(char *input, char **my_envs);
+void	do_exit(t_args *expr, t_params *params);
+void	do_echo(t_args *expr);
 int	search_path(char **envs, char *to_find);
 t_token set_args_tokens(char *input);
 void	exec(t_args *expr, char **my_envs);
-void    executor(t_list *expressions, char **envs, t_params params);
+t_params	init_params();
+void    executor(t_list *expressions, char **envs, t_params *params);
 t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
 char	*get_token(char *input);
+size_t	array_size(char **array);
+char	**ft_realloc(char **str, size_t new_size);
 char	*operator_return(char *token, char *input, int i);
 t_list    *get_all_tokens(t_token t);
 char **get_args(t_token t, int end);
-void	handle_pipes(t_list *expressions, t_params parameters);
+void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
 void print_list(t_list *head);
 t_state	get_delim_state(char *token);
 char	**ft_realloc(char **str, size_t new_size);
 char **set_envs(char **envs);
+void	exec_builtin(t_args *expr, t_params *params);
 void	free_envs(char **my_envs);
-char	*proccess_delim(char  *delim);
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)
         || (ft_strcmp(token, "<<") == 0) || (ft_strcmp(token, ">>") == 0);
 }
-static inline void    close_file_descriptors(t_params params)
+static inline void    close_file_descriptors(t_params *params)
 {
-    if (params.input_fd != STDIN_FILENO)
-        close(params.input_fd);
-    if (params.output_fd != STDOUT_FILENO)
-        close(params.output_fd);
+    if (params->input_fd != STDIN_FILENO)
+        close(params->input_fd);
+    if (params->output_fd != STDOUT_FILENO)
+        close(params->output_fd);
 }
 #endif
