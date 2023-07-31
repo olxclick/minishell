@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/28 00:58:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:00:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,10 @@ char	**get_args(t_token t, int end)
     	char **args;
 
 	i = 0;
-    	args = malloc((end + 2) * sizeof(char *));
-	while (i <= end)
+    	args = malloc((end + 1) * sizeof(char *));
+	while (i < end)//ls | wc
 	{
 		args[i] = ft_strdup(t.token[i]);
-		printf("Args created: %s\n", args[i]);
 		i++;
 	}
 	args[i] = NULL;
@@ -54,18 +53,23 @@ t_args    *get_parsed(t_token t)
 	i = 0;
     	expression = malloc(sizeof(t_args));
 	while (t.token[i])
-	{//[ls] [a]  [|] [wc]
+	{
 		if ((is_delim(t.token[i])) || (!t.token[i + 1]))
 		{
-			// printf("OU E DELIM OU NAO EXISTE PROXIMO: %s\n", t.token[i]);
-			expression->len = i + 1;
-			expression->args = get_args(t, i);
+			if (i == 0)
+			{
+				expression->args = get_args(t, 1);
+				expression->len = 1;
+			}
+			else 
+			{	
+				expression->args = get_args(t, i + 1);
+				expression->len = i;
+			}
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
-			printf("STATE: %d\n", expression->state);
 			return (expression);
 		}
-		
 	  	i++;
 	}
     	free(expression);
