@@ -46,7 +46,6 @@ size_t	process(char *input, char **envs)
 	expressions = get_all_tokens(tokens);
 	params = init_params();
 	executor(expressions, envs, &params);
-	printf("exited: %ld\n", params.exited);
 	has_finished = params.exited;
 	free_envs(tokens.token);
 	free_list(expressions);

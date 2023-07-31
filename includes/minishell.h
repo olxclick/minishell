@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 19:06:15 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/07/31 22:55:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	search_path(char **envs, char *to_find);
 t_token set_args_tokens(char *input);
 void	exec(t_args *expr, char **my_envs);
 t_params	init_params();
-void    executor(t_list *expressions, char **envs, t_params *params);
+void   executor(t_list *expressions, char **envs, t_params *params);
 t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
 char	*get_token(char *input);
@@ -87,8 +87,9 @@ t_state	get_state(t_args *args, t_state prev_state);
 void print_list(t_list *head);
 t_state	get_delim_state(char *token);
 char	**ft_realloc(char **str, size_t new_size);
+void	exec_parent_builtin(t_args *expr, t_params *params);
 char **set_envs(char **envs);
-void	exec_builtin(t_args *expr, t_params *params);
+void	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(char **my_envs);
 static inline int is_delim(char *token)
 {

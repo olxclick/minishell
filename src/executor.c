@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -69,7 +70,7 @@ void	exec(t_args *expr, char **my_envs)
 	execve(path, expr->args, my_envs);
 }
 
-void    executor(t_list *expressions, char **envs, t_params *params)
+void	executor(t_list *expressions, char **envs, t_params *params)
 {
 	t_args  *expr;
 	//create the fd's
@@ -79,19 +80,16 @@ void    executor(t_list *expressions, char **envs, t_params *params)
 	if (params->pid == 0)//child
 	{
 		handle_pipes(expressions, params);
-		if (is_builtin(expr->args[0]))
-		{
-			exec_builtin(expr, params);
-			exit(0);
-		}
-		else
-			exec(expr, envs);
+		(!is_builtin(expr->args[0])) ? exec(expr, envs) : exec_child_builtin(expr, params);
+		exit(0);
 	}
 	else //parent
 	{
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
+		if (is_builtin(expr->args[0]))
+			exec_parent_builtin(expr, params);
 		wait(NULL);
         	while (expressions->next)
 		{
