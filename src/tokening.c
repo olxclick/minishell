@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 18:19:26 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:35:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_token set_args_tokens(char *input)
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
-	while (1)
+	while (1 && *input)
 	{
 		token = get_token(input);
 		t.token[j] = token;

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 22:55:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/01 17:48:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_params
 	int	pipe_fd[2];
 	int	input_fd;
 	int	output_fd;
+	int	exit_status;
 	pid_t	pid;
 	size_t	exited;
 }			t_params;
@@ -76,6 +77,7 @@ t_params	init_params();
 void   executor(t_list *expressions, char **envs, t_params *params);
 t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
+void	do_env(char **my_envs);
 char	*get_token(char *input);
 size_t	array_size(char **array);
 char	**ft_realloc(char **str, size_t new_size);
@@ -87,7 +89,7 @@ t_state	get_state(t_args *args, t_state prev_state);
 void print_list(t_list *head);
 t_state	get_delim_state(char *token);
 char	**ft_realloc(char **str, size_t new_size);
-void	exec_parent_builtin(t_args *expr, t_params *params);
+void	exec_parent_builtin(t_args *expr, t_params *params, char **my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(char **my_envs);

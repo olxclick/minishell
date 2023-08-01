@@ -89,7 +89,7 @@ void	executor(t_list *expressions, char **envs, t_params *params)
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
 		if (is_builtin(expr->args[0]))
-			exec_parent_builtin(expr, params);
+			exec_parent_builtin(expr, params, envs);
 		wait(NULL);
         	while (expressions->next)
 		{
