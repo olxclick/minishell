@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/01 17:48:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/07 16:17:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,18 @@ void	do_env(char **my_envs);
 char	*get_token(char *input);
 size_t	array_size(char **array);
 char	**ft_realloc(char **str, size_t new_size);
+void	sort_envs(char** envs);
+void	envs_printer(char **envs);
+int	get_envs_size(char **envs);
+void	swap(char** a, char** b);
 char	*operator_return(char *token, char *input, int i);
 t_list    *get_all_tokens(t_token t);
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
+void	do_export(t_args *expr, char **envs);
 void print_list(t_list *head);
 t_state	get_delim_state(char *token);
-char	**ft_realloc(char **str, size_t new_size);
 void	exec_parent_builtin(t_args *expr, t_params *params, char **my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
