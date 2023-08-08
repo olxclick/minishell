@@ -31,6 +31,7 @@ int	main(int argc, char **argv, char **envs)
 
 	my_envs = set_envs(envs);
 	loop(my_envs);
+	free_envs(my_envs);
 	rl_clear_history();
 	return (0);
 }
@@ -69,7 +70,6 @@ void	loop(char **my_envs)
 		if (process(input, my_envs))
 			break ;
 	}
-	free_envs(my_envs);
 	rl_clear_history();
 }
 

@@ -13,20 +13,6 @@
 
 #include "../includes/minishell.h"
 
-int	search_path(char **envs, char *to_find)
-{
-	int	i;
-
-	i = 0;
-	while (envs[i])
-	{
-		if (ft_strncmp(envs[i], to_find, ft_strlen(to_find) - 1) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 char	*get_path(char *expr, char **envs)
 {
 	char		*full_path;
@@ -34,13 +20,12 @@ char	*get_path(char *expr, char **envs)
 	char		**path_env;
 	size_t		i;
 
-	(void)expr;
 	bin = NULL;
    	//verificar se existe PATH nas nossas envs
-	if (search_path(envs, "PATH") != -1)
+	if (search_var(envs, "PATH") != -1)
 	{
 		bin = ft_strjoin("/", expr);
-		path_env = ft_split(envs[search_path(envs, "PATH")], ':');
+		path_env = ft_split(envs[search_var(envs, "PATH")], ':');
 		i = 0;
 		while (path_env[i])
 		{

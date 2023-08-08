@@ -6,29 +6,19 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 18:13:03 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:12:57 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-size_t	array_size(char **array)
+char	**set_envs(char **envs)
 {
-	size_t	i;
-
-	i = 0;
-	while (array[i])
-		i++;
-	return (i);
-}
-
-char **set_envs(char **envs)
-{
-	char **my_envs;
+	char	**my_envs;
 	int	i;
 
 	i = 0;
-	my_envs = malloc((array_size(envs) + 1) * sizeof(char *));
+	my_envs = malloc((get_envs_size(envs) + 1) * sizeof(char *));
 	while (envs[i])
 	{
 		my_envs[i] = ft_strdup(envs[i]);
@@ -36,4 +26,27 @@ char **set_envs(char **envs)
 	}
 	my_envs[i] = NULL;
 	return (my_envs);
+}
+
+void	sort_envs(char	**envs)
+{
+	char	**envs_copy;
+	int	i;
+	int	j;
+
+	i = 0;
+	envs_copy = set_envs(envs);
+	while (envs_copy[i])
+	{
+		j = 0;
+		while (j < get_envs_size(envs_copy) - i - 1)
+		{
+			if (strcmp(envs_copy[j], envs_copy[j + 1]) > 0)
+				swap(&envs_copy[j], &envs_copy[j + 1]);
+			j++;
+		}
+		i++;
+	}
+	envs_printer(envs_copy);
+	free_envs(envs_copy);
 }

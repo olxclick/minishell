@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/07 16:17:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:39:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_builtin(char *cmd);
 size_t	process(char *input, char **my_envs);
 void	do_exit(t_args *expr, t_params *params);
 void	do_echo(t_args *expr);
-int	search_path(char **envs, char *to_find);
+int	search_var(char **envs, char *to_find);
 t_token set_args_tokens(char *input);
 void	exec(t_args *expr, char **my_envs);
 t_params	init_params();
@@ -79,6 +79,7 @@ t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
 void	do_env(char **my_envs);
 char	*get_token(char *input);
+int	pos_env_var(char **envs, char *find);
 size_t	array_size(char **array);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(char** envs);

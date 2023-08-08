@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 18:28:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/08 16:58:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_envs(char **my_envs)
 	free(my_envs);
 }
 
-void free_args(t_args *expression) {
+void	free_args(t_args *expression) {
 	if (expression == NULL)
 		return;
 

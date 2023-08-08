@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/07 17:01:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/08 17:26:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,78 @@ void	exec_parent_builtin(t_args *expr, t_params *params, char **my_envs)
 	// 	do_unset(expr);
 }
 
-void	add_env(char **envs, char *str_to_add)
+int	search_var(char **envs, char *to_find)
 {
-	int	size;
+	int	i;
 
-	size = get_envs_size(envs);
-	envs = ft_realloc(envs, size + 1);
-	envs[size + 1] = ft_strdup(str_to_add);
-	envs[size + 2] = NULL;
+	i = 0;
+	while (envs[i])
+	{
+		if (ft_strncmp(envs[i], to_find, ft_strlen(to_find) - 1) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 
-void	do_export(t_args *expr, char **envs)//declare -x (ordem alfabetica) || criar variaveis
+void	add_env(char **envs, char *expr)
 {
-	if (expr->args[1])
-		add_env(envs, expr->args[1]);
+	size_t	i;
+	char	*value;
+	char	*key;
+
+	i = 0;
+	while (expr[i] && expr[i] != '=')
+		i++;
+	if (i == ft_strlen(expr))
+		return ;
+	key = ft_substr(expr, 0, i);
+	value = ft_substr(expr, i + 1, ft_strlen(expr));
+	if (pos_env_var(envs, key) == -1)
+	{
+		envs = ft_realloc(envs, get_envs_size(envs) + 1);
+		envs[get_envs_size(envs)] = ft_strdup(expr);
+	}
 	else
+		envs[pos_env_var(envs, key)] = ft_strdup(expr);
+	free(key);
+	free(value);
+}
+
+int	pos_env_var(char **envs, char *find)
+{
+	size_t	i;
+	size_t	equal_sign;
+
+	i = 0;
+	equal_sign = 0;
+	while (find[equal_sign] && find[equal_sign] != '=')
+		equal_sign += 1;
+	while (envs[i])
+	{
+		if (ft_strncmp(find, envs[i], equal_sign) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	do_export(t_args *expr, char **envs)
+{
+	int	i;
+	
+	if (expr->len == 1)
+	{
 		sort_envs(envs);
+		return ;
+	}
+	i = 1;
+	while (expr->args[i])
+	{
+		if (expr->args[i] && isalnum(expr->args[i][0]))
+			add_env(envs, expr->args[i]);
+		i++;
+	}	
 }
 
 void	envs_printer(char **envs)
@@ -92,30 +148,6 @@ int	get_envs_size(char **envs)
 	while (envs[i])
 		i++;
 	return (i);
-}
-
-void	sort_envs(char** envs)
-{
-	int	i;
-	int	j;
-	int	size;
-
-	
-	i = 0;
-	j = 0;
-	size = get_envs_size(envs);
-	while (envs[i])
-	{
-		while (j < size - i - 1)
-		{
-			if (strcmp(envs[j], envs[j + 1]) > 0)
-				swap(&envs[j], &envs[j + 1]);
-			j++;
-		}
-		i++;
-		j = 0;
-	}
-	envs_printer(envs);
 }
 
 void	do_env(char **my_envs)
