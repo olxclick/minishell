@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 18:23:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:42:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,30 @@ void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 void	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
+	int	pos;
 
+	
 	i = 1;
 	if (expr->len > 1)
 	{
 		while (i < my_envs->len)
 		{
-			if (pos_env_var(my_envs, expr->args[i]))
-			{
+			pos = pos_env_var(my_envs, expr->args[i]);
+			if (!pos)
+				printf("Var could not be found\n");
+			else if (pos == my_envs->len - 1)
+			{	
+				my_envs->vars[pos] = my_envs->vars[pos + 1];
+				my_envs->vars[pos + 1] = NULL;
 				my_envs->len--;
-				free(my_envs->vars[pos_env_var(my_envs, expr->args[i])]);
+				my_envs->vars = ft_realloc(my_envs->vars, my_envs->len);
 				return ;
 			}
 			i++;
 		}
 	}
+	else
+		return ;
 }
 
 int	search_var(t_envs *envs, char *to_find)
