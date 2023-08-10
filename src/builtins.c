@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 16:01:17 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 18:23:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	search_var(t_envs *envs, char *to_find)
 void	add_env(t_envs *envs, char *expr) //valores no export encontram-se com aspas
 {
 	size_t	i;
+	int	pos;
 	char	*key;
 
 	i = 0;
@@ -93,14 +94,18 @@ void	add_env(t_envs *envs, char *expr) //valores no export encontram-se com aspa
 	if (i == ft_strlen(expr))
 		return ;
 	key = ft_substr(expr, 0, i);
-	if (pos_env_var(envs, key) == -1)
+	pos = pos_env_var(envs, key);
+	if (pos == -1)
 	{
 		envs->len++;
 		envs->vars = ft_realloc(envs->vars, envs->len);
 		envs->vars[envs->len - 1] = ft_strdup(expr);
 	}
 	else
-		envs->vars[pos_env_var(envs, key)] = ft_strdup(expr);
+	{
+		free(envs->vars[pos]);
+		envs->vars[pos] = ft_strdup(expr);
+	}
 	free(key);
 }
 
