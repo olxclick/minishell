@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 14:38:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:32:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
 void	do_env(t_envs *my_envs);
 char	*get_token(char *input);
+void	copy_free(t_envs *my_envs);
 int	pos_env_var(t_envs *envs, char *find);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);

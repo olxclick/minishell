@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 14:42:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:31:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_envs	*copy_envs(t_envs *new_envs, t_envs *envs)
 
 void	sort_envs(t_envs *envs)
 {
-	t_envs *envs_copy;
+	t_envs	*envs_copy;
 	int	i;
 	int	j;
 
@@ -64,5 +64,5 @@ void	sort_envs(t_envs *envs)
 		i++;
 	}
 	envs_printer(envs_copy);
-	free_envs(envs_copy);
+	copy_free(envs_copy);
 }

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 14:30:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:49:00 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	do_export(t_args *expr, t_envs *envs)
 		if (expr->args[i] && isalnum(expr->args[i][0]))
 			add_env(envs, expr->args[i]);
 		i++;
-	}	
+	}
 }
 
 void	envs_printer(t_envs *envs)

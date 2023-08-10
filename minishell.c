@@ -39,8 +39,7 @@ int	main(int argc, char **argv, char **envs)
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
-	free_envs(my_envs);
-	free(my_envs);
+	copy_free(my_envs);
 	rl_clear_history();
 	return (0);
 }
