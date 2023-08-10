@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 13:39:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:52:23 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	search_var(char **envs, char *to_find)
 	int	i;
 
 	i = 0;
-	size = get_envs_size(envs);
+	size = get_envs_size(envs) - 1;
 	while (i < size)
 	{
 		if (ft_strncmp(envs[i], to_find, ft_strlen(to_find) - 1) == 0)
@@ -79,16 +79,16 @@ void	add_env(char **envs, char *expr) //valores no export encontram-se com aspas
 	if (i == ft_strlen(expr))
 		return ;
 	key = ft_substr(expr, 0, i);
+	printf("EQUAL SIGN ? %d\n", pos_env_var(envs, key));
 	if (pos_env_var(envs, key) == -1)
 	{
-		envs = ft_realloc(envs, get_envs_size(envs) + 2);
+		printf("am I inside ?\n");
+		envs = ft_realloc(envs, get_envs_size(envs) + 1);
 		envs[get_envs_size(envs)] = ft_strdup(expr);
 	}
 	else
 		envs[pos_env_var(envs, key)] = ft_strdup(expr);
 	free(key);
-	printf("\n\n\n");
-	envs_printer(envs);
 }
 
 int	pos_env_var(char **envs, char *find)
@@ -102,7 +102,6 @@ int	pos_env_var(char **envs, char *find)
 		equal_sign += 1;
 	while (envs[i])
 	{
-		printf("HELLO\n");
 		if (ft_strncmp(find, envs[i], equal_sign) == 0)
 			return (i);
 		i++;
@@ -134,7 +133,7 @@ void	envs_printer(char **envs)
 	int	i;
 
 	i = 0;
-	while (envs[i])
+	while (i < get_envs_size(envs))
 	{
 		printf("declare -x ");
 		printf("%s\n", envs[i]);

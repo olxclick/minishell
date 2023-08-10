@@ -21,7 +21,6 @@ char	*get_path(char *expr, char **envs)
 	size_t		i;
 
 	bin = NULL;
-   	//verificar se existe PATH nas nossas envs
 	if (search_var(envs, "PATH") != -1)
 	{
 		bin = ft_strjoin("/", expr);
