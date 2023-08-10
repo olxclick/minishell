@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/08 17:26:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:01:14 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,24 @@ void	exec_parent_builtin(t_args *expr, t_params *params, char **my_envs)
 		do_env(my_envs);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
 		do_export(expr, my_envs);
-	// else if (ft_strcmp(expr->args[0], "unset") == 0)
-	// 	do_unset(expr);
+	else if (ft_strcmp(expr->args[0], "unset") == 0)
+		do_unset(expr);
+}
+
+void	do_unset(t_args *expr)
+{
+	(void)expr;
+	//free quando encontrar o proximo parametro e dar set a null
 }
 
 int	search_var(char **envs, char *to_find)
 {
+	int	size;
 	int	i;
 
 	i = 0;
-	while (envs[i])
+	size = get_envs_size(envs);
+	while (i < size)
 	{
 		if (ft_strncmp(envs[i], to_find, ft_strlen(to_find) - 1) == 0)
 			return (i);
@@ -60,10 +68,9 @@ int	search_var(char **envs, char *to_find)
 	return (-1);
 }
 
-void	add_env(char **envs, char *expr)
+void	add_env(char **envs, char *expr) //valores no export encontram-se com aspas
 {
 	size_t	i;
-	char	*value;
 	char	*key;
 
 	i = 0;
@@ -72,7 +79,6 @@ void	add_env(char **envs, char *expr)
 	if (i == ft_strlen(expr))
 		return ;
 	key = ft_substr(expr, 0, i);
-	value = ft_substr(expr, i + 1, ft_strlen(expr));
 	if (pos_env_var(envs, key) == -1)
 	{
 		envs = ft_realloc(envs, get_envs_size(envs) + 1);
@@ -81,13 +87,12 @@ void	add_env(char **envs, char *expr)
 	else
 		envs[pos_env_var(envs, key)] = ft_strdup(expr);
 	free(key);
-	free(value);
 }
 
 int	pos_env_var(char **envs, char *find)
 {
-	size_t	i;
-	size_t	equal_sign;
+	int	i;
+	int	equal_sign;
 
 	i = 0;
 	equal_sign = 0;
@@ -114,6 +119,7 @@ void	do_export(t_args *expr, char **envs)
 	i = 1;
 	while (expr->args[i])
 	{
+		printf("args: %s\n", expr->args[i]);
 		if (expr->args[i] && isalnum(expr->args[i][0]))
 			add_env(envs, expr->args[i]);
 		i++;

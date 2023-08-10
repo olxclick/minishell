@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/08 16:58:24 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 12:07:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_envs(char **my_envs)
 	int	i;
 
 	i = 0;
-	while (my_envs[i])
+	while (i < get_envs_size(my_envs))
 		free(my_envs[i++]);
 	free(my_envs);
 }
