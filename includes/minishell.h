@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 13:54:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:38:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ typedef struct s_args
 	size_t	len;
 }			t_args;
 
+typedef struct s_envs
+{
+	char	**vars;
+	int	len;
+}			t_envs;
+
 typedef struct s_params
 {
 	int	pipe_fd[2];
@@ -64,41 +70,42 @@ typedef struct s_token
 	char	**token;
 }			t_token;
 
-void	loop(char **my_envs);
-char	*get_path(char *expr, char **envs);
+void	loop(t_envs *my_envs);
+char	*get_path(char *expr, t_envs *envs);
 int	is_builtin(char *cmd);
-size_t	process(char *input, char **my_envs);
+size_t	process(char *input, t_envs *my_envs);
+t_envs	*init_envs(t_envs *my_envs, char **envs);
 void	do_exit(t_args *expr, t_params *params);
 void	do_echo(t_args *expr);
-int	search_var(char **envs, char *to_find);
+int	search_var(t_envs *envs, char *to_find);
 t_token set_args_tokens(char *input);
-void	exec(t_args *expr, char **my_envs);
+void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params();
-void   executor(t_list *expressions, char **envs, t_params *params);
+void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
 void	free_list(t_list* list);
-void	do_env(char **my_envs);
+void	do_env(t_envs *my_envs);
 char	*get_token(char *input);
-int	pos_env_var(char **envs, char *find);
-size_t	array_size(char **array);
+int	pos_env_var(t_envs *envs, char *find);
 char	**ft_realloc(char **str, size_t new_size);
-void	sort_envs(char** envs);
-void	envs_printer(char **envs);
+void	sort_envs(t_envs *envs);
+void	envs_printer(t_envs *envs);
 int	get_envs_size(char **envs);
 void	swap(char** a, char** b);
+void	free_token(char **my_envs);
 char	*operator_return(char *token, char *input, int i);
 t_list    *get_all_tokens(t_token t);
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
-void	do_export(t_args *expr, char **envs);
+void	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
 void	do_unset(t_args *expr);
 t_state	get_delim_state(char *token);
-void	exec_parent_builtin(t_args *expr, t_params *params, char **my_envs);
+void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
-void	free_envs(char **my_envs);
+void	free_envs(t_envs *my_envs);
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)

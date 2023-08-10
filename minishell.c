@@ -23,20 +23,29 @@ t_params	init_params()
 	return (params);
 }
 
+t_envs	*init_envs(t_envs *my_envs, char **envs)
+{
+	my_envs->vars = set_envs(envs);
+	my_envs->len = get_envs_size(envs);
+	return (my_envs);
+}
+
 int	main(int argc, char **argv, char **envs)
 {
 	(void)argc;
 	(void)argv;
-	char	**my_envs;
+	t_envs	*my_envs;
 
-	my_envs = set_envs(envs);
+	my_envs = malloc(sizeof(t_envs));
+	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
 	free_envs(my_envs);
+	free(my_envs);
 	rl_clear_history();
 	return (0);
 }
 
-size_t	process(char *input, char **envs)
+size_t	process(char *input, t_envs *envs)
 {
 	size_t	has_finished;
 	t_list	*expressions;
@@ -48,13 +57,13 @@ size_t	process(char *input, char **envs)
 	params = init_params();
 	executor(expressions, envs, &params);
 	has_finished = params.exited;
-	free_envs(tokens.token);
+	free_token(tokens.token);
 	free_list(expressions);
 	free(input);
 	return (has_finished);
 }
 
-void	loop(char **my_envs)
+void	loop(t_envs *my_envs)
 {
 	char	*input;
 

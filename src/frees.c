@@ -6,13 +6,23 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 12:07:18 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:38:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	free_envs(char **my_envs)
+void	free_envs(t_envs *my_envs)
+{
+	int	i;
+
+	i = 0;
+	while (i < my_envs->len)
+		free(my_envs->vars[i++]);
+	free(my_envs);
+}
+
+void	free_token(char **my_envs)
 {
 	int	i;
 

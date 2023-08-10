@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 13:34:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 14:42:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,37 @@ char	**set_envs(char **envs)
 	return (my_envs);
 }
 
-void	sort_envs(char	**envs)
+t_envs	*copy_envs(t_envs *new_envs, t_envs *envs)
 {
-	char	**envs_copy;
+	int	i;
+
+	i = 0;
+	new_envs->len = envs->len;
+	new_envs->vars = malloc(envs->len * sizeof(char *));
+	while (i < envs->len)
+	{
+		new_envs->vars[i] = ft_strdup(envs->vars[i]);
+		i++;
+	}
+	return (new_envs);
+}
+
+void	sort_envs(t_envs *envs)
+{
+	t_envs *envs_copy;
 	int	i;
 	int	j;
 
 	i = 0;
-	envs_copy = set_envs(envs);
-	while (envs_copy[i])
+	envs_copy = malloc(sizeof(t_envs));
+	envs_copy = copy_envs(envs_copy, envs);
+	while (i < envs->len)
 	{
 		j = 0;
-		while (j < get_envs_size(envs_copy) - i - 1)
+		while (j < envs->len - i - 1)
 		{
-			if (strcmp(envs_copy[j], envs_copy[j + 1]) > 0)
-				swap(&envs_copy[j], &envs_copy[j + 1]);
+			if (strcmp(envs_copy->vars[j], envs_copy->vars[j + 1]) > 0)
+				swap(&envs_copy->vars[j], &envs_copy->vars[j + 1]);
 			j++;
 		}
 		i++;

@@ -13,7 +13,7 @@
 
 #include "../includes/minishell.h"
 
-char	*get_path(char *expr, char **envs)
+char	*get_path(char *expr, t_envs *envs)
 {
 	char		*full_path;
 	char		*bin;
@@ -24,37 +24,37 @@ char	*get_path(char *expr, char **envs)
 	if (search_var(envs, "PATH") != -1)
 	{
 		bin = ft_strjoin("/", expr);
-		path_env = ft_split(envs[search_var(envs, "PATH")], ':');
+		path_env = ft_split(envs->vars[search_var(envs, "PATH")], ':');
 		i = 0;
 		while (path_env[i])
 		{
 			full_path = ft_strjoin(path_env[i], bin); //usr/local/bin/ls
 			if (access(full_path, F_OK) == 0) //verificar se existe no atual full_path
 			{
-				free_envs(path_env);
+				free_token(path_env);
 				free(bin);
 				return (full_path);
 			}
 			free(full_path);
 			i++;
 		}
-		free_envs(path_env);
+		free_token(path_env);
 	}
 	free(bin);
 	return (NULL);
 }
 
-void	exec(t_args *expr, char **my_envs)
+void	exec(t_args *expr, t_envs *my_envs)
 {
     	char    *path;
 
         // procura o caminho de N cmd que está na posicao 0
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
-	execve(path, expr->args, my_envs);
+	execve(path, expr->args, my_envs->vars);
 }
 
-void	executor(t_list *expressions, char **envs, t_params *params)
+void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args  *expr;
 	//create the fd's
