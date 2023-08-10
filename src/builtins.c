@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 13:01:14 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 13:39:09 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ void	add_env(char **envs, char *expr) //valores no export encontram-se com aspas
 	key = ft_substr(expr, 0, i);
 	if (pos_env_var(envs, key) == -1)
 	{
-		envs = ft_realloc(envs, get_envs_size(envs) + 1);
+		envs = ft_realloc(envs, get_envs_size(envs) + 2);
 		envs[get_envs_size(envs)] = ft_strdup(expr);
 	}
 	else
 		envs[pos_env_var(envs, key)] = ft_strdup(expr);
 	free(key);
+	printf("\n\n\n");
+	envs_printer(envs);
 }
 
 int	pos_env_var(char **envs, char *find)
@@ -100,6 +102,7 @@ int	pos_env_var(char **envs, char *find)
 		equal_sign += 1;
 	while (envs[i])
 	{
+		printf("HELLO\n");
 		if (ft_strncmp(find, envs[i], equal_sign) == 0)
 			return (i);
 		i++;
@@ -110,7 +113,7 @@ int	pos_env_var(char **envs, char *find)
 void	do_export(t_args *expr, char **envs)
 {
 	int	i;
-	
+
 	if (expr->len == 1)
 	{
 		sort_envs(envs);
