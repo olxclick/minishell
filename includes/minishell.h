@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 15:32:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 15:51:10 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
 void	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
-void	do_unset(t_args *expr);
+void	do_unset(t_args *expr, t_envs *my_envs);
 t_state	get_delim_state(char *token);
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);

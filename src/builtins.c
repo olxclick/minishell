@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 15:49:00 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/10 16:01:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,27 @@ void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 	else if (ft_strcmp(expr->args[0], "export") == 0)
 		do_export(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
-		do_unset(expr);
+		do_unset(expr, my_envs);
 }
 
-void	do_unset(t_args *expr)
+void	do_unset(t_args *expr, t_envs *my_envs)
 {
-	(void)expr;
-	//free quando encontrar o proximo parametro e dar set a null
+	int	i;
+
+	i = 1;
+	if (expr->len > 1)
+	{
+		while (i < my_envs->len)
+		{
+			if (pos_env_var(my_envs, expr->args[i]))
+			{
+				my_envs->len--;
+				free(my_envs->vars[pos_env_var(my_envs, expr->args[i])]);
+				return ;
+			}
+			i++;
+		}
+	}
 }
 
 int	search_var(t_envs *envs, char *to_find)
