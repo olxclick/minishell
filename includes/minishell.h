@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 15:51:10 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:41:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_params
 	int	pipe_fd[2];
 	int	input_fd;
 	int	output_fd;
-	int	exit_status;
 	pid_t	pid;
 	size_t	exited;
 }			t_params;

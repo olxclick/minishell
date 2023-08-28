@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/28 11:18:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:41:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
 	int	pos;
-	int new_len = my_envs->len - 1;
-	
+
 	i = 1;
 	if (expr->len > 1)
 	{
@@ -60,24 +59,24 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 			pos = pos_env_var(my_envs, expr->args[i]);
 			if (pos < 0)
 			{
-				printf("'%s' variable could not be found\n", expr->args[i]);
+				printf("'%s' could not be found\n", expr->args[i]);
 				return ;
 			}
 			else
 			{
-				char **new_vars = malloc(new_len * sizeof(char *));
-				for (int src = 0, dest = 0; src < my_envs->len; src++)
+				if (pos == my_envs->len - 1)
+					free(my_envs->vars[pos]);
+				else
 				{
-					if (src != pos)
+					free(my_envs->vars[pos]);
+					while (pos != my_envs->len - 1)
 					{
-						new_vars[dest] = my_envs->vars[src];
-						dest++;
+						my_envs->vars[pos] = my_envs->vars[pos + 1];
+						pos++;
 					}
+					my_envs->vars[pos] = NULL;
 				}
-				free(my_envs->vars[my_envs->len - 1]);
-				free(my_envs->vars);
-				my_envs->len = new_len;
-				my_envs->vars = new_vars;
+				my_envs->len--;
 				return;
 			}
 			i++;
@@ -114,6 +113,11 @@ void	add_env(t_envs *envs, char *expr)
 		i++;
 	if (i == ft_strlen(expr))
 		return ;
+	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]))
+	{
+		printf("Error, please check your input\n");
+		return ;
+	}
 	key = ft_substr(expr, 0, i);
 	pos = pos_env_var(envs, key);
 	if (pos == -1)
@@ -241,16 +245,11 @@ void	do_echo(t_args *expr)
 	(ft_strcmp(expr->args[1], "-n") != 0) ? printf("\n") : 0;
 }
 
-void	do_exit(t_args *expr, t_params *params) //checkar exit_status here
+void	do_exit(t_args *expr, t_params *params)
 {
 	printf("exit\n");
 	if (expr->len >= 3)
 		printf("too many arguments\n");
-	else if (expr->len == 2)
-	{
-		params->exit_status = ft_atoi(expr->args[1]) % 256;
-		params->exited = 1;
-	}
 	else
 		params->exited = 1;
 }
