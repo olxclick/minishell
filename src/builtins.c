@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 18:42:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/28 11:18:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_child_builtin(t_args *expr, t_params *params)
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
-		do_pwd(expr);
+		do_pwd();
 }
 
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
@@ -50,7 +50,7 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
 	int	pos;
-
+	int new_len = my_envs->len - 1;
 	
 	i = 1;
 	if (expr->len > 1)
@@ -58,15 +58,27 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 		while (i < my_envs->len)
 		{
 			pos = pos_env_var(my_envs, expr->args[i]);
-			if (!pos)
-				printf("Var could not be found\n");
-			else if (pos == my_envs->len - 1)
-			{	
-				my_envs->vars[pos] = my_envs->vars[pos + 1];
-				my_envs->vars[pos + 1] = NULL;
-				my_envs->len--;
-				my_envs->vars = ft_realloc(my_envs->vars, my_envs->len);
+			if (pos < 0)
+			{
+				printf("'%s' variable could not be found\n", expr->args[i]);
 				return ;
+			}
+			else
+			{
+				char **new_vars = malloc(new_len * sizeof(char *));
+				for (int src = 0, dest = 0; src < my_envs->len; src++)
+				{
+					if (src != pos)
+					{
+						new_vars[dest] = my_envs->vars[src];
+						dest++;
+					}
+				}
+				free(my_envs->vars[my_envs->len - 1]);
+				free(my_envs->vars);
+				my_envs->len = new_len;
+				my_envs->vars = new_vars;
+				return;
 			}
 			i++;
 		}
@@ -91,7 +103,7 @@ int	search_var(t_envs *envs, char *to_find)
 	return (-1);
 }
 
-void	add_env(t_envs *envs, char *expr) //valores no export encontram-se com aspas
+void	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
 	int	pos;
@@ -157,12 +169,28 @@ void	do_export(t_args *expr, t_envs *envs)
 void	envs_printer(t_envs *envs)
 {
 	int	i;
+	int	j;
+	int	flag;
+	char	c;
 
+	c = '"';
 	i = 0;
+	flag = 0;
 	while (i < envs->len)
 	{
+		j = 0;
 		printf("declare -x ");
-		printf("%s\n", envs->vars[i]);
+		while (envs->vars[i][j])
+		{
+			if (envs->vars[i][j] == '=' || !envs->vars[i][j + 1])
+				flag = 1;
+			printf("%c", envs->vars[i][j]);
+			if (flag)
+				printf("%c", c);
+			flag = 0;
+			j++;
+		}
+		printf("\n");
 		i++;
 	}
 }
