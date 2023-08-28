@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/28 15:41:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:01:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_params
 	int	pipe_fd[2];
 	int	input_fd;
 	int	output_fd;
+	int	exit_status;
 	pid_t	pid;
 	size_t	exited;
 }			t_params;
@@ -90,6 +91,10 @@ int	pos_env_var(t_envs *envs, char *find);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);
+void	do_redir_in(t_args *expr, t_params *params);
+void	do_redir_out(t_args *expr, t_params *params);
+void	do_redir_append(t_args *expr, t_params *params);
+void	do_heredoc(t_args *expr, t_params *params);
 int	get_envs_size(char **envs);
 void	swap(char** a, char** b);
 void	free_token(char **my_envs);
