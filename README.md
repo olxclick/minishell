@@ -54,41 +54,39 @@
 
 The minishell project is a common programming exercise often assigned in computer science courses and coding bootcamps. It focuses on building a simplified Unix shell, which is a command-line interface that allows users to interact with an operating system by entering and executing commands.
 
-Project Goals:
+<b>Project Goals:</b>
 The primary goals of the minishell project include:
 
-Command Execution: Implementing the ability to interpret and execute basic shell commands entered by the user.
+<b>Command Execution:</b> Implementing the ability to interpret and execute basic shell commands entered by the user.
 
-I/O Redirection: Handling input and output redirection, which allows users to redirect command input from files or redirect output to files.
+<b>I/O Redirection:</b> Handling input and output redirection, which allows users to redirect command input from files or redirect output to files.
 
-Pipeline Support: Enabling the execution of command pipelines, where the output of one command serves as the input to another.
+<b>Pipeline Support:</b> Enabling the execution of command pipelines, where the output of one command serves as the input to another.
 
-Built-in Commands: Implementing a set of built-in shell commands (e.g., cd, echo, exit) that are executed within the shell process itself, rather than launching separate processes.
+<b>Built-in Commands:</b> Implementing a set of built-in shell commands (e.g., cd, echo, exit) that are executed within the shell process itself, rather than launching separate processes.
 
-Signal Handling: Managing and responding to signals such as Ctrl+C (SIGINT) and Ctrl+Z (SIGTSTP) to control the behavior of the shell and its running processes.
+<b>Signal Handling:</b> Managing and responding to signals such as Ctrl+C (SIGINT) and Ctrl+Z (SIGTSTP) to control the behavior of the shell and its running processes.
 
-Environment Variables: Supporting environment variables, allowing users to set, unset, and modify them.
+<b>Environment Variables:</b> Supporting environment variables, allowing users to set, unset, and modify them.
 
-Prompt Display: Displaying a command prompt indicating that the shell is ready to accept user input.
+<b>Prompt Display:</b> Displaying a command prompt indicating that the shell is ready to accept user input.
 
-Project Workflow:
+<h2>Project Workflow:</h2>
 The development process for the minishell project typically involves the following steps:
 
-Parsing: Parse the user input to separate commands, arguments, and any special symbols for redirection or pipelines.
+<b>Parsing:</b> Parse the user input to separate commands, arguments, and any special symbols for redirection or pipelines.
 
-Command Execution: Execute the parsed commands by either launching external processes using functions like fork() and exec(), or by handling built-in commands internally.
+<b>Command Execution:/<b> Execute the parsed commands by either launching external processes using functions like fork() and exec(), or by handling built-in commands internally.
 
-I/O Redirection: Implement redirection of standard input and output based on user-specified symbols (<, >, >>).
+<b>I/O Redirection:</b> Implement redirection of standard input and output based on user-specified symbols (<, >, >>).
 
-Pipelines: Enable command pipelines by connecting the standard output of one command to the standard input of another.
+<b>Pipelines:</b> Enable command pipelines by connecting the standard output of one command to the standard input of another.
 
-Signal Handling: Implement signal handlers to catch and respond to signals like SIGINT and SIGTSTP.
+<b>Built-in Commands:</b> Implement the behavior of built-in commands within the shell process.
 
-Built-in Commands: Implement the behavior of built-in commands within the shell process.
+<b>Environment Variables:</b> Manage environment variables and allow users to interact with them.
 
-Environment Variables: Manage environment variables and allow users to interact with them.
-
-Prompt: Display a user-friendly prompt to indicate that the shell is ready to receive commands.
+<b>Prompt:</b> Display a user-friendly prompt to indicate that the shell is ready to receive commands.
 
 <p align="right">(<a href="#Minishell">back to top</a>)</p>
 
