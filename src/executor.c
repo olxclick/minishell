@@ -57,10 +57,11 @@ void	exec(t_args *expr, t_envs *my_envs)
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args  *expr;
-	//create the fd's
+
 	pipe(params->pipe_fd);
-	params->pid = fork();
 	expr = expressions->content;
+	params->pid = fork();
+	params->files = create_files(expr, params);
 	if (params->pid == 0)//child
 	{
 		handle_pipes(expressions, params);
@@ -78,7 +79,8 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
         	while (expressions->next)
 		{
 			expr = expressions->content;
-			if (expr->state == PIPE)// ls | wc pipe_fd[1]
+			do_redir_out(expr, params);
+			if (expr->state == PIPE) // ls | wc pipe_fd[1]
 			{
 				params->input_fd = params->pipe_fd[R];
 				expressions = expressions->next;

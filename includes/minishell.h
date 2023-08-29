@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/29 12:08:42 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:19:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_envs
 typedef struct s_params
 {
 	int	pipe_fd[2];
+	int	*files;
 	int	input_fd;
 	int	output_fd;
 	int	exit_status;
@@ -85,6 +86,7 @@ void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params();
 void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
+int	*create_files(t_args *expr);
 void	free_list(t_list* list);
 void	do_env(t_envs *my_envs);
 char	*get_token(char *input);
@@ -93,10 +95,7 @@ int	pos_env_var(t_envs *envs, char *find);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);
-void	do_redir_in(t_args *expr, t_params *params);
-void	do_redir_out(int read_fd, int fd);
-void	do_redir_append(t_args *expr, t_params *params);
-void	do_heredoc(t_args *expr, t_params *params);
+void	do_redir_out(t_args *expr, t_params *params);
 int	get_envs_size(char **envs);
 void	swap(char** a, char** b);
 void	free_token(char **my_envs);
