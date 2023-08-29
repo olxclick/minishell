@@ -54,7 +54,8 @@
 
 The minishell project is a common programming exercise often assigned in computer science courses and coding bootcamps. It focuses on building a simplified Unix shell, which is a command-line interface that allows users to interact with an operating system by entering and executing commands.
 
-<b>Project Goals:</b>
+<h2>Project Goals:</h2>
+<br>
 The primary goals of the minishell project include:
 
 <b>Command Execution:</b> Implementing the ability to interpret and execute basic shell commands entered by the user.
