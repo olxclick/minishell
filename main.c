@@ -53,6 +53,13 @@ size_t	process(char *input, t_envs *envs)
 
 	tokens = set_args_tokens(input);
 	expressions = get_all_tokens(tokens);
+	if (!expressions)
+	{
+		free_token(tokens.token);
+		free_list(expressions);
+		free(input);
+		return (0);
+	}
 	params = init_params();
 	executor(expressions, envs, &params);
 	has_finished = params.exited;

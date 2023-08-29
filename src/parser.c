@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/31 18:51:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:00:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ t_list    *get_all_tokens(t_token t)
 	t_args *expr;
 
 	expr = get_parsed(t);
+	if((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0 || ft_strcmp(expr->args[0], "||") == 0))
+	{
+		printf("Expression error.\n");
+		free_token(expr->args);
+		free(expr);
+		return (NULL);
+	}
 	head = ft_lstnew(expr);
 	while (expr)
 	{

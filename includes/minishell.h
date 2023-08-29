@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/28 18:01:16 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/29 12:08:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@
 # include <string.h>
 # include <sys/types.h>
 # include <linux/limits.h>
+# include <fcntl.h>
 # include <stdint.h>
 # include "../libft/libft.h"
+# include "../get_next_line/get_next_line.h"
 
 #define W 1 //write fd
 #define R 0 //read fd
@@ -92,7 +94,7 @@ char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);
 void	do_redir_in(t_args *expr, t_params *params);
-void	do_redir_out(t_args *expr, t_params *params);
+void	do_redir_out(int read_fd, int fd);
 void	do_redir_append(t_args *expr, t_params *params);
 void	do_heredoc(t_args *expr, t_params *params);
 int	get_envs_size(char **envs);
