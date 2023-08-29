@@ -96,4 +96,4 @@ João Lázaro - https://www.linkedin.com/in/jlazaro22/ - joaolazaro720@gmail.com
 
 Project Link: [https://github.com/olxclick/minishell](https://github.com/olxclick/minishell)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#Minishell">back to top</a>)</p>
