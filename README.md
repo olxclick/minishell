@@ -75,7 +75,7 @@ The development process for the minishell project typically involves the followi
 
 <b>Parsing:</b> Parse the user input to separate commands, arguments, and any special symbols for redirection or pipelines.
 
-<b>Command Execution:/<b> Execute the parsed commands by either launching external processes using functions like fork() and exec(), or by handling built-in commands internally.
+<b>Command Execution:</b> Execute the parsed commands by either launching external processes using functions like fork() and exec(), or by handling built-in commands internally.
 
 <b>I/O Redirection:</b> Implement redirection of standard input and output based on user-specified symbols (<, >, >>).
 
