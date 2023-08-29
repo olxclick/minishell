@@ -6,13 +6,13 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/29 17:22:35 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:57:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	do_redir_out(t_args *expr, t_params *params) //reads from a file
+void	do_redir_out(t_params *params) //reads from a file
 {
 	char	*line;
 	int	i;
@@ -47,6 +47,7 @@ int	*create_files(t_args *expr)
 
 	n_files = count_files_needed(expr);
 	files = malloc(sizeof(int) * n_files);
+	printf("INSIDE CREATE FILES\n");
 	while (i < expr->len)
 	{
 		if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)

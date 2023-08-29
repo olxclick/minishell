@@ -61,7 +61,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	pipe(params->pipe_fd);
 	expr = expressions->content;
 	params->pid = fork();
-	params->files = create_files(expr, params);
+	params->files = create_files(expr);
 	if (params->pid == 0)//child
 	{
 		handle_pipes(expressions, params);
