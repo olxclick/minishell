@@ -20,6 +20,7 @@ t_params	init_params(t_list *expressions)
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.exited = 0;
+	params.exit_status = 0;
 	params.files = create_files(expressions);
 	return (params);
 }

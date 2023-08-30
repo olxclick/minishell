@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/30 16:40:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:45:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	define_file(t_args *expr, int *files, t_state prev_state)
 	else
 		*files = open(expr->args[0], O_WRONLY | O_APPEND, 0644);
 }
-
 
 int	*create_files(t_list *expressions)
 {
@@ -82,7 +81,7 @@ int	count_files_needed(t_list *expressions)
 		expr = expressions->content;
 		if (expr->args[0])
 		{
-			if(ft_strcmp(expr->args[0], ">") == 0
+			if (ft_strcmp(expr->args[0], ">") == 0
 				|| ft_strcmp(expr->args[0], ">>") == 0)
 				count++;
 		}
