@@ -13,13 +13,14 @@
 
 #include "includes/minishell.h"
 
-t_params	init_params()
+t_params	init_params(t_list *expressions)
 {
 	t_params params;
 	
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.exited = 0;
+	params.files = create_files(expressions);
 	return (params);
 }
 
@@ -60,7 +61,7 @@ size_t	process(char *input, t_envs *envs)
 		free(input);
 		return (0);
 	}
-	params = init_params();
+	params = init_params(expressions);
 	executor(expressions, envs, &params);
 	has_finished = params.exited;
 	free_token(tokens.token);

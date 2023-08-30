@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/29 17:57:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:40:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	do_redir_out(t_params *params) //reads from a file
 	i = 0;
 	while (1)
 	{
-		line = get_next_line(params->files[i]);
+		line = get_next_line(params->input_fd);
 		if (line)
 		{
-			write(1, line, ft_strlen(line));
+			write(params->files[0], line, ft_strlen(line));
 			free(line);
 		}
 		else
@@ -31,48 +31,62 @@ void	do_redir_out(t_params *params) //reads from a file
 	}
 }
 
-void	define_file(t_args *expr, int files)
+void	define_file(t_args *expr, int *files, t_state prev_state)
 {
-	if (expr->state == REDIR_OUT)
-		files = open(expr->args[expr->len], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (prev_state == REDIR_OUT)
+		*files = open(expr->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		files = open(expr->args[expr->len], O_WRONLY | O_APPEND, 0644);
+		*files = open(expr->args[0], O_WRONLY | O_APPEND, 0644);
 }
 
-int	*create_files(t_args *expr)
+
+int	*create_files(t_list *expressions)
 {
+	t_args	*expr;
+	t_state prev_state;
+	size_t	i;
 	int	*files;
 	int	n_files;
-	int	i;
 
-	n_files = count_files_needed(expr);
+	i = 0;
+	expr = expressions->content;
+	n_files = count_files_needed(expressions);
+	if (!n_files)
+		return (NULL);
 	files = malloc(sizeof(int) * n_files);
-	printf("INSIDE CREATE FILES\n");
-	while (i < expr->len)
+	while (expressions->next)
 	{
-		if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
-			define_file(expr, files[i]);
-		i++;
+		i = 0;
+		expr = expressions->content;
+		while (i < expr->len)
+		{
+			if (expr->state == DOC)
+				define_file(expr, &files[i], prev_state);
+			i++;
+		}
+		prev_state = expr->state;
+		expressions = expressions->next;
 	}
 	return (files);
 }
 
-int	count_files_needed(t_args *expr)
+int	count_files_needed(t_list *expressions)
 {
-	int	i;
+	t_args *expr;
 	int	count;
 
-	i = 0;
 	count = 0;
-	while (expr->args[i] < expr->len)
+	expr = expressions->content;
+	while (expressions->next)
 	{
-		if (expr->args[i] == '>' && expr->args[i + 1] == '>')
-			count++;
-		else if (expr->args[i] == '<' && expr->args[i + 1] == '<')
-			count++;
-		else if (expr->args[i] == '>' || expr->args[i] == '<')
-			count++;
-		i++;
+		expr = expressions->content;
+		if (expr->args[0])
+		{
+			if(ft_strcmp(expr->args[0], ">") == 0
+				|| ft_strcmp(expr->args[0], ">>") == 0)
+				count++;
+		}
+		expressions = expressions->next;
 	}
 	return (count);
 }

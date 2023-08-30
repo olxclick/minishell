@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/29 17:19:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/08/30 14:34:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params();
 void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
-int	*create_files(t_args *expr);
+int	*create_files(t_list *expressions);
 void	free_list(t_list* list);
 void	do_env(t_envs *my_envs);
 char	*get_token(char *input);
@@ -95,9 +95,10 @@ int	pos_env_var(t_envs *envs, char *find);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);
-void	do_redir_out(t_args *expr, t_params *params);
+void	do_redir_out(t_params *params);
 int	get_envs_size(char **envs);
 void	swap(char** a, char** b);
+int	count_files_needed(t_list *expressions);
 void	free_token(char **my_envs);
 char	*operator_return(char *token, char *input, int i);
 t_list    *get_all_tokens(t_token t);
