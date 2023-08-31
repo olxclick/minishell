@@ -32,20 +32,6 @@ t_envs	*init_envs(t_envs *my_envs, char **envs)
 	return (my_envs);
 }
 
-int	main(int argc, char **argv, char **envs)
-{
-	(void)argc;
-	(void)argv;
-	t_envs	*my_envs;
-
-	my_envs = malloc(sizeof(t_envs));
-	my_envs = init_envs(my_envs, envs);
-	loop(my_envs);
-	copy_free(my_envs);
-	rl_clear_history();
-	return (0);
-}
-
 size_t	process(char *input, t_envs *envs)
 {
 	size_t	has_finished;
@@ -66,6 +52,7 @@ size_t	process(char *input, t_envs *envs)
 	executor(expressions, envs, &params);
 	has_finished = params.exited;
 	free_token(tokens.token);
+	free(params.files);
 	free_list(expressions);
 	free(input);
 	return (has_finished);
@@ -88,6 +75,20 @@ void	loop(t_envs *my_envs)
 			break ;
 	}
 	rl_clear_history();
+}
+
+int	main(int argc, char **argv, char **envs)
+{
+	(void)argc;
+	(void)argv;
+	t_envs	*my_envs;
+
+	my_envs = malloc(sizeof(t_envs));
+	my_envs = init_envs(my_envs, envs);
+	loop(my_envs);
+	copy_free(my_envs);
+	rl_clear_history();
+	return (0);
 }
 
 void	print_list(t_list *expressions)
