@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokening.c                                         :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/10 13:42:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/04 17:56:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char	*get_token(char *input)
 			token = ft_substr(input, 0, i);
 			break ;
 		}
-		//ultima palavra
 		else if (input[i + 1] == '\0')
 		{
 			token = ft_substr(input, 0, i + 1);
@@ -39,6 +38,7 @@ char	*get_token(char *input)
 		}
 		i++;
 	}
+	token = check_token(token);
 	return (token);
 }
 
@@ -79,28 +79,111 @@ char	**ft_realloc(char **str, size_t new_size)
 	return (new_str);
 }
 
+char	*check_token(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
+		{
+			input = redo_token(input);
+			break ;
+		}
+		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
+		{	
+			input = redo_token(input);
+			break ;
+		}
+		i++;
+	}
+	return (input);
+}
+
+// char	*redo_token(char *input)
+// {
+// 	int	i;
+// 	int	j;
+// 	char	*new_input;
+	
+// 	i = 0;
+// 	j = 0;
+// 	printf("input %s \n", input);
+// 	while ((input[i]) && (input[i] != SINGLE_QUOTE && input[i] != DOUBLE_QUOTE)
+// 		&& (input[i + 1] != SINGLE_QUOTE && input[i + 1] != DOUBLE_QUOTE))
+// 		i++;
+// 	j = i + 1;
+// 	printf("J value: %d\n", j);
+// 	while (input[j] != SINGLE_QUOTE && input[j] != DOUBLE_QUOTE)
+// 	{
+// 		printf("SKIPPING QUOTES\n");
+// 		j++;
+// 	}
+// 	new_input = ft_substr(input, i + 1, j - 1);
+// 	printf("FINAL TOKEN: %s\n", new_input);
+// 	free(input);
+// 	return (new_input);
+// }
+
+char *redo_token(char *input)
+{
+	int start = 0;
+	char	*new_input;
+	int end = strlen(input) - 1;
+
+	while ((input[start] == SINGLE_QUOTE || input[start] == DOUBLE_QUOTE) && start <= end)
+		start++;
+	while ((input[end] == SINGLE_QUOTE || input[end] == DOUBLE_QUOTE) && end >= start)
+		end--;
+	if (start > end)
+		return (input);
+	new_input = ft_substr(input, start, end - start + 1);
+	new_input[end - start + 1] = '\0';
+	free(input);
+	return (new_input);
+}
+
+size_t	count_quotes(char *str)
+{
+	int	i;
+	size_t	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
 t_token set_args_tokens(char *input)
 {
 	char *token;
 	size_t j = 0;
+	size_t	n_quotes = 0;
 	t_token t;
-	
+
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
+	n_quotes = count_quotes(input);
 	while (1 && *input)
 	{
-		token = get_token(input);
+		token = get_token(input); // echo "$path" || echo '$path'
 		t.token[j] = token;
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
-		input += ft_strlen(token);
+		input += ft_strlen(token) + n_quotes;
 		while (*input && *input == ' ')
 			input++;
 	}
-	t.token[j] = NULL; // Set the last element to NULL to mark the end
+	printf("END OF SET ARGS TOKEN\n");
+	t.token[j] = NULL;
 	return (t);
 }
-

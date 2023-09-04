@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -61,13 +60,13 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	pipe(params->pipe_fd);
 	expr = expressions->content;
 	params->pid = fork();
-	if (params->pid == 0)//child
+	if (params->pid == 0)
 	{
 		handle_pipes(expressions, params);
 		(!is_builtin(expr->args[0])) ? exec(expr, envs) : exec_child_builtin(expr, params);
 		exit(0);
 	}
-	else //parent
+	else
 	{
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
@@ -78,7 +77,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
         	while (expressions->next)
 		{
 			expr = expressions->content;
-			if (expr->state == PIPE) // ls | wc pipe_fd[1]
+			if (expr->state == PIPE)
 			{
 				params->input_fd = params->pipe_fd[R];
 				expressions = expressions->next;
