@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 13:04:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:56:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,25 @@ char	*get_token(char *input)
 	{
 		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
 		{
+			printf("hi1\n");
 			token = operator_return(token, input, i);
 			break ;
 		}
 		else if (input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<')
 		{
+			printf("hi2\n");
 			token = ft_substr(input, 0, i);
 			break ;
 		}
 		else if (input[i + 1] == '\0')
 		{
+			printf("hi3\n");
 			token = ft_substr(input, 0, i + 1);
 			break ;
 		}
 		i++;
 	}
+	printf("TOKEN PASSED TO CHECK_TOKEN: %s\n", token);
 	token = check_token(token);
 	return (token);
 }
@@ -171,17 +175,17 @@ t_token set_args_tokens(char *input)
 	while (*input && *input == ' ')
 		input++;
 	n_quotes = count_quotes(input);
-	printf("Number of Quotes: %zu\n", n_quotes);
 	while (1 && *input)
 	{
-		token = get_token(input); // echo "$path" || echo '$path'
+		token = get_token(input);
 		t.token[j] = token;
-		printf("Token: %s\n", token);
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
-		input += ft_strlen(token) + n_quotes;
+		printf("Cur_Input: %s\n", input);
+		input += ft_strlen(token) + n_quotes; //echo problem is here
+		printf("Cur_Input: %s\n", input);
 		while (*input && *input == ' ')
 			input++;
 	}

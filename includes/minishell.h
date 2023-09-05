@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 12:57:40 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:45:44 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	*create_files(t_list *expressions);
 void	free_list(t_list* list);
 void	do_env(t_envs *my_envs);
 char	*get_token(char *input);
+char	*remove_double_quotes(char *input);
 void	copy_free(t_envs *my_envs);
 int	pos_env_var(t_envs *envs, char *find);
 char	*check_token(char *input);
