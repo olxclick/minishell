@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 12:42:57 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:51:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*check_token(char *input)
 	return (input);
 }
 
-char *redo_token(char *input)
+char	*redo_token(char *input)
 {
 	int	start = 0;
 	char	*new_input;
@@ -113,7 +113,7 @@ char *redo_token(char *input)
 	while ((input[end] == SINGLE_QUOTE || input[end] == DOUBLE_QUOTE) && end >= start)
 		end--;
 	diff = ft_strlen(input) - 1 - end;
-	if (start > end || diff > start)
+	if (start > end || diff != start)
 		return (input);
 	new_input = ft_substr(input, start, end - start + 1);
 	new_input[end - start + 1] = '\0';
