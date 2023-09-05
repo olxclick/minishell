@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/04 17:56:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:42:57 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,42 +101,19 @@ char	*check_token(char *input)
 	return (input);
 }
 
-// char	*redo_token(char *input)
-// {
-// 	int	i;
-// 	int	j;
-// 	char	*new_input;
-	
-// 	i = 0;
-// 	j = 0;
-// 	printf("input %s \n", input);
-// 	while ((input[i]) && (input[i] != SINGLE_QUOTE && input[i] != DOUBLE_QUOTE)
-// 		&& (input[i + 1] != SINGLE_QUOTE && input[i + 1] != DOUBLE_QUOTE))
-// 		i++;
-// 	j = i + 1;
-// 	printf("J value: %d\n", j);
-// 	while (input[j] != SINGLE_QUOTE && input[j] != DOUBLE_QUOTE)
-// 	{
-// 		printf("SKIPPING QUOTES\n");
-// 		j++;
-// 	}
-// 	new_input = ft_substr(input, i + 1, j - 1);
-// 	printf("FINAL TOKEN: %s\n", new_input);
-// 	free(input);
-// 	return (new_input);
-// }
-
 char *redo_token(char *input)
 {
-	int start = 0;
+	int	start = 0;
 	char	*new_input;
-	int end = strlen(input) - 1;
+	int	end = ft_strlen(input) - 1;
+	int	diff;
 
 	while ((input[start] == SINGLE_QUOTE || input[start] == DOUBLE_QUOTE) && start <= end)
 		start++;
 	while ((input[end] == SINGLE_QUOTE || input[end] == DOUBLE_QUOTE) && end >= start)
 		end--;
-	if (start > end)
+	diff = ft_strlen(input) - 1 - end;
+	if (start > end || diff > start)
 		return (input);
 	new_input = ft_substr(input, start, end - start + 1);
 	new_input[end - start + 1] = '\0';
@@ -183,7 +160,6 @@ t_token set_args_tokens(char *input)
 		while (*input && *input == ' ')
 			input++;
 	}
-	printf("END OF SET ARGS TOKEN\n");
 	t.token[j] = NULL;
 	return (t);
 }
