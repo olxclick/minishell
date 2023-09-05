@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 16:59:47 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 17:14:28 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ t_token set_args_tokens(char *input)
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
 		printf("Cur_Input: %s\n", input);
+		printf("len: %zu\n", ft_strlen(token));
 		input += ft_strlen(token) + n_quotes; //echo problem is here
 		printf("Cur_Input: %s\n", input);
 		while (*input && *input == ' ')
