@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 12:51:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/05 13:04:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,12 @@ char	*check_token(char *input)
 	{
 		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
 		{
-			input = redo_token(input);
+			input = redo_token(input, SINGLE_QUOTE);
 			break ;
 		}
 		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
 		{	
-			input = redo_token(input);
+			input = redo_token(input, DOUBLE_QUOTE);
 			break ;
 		}
 		i++;
@@ -101,18 +101,29 @@ char	*check_token(char *input)
 	return (input);
 }
 
-char	*redo_token(char *input)
+char	*redo_token(char *input, char c)
 {
 	int	start = 0;
 	char	*new_input;
 	int	end = ft_strlen(input) - 1;
 	int	diff;
 
-	while ((input[start] == SINGLE_QUOTE || input[start] == DOUBLE_QUOTE) && start <= end)
-		start++;
-	while ((input[end] == SINGLE_QUOTE || input[end] == DOUBLE_QUOTE) && end >= start)
-		end--;
-	diff = ft_strlen(input) - 1 - end;
+	if (c == SINGLE_QUOTE)
+	{
+		while ((input[start] == SINGLE_QUOTE) && start <= end)
+			start++;
+		while ((input[end] == SINGLE_QUOTE) && end >= start)
+			end--;
+		diff = ft_strlen(input) - 1 - end;
+	}
+	else
+	{
+		while ((input[start] == DOUBLE_QUOTE) && start <= end)
+			start++;
+		while ((input[end] == DOUBLE_QUOTE) && end >= start)
+			end--;
+		diff = ft_strlen(input) - 1 - end;
+	}
 	if (start > end || diff != start)
 		return (input);
 	new_input = ft_substr(input, start, end - start + 1);
@@ -124,14 +135,26 @@ char	*redo_token(char *input)
 size_t	count_quotes(char *str)
 {
 	int	i;
+	int	flag;
 	size_t	count;
+	char	c;
 
 	i = 0;
+	flag = 0;
 	count = 0;
 	while (str[i])
 	{
-		if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+		if (flag)
+		{
+			if (str[i] == c)
+				count++;
+		}
+		else if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+		{
+			flag = 1;
+			c = str[i];
 			count++;
+		}
 		i++;
 	}
 	return (count);
@@ -148,10 +171,12 @@ t_token set_args_tokens(char *input)
 	while (*input && *input == ' ')
 		input++;
 	n_quotes = count_quotes(input);
+	printf("Number of Quotes: %zu\n", n_quotes);
 	while (1 && *input)
 	{
 		token = get_token(input); // echo "$path" || echo '$path'
 		t.token[j] = token;
+		printf("Token: %s\n", token);
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
