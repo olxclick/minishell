@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 14:55:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/06 15:48:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,15 @@ char	*check_token(char *input)
 	{
 		if (flag)
 			return (remove_quotes(input));
-		else 
+		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
 		{
-			if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
-			{
-				input = redo_token(input, SINGLE_QUOTE);
-				break ;
-			}
-			else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
-			{
-				input = redo_token(input, DOUBLE_QUOTE);
-				break ;
-			}
+			input = redo_token(input, SINGLE_QUOTE);
+			break ;
+		}
+		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
+		{
+			input = redo_token(input, DOUBLE_QUOTE);
+			break ;
 		}
 		i++;
 	}
