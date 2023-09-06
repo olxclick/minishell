@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/30 16:58:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/06 13:13:39 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,9 @@ void	do_echo(t_args *expr)
 	size_t	flag;
 
 	flag = 0;
-	i = (ft_strcmp(expr->args[1], "-n") == 0) ? 2 : 1;
+	i = 1;
+	if (expr->args[1])
+		i = (ft_strcmp(expr->args[1], "-n") == 0) ? 2 : 1;
 	while (expr->args[i])
 	{
 		if (flag)
@@ -244,7 +246,8 @@ void	do_echo(t_args *expr)
 		else
 			flag = 0;
 	}
-	(ft_strcmp(expr->args[1], "-n") != 0) ? printf("\n") : 0;
+	if (expr->args[1])
+		(ft_strcmp(expr->args[1], "-n") != 0) ? printf("\n") : 0;
 }
 
 void	do_exit(t_args *expr, t_params *params)

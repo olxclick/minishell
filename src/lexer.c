@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/05 17:14:28 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:46:44 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,30 @@
 char	*get_token(char *input)
 {
 	int	i;
-	char    *token;
+	bool	in_quote;
 
 	i = 0;
-	token = NULL;
+	in_quote = false;
 	while (input[i])
 	{
-		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
-		{
-			printf("hi1\n");
-			token = operator_return(token, input, i);
-			break ;
-		}
-		else if (input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<')
-		{
-			printf("hi2\n");
-			token = ft_substr(input, 0, i);
-			break ;
-		}
+		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+			in_quote = !in_quote ? true : false;
+		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
+			return (operator_return(input, i));
+		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
+			return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
-		{
-			printf("hi3\n");
-			token = ft_substr(input, 0, i + 1);
-			break ;
-		}
+			return (ft_substr(input, 0, i + 1));
 		i++;
 	}
-	printf("TOKEN PASSED TO CHECK_TOKEN: %s\n", token);
-	token = check_token(token);
-	return (token);
+	return (NULL);
 }
 
-char	*operator_return(char *token, char *input, int i)
+char	*operator_return(char *input, int i)
 {
+	char	*token;
+
+	token = NULL;
 	if (input[i] == '|')
 		token = ft_substr(input, 0, sizeof("|") - 1);
 	else if (input[i] == '>' && input[i + 1] == '>')
@@ -83,22 +74,49 @@ char	**ft_realloc(char **str, size_t new_size)
 	return (new_str);
 }
 
+int	is_same_quotes(char *str)
+{
+	int	i;
+	size_t	countS;
+	size_t	countD;
+	
+	countS = 0;
+	countD = 0;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == DOUBLE_QUOTE)
+			countS++;
+		else if (str[i] == DOUBLE_QUOTE)
+			countD++;
+		i++;
+	}
+	return (countS == count_quotes(str) || countD == count_quotes(str));
+}
+
 char	*check_token(char *input)
 {
 	int	i;
+	int	flag;
 
 	i = 0;
+	flag = is_same_quotes(input);
 	while (input[i])
 	{
-		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
+		if (flag)
+			return (remove_quotes(input));
+		else 
 		{
-			input = redo_token(input, SINGLE_QUOTE);
-			break ;
-		}
-		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
-		{	
-			input = redo_token(input, DOUBLE_QUOTE);
-			break ;
+			if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
+			{
+				input = redo_token(input, SINGLE_QUOTE);
+				break ;
+			}
+			else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
+			{
+				input = redo_token(input, DOUBLE_QUOTE);
+				break ;
+			}
 		}
 		i++;
 	}
@@ -125,13 +143,36 @@ char	*redo_token(char *input, char c)
 		while ((input[start] == DOUBLE_QUOTE) && start <= end)
 			start++;
 		while ((input[end] == DOUBLE_QUOTE) && end >= start)
-			end--;
+			end--; // ""'ola'""
 		diff = ft_strlen(input) - 1 - end;
 	}
 	if (start > end || diff != start)
 		return (input);
 	new_input = ft_substr(input, start, end - start + 1);
-	new_input[end - start + 1] = '\0';
+	free(input);
+	return (new_input);
+}
+
+char	*remove_quotes(char *input)
+{
+	int	i = 0;
+	int	j = 0;
+	int	len = ft_strlen(input);
+	char	*new_input = (char *)malloc(len + 1);
+
+	while (i < len)
+	{
+		if (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE)
+		{
+			while (input[i] && (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE))
+				i++;
+			while (i < len && (input[i] != SINGLE_QUOTE && input[i] != DOUBLE_QUOTE))
+				new_input[j++] = input[i++];
+		}
+		else
+			new_input[j++] = input[i++];
+	}
+	new_input[j] = '\0';
 	free(input);
 	return (new_input);
 }
@@ -148,11 +189,8 @@ size_t	count_quotes(char *str)
 	count = 0;
 	while (str[i])
 	{
-		if (flag)
-		{
-			if (str[i] == c)
-				count++;
-		}
+		if (flag && str[i] == c)
+			count++;
 		else if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
 		{
 			flag = 1;
@@ -174,22 +212,21 @@ t_token set_args_tokens(char *input)
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
-	n_quotes = count_quotes(input);
 	while (1 && *input)
 	{
 		token = get_token(input);
+		n_quotes = count_quotes(token);
+		token = check_token(token);
 		t.token[j] = token;
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
-		printf("Cur_Input: %s\n", input);
-		printf("len: %zu\n", ft_strlen(token));
-		input += ft_strlen(token) + n_quotes; //echo problem is here
-		printf("Cur_Input: %s\n", input);
+		input += ft_strlen(token) + (n_quotes - count_quotes(token)); //echo problem is here
 		while (*input && *input == ' ')
 			input++;
 	}
 	t.token[j] = NULL;
 	return (t);
 }
+
