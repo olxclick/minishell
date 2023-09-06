@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 14:46:44 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:55:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,9 @@ int	is_same_quotes(char *str)
 			countD++;
 		i++;
 	}
-	return (countS == count_quotes(str) || countD == count_quotes(str));
+	if ((countS % 2 == 0 && countS != 0) || (countD % 2 == 0 && countD != 0))
+		return (countS == count_quotes(str) || countD == count_quotes(str));
+	return (0);
 }
 
 char	*check_token(char *input)
@@ -143,7 +145,7 @@ char	*redo_token(char *input, char c)
 		while ((input[start] == DOUBLE_QUOTE) && start <= end)
 			start++;
 		while ((input[end] == DOUBLE_QUOTE) && end >= start)
-			end--; // ""'ola'""
+			end--;
 		diff = ft_strlen(input) - 1 - end;
 	}
 	if (start > end || diff != start)
