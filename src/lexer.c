@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 15:48:18 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/06 17:39:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,4 +228,3 @@ t_token set_args_tokens(char *input)
 	t.token[j] = NULL;
 	return (t);
 }
-
