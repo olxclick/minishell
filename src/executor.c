@@ -71,7 +71,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		waitpid(params->pid, &params->exit_status, 0);
 		if (!WTERMSIG(params->exit_status))
 		{
-			printf("exit_status before: %d\n", params->exit_status);
 			params->exit_status = WEXITSTATUS(params->exit_status);
 			printf("exit_status after: %d\n", params->exit_status);
 		}
