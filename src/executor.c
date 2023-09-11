@@ -68,12 +68,18 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	}
 	else
 	{
+		waitpid(params->pid, (int *)&params->exit_status, 0);
+		if (!WTERMSIG(params->exit_status))
+		{
+			printf("exit_status before: %d\n", params->exit_status);
+			params->exit_status = WEXITSTATUS(params->exit_status);
+			printf("exit_status after: %d\n", params->exit_status);
+		}
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
 		if (is_builtin(expr->args[0]))
 			exec_parent_builtin(expr, params, envs);
-		wait(NULL);
         	while (expressions->next)
 		{
 			expr = expressions->content;
