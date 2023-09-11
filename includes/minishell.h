@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 17:41:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/11 15:29:50 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,10 @@ void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(t_envs *my_envs);
+void 	signals(int signal);
+void	restore(int signal);
+void	ctrl_c(int signal);
+void	back_slash(int signal);
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)
