@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/11 15:29:50 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/09/13 13:22:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ typedef struct s_token
 void	loop(t_envs *my_envs);
 char	*get_path(char *expr, t_envs *envs);
 int	is_builtin(char *cmd);
+void	sigquit_handler(int signal);
+void	sigint_handler(int signal);
 size_t	process(char *input, t_envs *my_envs);
 t_envs	*init_envs(t_envs *my_envs, char **envs);
 void	do_exit(t_args *expr, t_params *params);

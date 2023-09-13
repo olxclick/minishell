@@ -64,7 +64,11 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
+		signal(SIGQUIT, sigquit_handler);
+		signal(SIGINT, sigint_handler);
 		input = readline("shell--> ");
+		if (!input)
+			break ;
 		if (!ft_strlen(input))
 		{
 			free(input);
