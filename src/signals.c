@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/14 14:49:28 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:14:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ void	sigint_handler(int sig) //ctrl + c
 
 void	sigquit_handler(int sig) // ctrl + backslash
 {
-	
 	(void)sig;
 }

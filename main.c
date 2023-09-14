@@ -66,7 +66,7 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
-		
+
 		input = readline("shell--> ");
 		if (!input)
 		{
