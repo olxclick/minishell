@@ -69,11 +69,8 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	else
 	{
 		waitpid(params->pid, &params->exit_status, 0);
-		if (!WTERMSIG(params->exit_status))
-		{
+		if (!WTERMSIG(params->exit_status)) //this is not doing anything, must check
 			params->exit_status = WEXITSTATUS(params->exit_status);
-			printf("exit_status after: %d\n", params->exit_status);
-		}
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);

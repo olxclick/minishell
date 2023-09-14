@@ -13,6 +13,8 @@
 
 #include "includes/minishell.h"
 
+int globalVar;
+
 t_params	init_params(t_list *expressions)
 {
 	t_params params;
@@ -64,11 +66,13 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
-		signal(SIGQUIT, sigquit_handler);
-		signal(SIGINT, sigint_handler);
+		
 		input = readline("shell--> ");
 		if (!input)
+		{
+			printf("exit\n");
 			break ;
+		}
 		if (!ft_strlen(input))
 		{
 			free(input);
@@ -78,7 +82,6 @@ void	loop(t_envs *my_envs)
 		if (process(input, my_envs))
 			break ;
 	}
-	rl_clear_history();
 }
 
 int	main(int argc, char **argv, char **envs)
@@ -87,6 +90,8 @@ int	main(int argc, char **argv, char **envs)
 	(void)argv;
 	t_envs	*my_envs;
 
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, sigquit_handler);
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);

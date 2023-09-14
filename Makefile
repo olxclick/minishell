@@ -6,7 +6,7 @@
 #    By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:31:03 by jbranco-          #+#    #+#              #
-#    Updated: 2023/08/31 14:47:32 by jbranco-         ###   ########.fr        #
+#    Updated: 2023/09/14 14:47:34 by jbranco-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ GET_NEXT_LINE = ./get_next_line/get_next_line.a
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT_A) $(GET_NEXT_LINE)
-	cc $(CFLAGS) $(OBJS) -lreadline -o $(NAME) $(LIBFT_A) $(GET_NEXT_LINE) && ./minishell
+	cc $(CFLAGS) $(OBJS) -lreadline -o $(NAME) $(LIBFT_A) $(GET_NEXT_LINE)
 
 $(LIBFT_A):
 	make bonus -C libft

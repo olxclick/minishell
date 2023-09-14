@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/13 13:32:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/14 14:49:28 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,14 @@ feito pelo utilizador
 void	sigint_handler(int sig) //ctrl + c
 {
 	printf("\n");
-	rl_replace_line("", 0);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
-	signal(SIGINT, SIG_DFL);
 	(void)sig;
 }
 
 void	sigquit_handler(int sig) // ctrl + backslash
 {
-	printf("Inside backslash\n");
-	signal(SIGQUIT, SIG_DFL);
+	
 	(void)sig;
 }
