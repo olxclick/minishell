@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/30 16:45:17 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/15 00:33:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 void	do_redir_out(t_params *params) //reads from a file
 {
 	char	*line;
-	int	i;
 
-	i = 0;
 	while (1)
 	{
 		line = get_next_line(params->input_fd);
