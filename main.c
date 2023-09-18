@@ -13,7 +13,7 @@
 
 #include "includes/minishell.h"
 
-int globalVar;
+int	g_exit;
 
 t_params	init_params(t_list *expressions)
 {
@@ -22,7 +22,7 @@ t_params	init_params(t_list *expressions)
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.exited = 0;
-	params.exit_status = 0;
+	params.exit_status = 130;
 	params.files = create_files(expressions);
 	return (params);
 }
@@ -66,7 +66,6 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
-
 		input = readline("shell--> ");
 		if (!input)
 		{
@@ -90,8 +89,7 @@ int	main(int argc, char **argv, char **envs)
 	(void)argv;
 	t_envs	*my_envs;
 
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	ignore_signals();
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);

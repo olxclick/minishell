@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/14 14:26:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:29:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #define R 0
 #define DOUBLE_QUOTE '"'
 #define SINGLE_QUOTE '\''
+
+extern int	g_exit;
 
 typedef enum
 {
@@ -65,7 +67,7 @@ typedef struct s_params
 	int	*files;
 	int	input_fd;
 	int	output_fd;
-	int	exit_status;
+	long long	exit_status;
 	pid_t	pid;
 	size_t	exited;
 }			t_params;
@@ -121,6 +123,7 @@ void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(t_envs *my_envs);
+void	ignore_signals();
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)
