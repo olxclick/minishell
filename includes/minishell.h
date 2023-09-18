@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 15:40:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:52:33 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ int	count_files_needed(t_list *expressions);
 void	free_token(char **my_envs);
 char	*operator_return(char *input, int i);
 t_list    *get_all_tokens(t_token t);
+void signals(int sig);
+void	restore(int sig);
+void	ctrl_c(int sig);
+void	back_slash(int sig);
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);

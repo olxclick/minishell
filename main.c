@@ -66,6 +66,7 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
+		signals(1);
 		g_exit = 0;
 		input = readline("shell--> ");
 		if (!input)
@@ -90,7 +91,6 @@ int	main(int argc, char **argv, char **envs)
 	(void)argv;
 	t_envs	*my_envs;
 
-	ignore_signals();
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
