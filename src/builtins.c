@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 14:13:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:03:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,36 @@ int	is_builtin(char *cmd)
         || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
 }
 
-void	do_pwd()
+int	do_pwd()
 {
 	char	cwd[PATH_MAX];
 
 	printf("%s\n", getcwd(cwd, PATH_MAX));
+	return (0);
 }
 
 void	exec_child_builtin(t_args *expr, t_params *params)
 {
 	(void)params;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
-		do_echo(expr);
+		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
-		do_pwd();
+		g_exit = do_pwd();
 }
 
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
-		do_exit(expr, params);
+		g_exit = do_exit(expr, params);
 	else if (ft_strcmp(expr->args[0], "env") == 0)
-		do_env(my_envs);
+		g_exit = do_env(my_envs);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
-		do_export(expr, my_envs);
+		g_exit = do_export(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
-		do_unset(expr, my_envs);
+		g_exit = do_unset(expr, my_envs);
 }
 
-void	do_unset(t_args *expr, t_envs *my_envs)
+int	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
 	int	pos;
@@ -60,7 +61,7 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 			if (pos < 0)
 			{
 				printf("'%s' could not be found\n", expr->args[i]);
-				return ;
+				return (2);
 			}
 			else
 			{
@@ -77,13 +78,12 @@ void	do_unset(t_args *expr, t_envs *my_envs)
 					my_envs->vars[pos] = NULL;
 				}
 				my_envs->len--;
-				return;
+				return (0);
 			}
 			i++;
 		}
 	}
-	else
-		return ;
+	return (0);
 }
 
 int	search_var(t_envs *envs, char *to_find)
@@ -152,14 +152,14 @@ int	pos_env_var(t_envs *envs, char *find)
 	return (-1);
 }
 
-void	do_export(t_args *expr, t_envs *envs)
+int	do_export(t_args *expr, t_envs *envs)
 {
 	int	i;
 
 	if (expr->len == 1)
 	{
 		sort_envs(envs);
-		return ;
+		return (0);
 	}
 	i = 1;
 	while (expr->args[i])
@@ -168,6 +168,7 @@ void	do_export(t_args *expr, t_envs *envs)
 			add_env(envs, expr->args[i]);
 		i++;
 	}
+	return (0);
 }
 
 void	envs_printer(t_envs *envs)
@@ -216,16 +217,17 @@ int	get_envs_size(char **envs)
 	return (i);
 }
 
-void	do_env(t_envs *my_envs)
+int	do_env(t_envs *my_envs)
 {
 	int	i;
 
 	i = 0;
 	while (i < my_envs->len)
 		printf("%s\n", my_envs->vars[i++]);
+	return (0);
 }
 
-void	do_echo(t_args *expr) // add condition for "echo $?" which should print exit status
+int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit status
 {
 	size_t	i;
 	size_t	flag;
@@ -246,21 +248,25 @@ void	do_echo(t_args *expr) // add condition for "echo $?" which should print exi
 	}
 	if (expr->args[1])
 		(ft_strcmp(expr->args[1], "-n") != 0) ? printf("\n") : 0;
+	return (0);
 }
 
-void	do_exit(t_args *expr, t_params *params)
+int	do_exit(t_args *expr, t_params *params)
 {
+	int	mini_exit;
+
 	printf("exit\n");
 	if (expr->len >= 3)
 	{
-		params->exit_status = 1;
+		mini_exit = 1;
 		printf("too many arguments\n");
 	}
 	else if (expr->len == 2)
 	{
-		params->exit_status = ft_atoi(expr->args[1]) % 256;
+		mini_exit = ft_atoi(expr->args[1]) % 256;
 		params->exited = 1;
 	}
 	else
 		params->exited = 1;
+	return (mini_exit);
 }

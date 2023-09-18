@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 14:29:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:02:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,11 @@ typedef struct s_token
 void	loop(t_envs *my_envs);
 char	*get_path(char *expr, t_envs *envs);
 int	is_builtin(char *cmd);
-void	sigquit_handler(int signal);
-void	sigint_handler(int signal);
+void	sigint_handler();
 size_t	process(char *input, t_envs *my_envs);
 t_envs	*init_envs(t_envs *my_envs, char **envs);
-void	do_exit(t_args *expr, t_params *params);
-void	do_echo(t_args *expr);
+int	do_exit(t_args *expr, t_params *params);
+int	do_echo(t_args *expr);
 int	search_var(t_envs *envs, char *to_find);
 t_token set_args_tokens(char *input);
 size_t	count_quotes(char *str);
@@ -96,7 +95,7 @@ void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
 int	*create_files(t_list *expressions);
 void	free_list(t_list* list);
-void	do_env(t_envs *my_envs);
+int	do_env(t_envs *my_envs);
 char	*get_token(char *input);
 char	*remove_quotes(char *input);
 void	copy_free(t_envs *my_envs);
@@ -115,9 +114,9 @@ t_list    *get_all_tokens(t_token t);
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
-void	do_export(t_args *expr, t_envs *envs);
+int	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
-void	do_unset(t_args *expr, t_envs *my_envs);
+int	do_unset(t_args *expr, t_envs *my_envs);
 t_state	get_delim_state(char *token);
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
