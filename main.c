@@ -13,8 +13,6 @@
 
 #include "includes/minishell.h"
 
-int globalVar;
-
 t_params	init_params(t_list *expressions)
 {
 	t_params params;
@@ -66,7 +64,6 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
-
 		input = readline("shell--> ");
 		if (!input)
 		{
