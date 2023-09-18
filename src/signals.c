@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 16:08:26 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:09:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	ctrl_c(int sig)
 void	sigquit_handler() //ctrl + backslash
 {
 	g_exit = 131;
+	printf("Quit (core dumped)\n");
 	signal(SIGQUIT, SIG_IGN);
 }
