@@ -6,23 +6,17 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 12:54:42 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 13:50:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-/*
-Restora o termianl quando o usuario faz Ctrl + c;
-rl_replace_line = troca a linha atual por uma string vazia
-para agar qualquer texto escrito na linha atual
-
-rl_on_new_line = sertifica que o programa vai para a linha seguinte
-
-rl_redisplay = certifica que o terminal esta pronto para o input
-feito pelo utilizador
-
-*/
+void	ignore_signals()
+{
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
 
 void	sigint_handler(int sig) //ctrl + c
 {
@@ -30,11 +24,5 @@ void	sigint_handler(int sig) //ctrl + c
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
-	(void)sig;
-}
-
-void	sigquit_handler(int sig) // ctrl + backslash
-{
-	rl_replace_line("", 0);
 	(void)sig;
 }

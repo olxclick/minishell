@@ -87,8 +87,7 @@ int	main(int argc, char **argv, char **envs)
 	(void)argv;
 	t_envs	*my_envs;
 
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, sigquit_handler);
+	ignore_signals();
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
