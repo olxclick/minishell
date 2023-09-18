@@ -13,6 +13,8 @@
 
 #include "includes/minishell.h"
 
+int	g_exit;
+
 t_params	init_params(t_list *expressions)
 {
 	t_params params;

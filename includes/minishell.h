@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 14:03:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:29:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 #define R 0
 #define DOUBLE_QUOTE '"'
 #define SINGLE_QUOTE '\''
+
+extern int	g_exit;
 
 typedef enum
 {
