@@ -6,11 +6,42 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/31 12:08:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:29:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	redir_input(t_list *expressions, t_params *params)
+{
+	t_args	*expr;
+	int	flag; 
+
+	flag = 0;
+	expr = expressions->content;
+	while (expressions)
+	{
+		expr = expressions->content;
+		if (flag)
+			params->input_fd = read_fd(expr->args[0]);
+		if (expr->state == REDIR_IN)
+			flag = 1;
+		expressions = expressions->next;
+	}
+}
+
+int	read_fd(char *file_name)
+{
+	int	fd;
+
+	fd = open(file_name, O_RDONLY);
+	if (fd < 0)
+	{
+		printf("%s : No such file or directory\n", file_name);
+		exit(EXIT_FAILURE);
+	}
+	return (fd);
+}
 
 void	handle_pipes(t_list *expressions, t_params *params)
 {

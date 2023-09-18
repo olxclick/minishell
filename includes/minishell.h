@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 15:52:33 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/09/18 17:14:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ typedef struct s_token
 void	loop(t_envs *my_envs);
 char	*get_path(char *expr, t_envs *envs);
 int	is_builtin(char *cmd);
-void	sigint_handler();
 size_t	process(char *input, t_envs *my_envs);
 t_envs	*init_envs(t_envs *my_envs, char **envs);
 int	do_exit(t_args *expr, t_params *params);
@@ -95,8 +94,8 @@ void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
 int	*create_files(t_list *expressions);
 void	free_list(t_list* list);
-void	sigquit_handler();
 int	do_env(t_envs *my_envs);
+void	redir_input(t_list *expressions, t_params *params);
 char	*get_token(char *input);
 char	*remove_quotes(char *input);
 void	copy_free(t_envs *my_envs);
@@ -115,19 +114,20 @@ t_list    *get_all_tokens(t_token t);
 void signals(int sig);
 void	restore(int sig);
 void	ctrl_c(int sig);
-void	back_slash(int sig);
+void	back_slash();
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
+int	read_fd(char *file_name);
 int	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
 int	do_unset(t_args *expr, t_envs *my_envs);
+int	file(t_list *expressions);
 t_state	get_delim_state(char *token);
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
 void	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(t_envs *my_envs);
-void	ignore_signals();
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)

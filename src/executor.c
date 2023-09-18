@@ -62,9 +62,9 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	params->pid = fork();
 	signals(2);
 	signal(SIGQUIT, SIG_IGN);
-	g_exit = 131;
 	if (params->pid == 0)
 	{
+		redir_input(expressions, params);
 		handle_pipes(expressions, params);
 		(!is_builtin(expr->args[0])) ? exec(expr, envs) : exec_child_builtin(expr, params);
 		exit(0);
@@ -96,5 +96,4 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		}
 		close_file_descriptors(params);
 	}
-	printf("EXIT STATUS: %d\n", g_exit);
 }

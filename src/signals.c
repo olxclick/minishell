@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 16:09:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 16:18:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,6 @@ void signals(int sig)
     }
 }
 
-/*
-Restora o termianl quando o usuario faz Ctrl + c;
-rl_replace_line = troca a linha atual por uma string vazia
-para agar qualquer texto escrito na linha atual
-
-rl_on_new_line = sertifica que o programa vai para a linha seguinte
-
-rl_redisplay = certifica que o terminal esta pronto para o input
-feito pelo utilizador
-
-*/
 void	restore(int sig)
 {
 	g_exit = 130;
@@ -54,7 +43,7 @@ void	ctrl_c(int sig)
 	(void)sig;
 }
 
-void	sigquit_handler() //ctrl + backslash
+void	back_slash() //ctrl + backslash 
 {
 	g_exit = 131;
 	printf("Quit (core dumped)\n");
