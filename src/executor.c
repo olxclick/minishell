@@ -60,6 +60,8 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	pipe(params->pipe_fd);
 	expr = expressions->content;
 	params->pid = fork();
+	signal(SIGQUIT, SIG_IGN);
+	g_exit = 131;
 	if (params->pid == 0)
 	{
 		handle_pipes(expressions, params);
