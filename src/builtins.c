@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 15:03:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 15:26:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 			if (pos < 0)
 			{
 				printf("'%s' could not be found\n", expr->args[i]);
-				return (2);
+				return (1);
 			}
 			else
 			{
@@ -83,6 +83,11 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 			i++;
 		}
 	}
+	else
+	{
+		printf("unset: not enough arguments\n");
+		return (1);
+	}
 	return (0);
 }
 
@@ -102,7 +107,7 @@ int	search_var(t_envs *envs, char *to_find)
 	return (-1);
 }
 
-void	add_env(t_envs *envs, char *expr)
+int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
 	int	pos;
@@ -112,11 +117,11 @@ void	add_env(t_envs *envs, char *expr)
 	while (expr[i] && expr[i] != '=')
 		i++;
 	if (i == ft_strlen(expr))
-		return ;
+		return (1);
 	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]))
 	{
-		printf("Error, please check your input\n");
-		return ;
+		printf("export: bad input\n");
+		return (1);
 	}
 	key = ft_substr(expr, 0, i);
 	pos = pos_env_var(envs, key);
@@ -132,6 +137,7 @@ void	add_env(t_envs *envs, char *expr)
 		envs->vars[pos] = ft_strdup(expr);
 	}
 	free(key);
+	return (0);
 }
 
 int	pos_env_var(t_envs *envs, char *find)
@@ -165,10 +171,10 @@ int	do_export(t_args *expr, t_envs *envs)
 	while (expr->args[i])
 	{
 		if (expr->args[i] && isalnum(expr->args[i][0]))
-			add_env(envs, expr->args[i]);
+			g_exit = add_env(envs, expr->args[i]);
 		i++;
 	}
-	return (0);
+	return (g_exit);
 }
 
 void	envs_printer(t_envs *envs)
@@ -255,11 +261,12 @@ int	do_exit(t_args *expr, t_params *params)
 {
 	int	mini_exit;
 
+	mini_exit = 0;
 	printf("exit\n");
 	if (expr->len >= 3)
 	{
 		mini_exit = 1;
-		printf("too many arguments\n");
+		printf("exit: too many arguments\n");
 	}
 	else if (expr->len == 2)
 	{
