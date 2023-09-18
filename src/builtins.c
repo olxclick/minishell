@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 14:06:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:13:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,10 @@ void	do_exit(t_args *expr, t_params *params)
 {
 	printf("exit\n");
 	if (expr->len >= 3)
+	{
+		params->exit_status = 1;
 		printf("too many arguments\n");
+	}
 	else if (expr->len == 2)
 	{
 		params->exit_status = ft_atoi(expr->args[1]) % 256;
