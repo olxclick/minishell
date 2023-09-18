@@ -68,8 +68,12 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	}
 	else
 	{
+		printf("exit_status: %d\n", params->exit_status);
 		waitpid(params->pid, &params->exit_status, 0);
-		if (!WTERMSIG(params->exit_status)) //this is not doing anything, must check
+		printf("exit_status: %d\n", params->exit_status);
+		if (WIFSIGNALED(params->exit_status))
+  			params->exit_status = WTERMSIG(params->exit_status);
+		else
 			params->exit_status = WEXITSTATUS(params->exit_status);
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
