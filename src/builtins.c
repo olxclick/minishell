@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 13:13:39 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/18 14:06:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtin(char *cmd)
 {
-	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "$?") == 0) || (ft_strcmp(cmd, "env") == 0) || (ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "cd") == 0)
+	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "env") == 0) || (ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "cd") == 0)
         || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
 }
 
@@ -32,8 +32,6 @@ void	exec_child_builtin(t_args *expr, t_params *params)
 		do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
 		do_pwd();
-	else if (ft_strcmp(expr->args[0], "$?") == 0)
-		printf("%d\n", params->exit_status);
 }
 
 void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
@@ -227,7 +225,7 @@ void	do_env(t_envs *my_envs)
 		printf("%s\n", my_envs->vars[i++]);
 }
 
-void	do_echo(t_args *expr)
+void	do_echo(t_args *expr) // add condition for "echo $?" which should print exit status
 {
 	size_t	i;
 	size_t	flag;
