@@ -53,6 +53,18 @@ void	exec(t_args *expr, t_envs *my_envs)
 	execve(path, expr->args, my_envs->vars);
 }
 
+void	child_process(t_list *expressions, t_envs *envs, t_params *params)
+{
+	t_args	*expr;
+
+	expr = expressions->content;
+	if (redir_needed(expressions))
+		redir_input(expressions, params);
+	handle_pipes(expressions, params);
+	(!is_builtin(expr->args[0])) ? exec(expr, envs) : exec_child_builtin(expr, params);
+	exit(0);
+}
+
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args  *expr;
@@ -63,12 +75,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	signals(2);
 	signal(SIGQUIT, SIG_IGN);
 	if (params->pid == 0)
-	{
-		redir_input(expressions, params);
-		handle_pipes(expressions, params);
-		(!is_builtin(expr->args[0])) ? exec(expr, envs) : exec_child_builtin(expr, params);
-		exit(0);
-	}
+		child_process(expressions, envs, params);
 	else
 	{
 		waitpid(params->pid, &g_exit, 0);

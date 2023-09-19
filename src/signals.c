@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 16:18:37 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:36:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void signals(int sig)
 {
-    if (sig == 1)
-    {
-        signal(SIGQUIT, SIG_IGN);
-        signal(SIGINT, restore);
-    }
-    if (sig == 2)
-    {
-        signal(SIGINT, ctrl_c);
-        signal(SIGQUIT, back_slash);
-    }
+	if (sig == 1)
+	{
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, restore);
+	}
+	if (sig == 2)
+	{
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, back_slash);
+	}
 }
 
 void	restore(int sig)

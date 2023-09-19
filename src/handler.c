@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 17:29:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 13:03:15 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	redir_input(t_list *expressions, t_params *params)
 
 	flag = 0;
 	expr = expressions->content;
-	while (expressions)
+	while (expressions->next)
 	{
 		expr = expressions->content;
 		if (flag)
@@ -28,6 +28,21 @@ void	redir_input(t_list *expressions, t_params *params)
 			flag = 1;
 		expressions = expressions->next;
 	}
+}
+
+int	redir_needed(t_list *expressions)
+{
+	t_args	*expr;
+
+	expr = expressions->content;
+	while (expressions->next)
+	{
+		expr = expressions->content;
+		if (expr->state == REDIR_IN || expr->state == HEREDOC)
+			return (1);
+		expressions = expressions->next;
+	}
+	return (0);
 }
 
 int	read_fd(char *file_name)

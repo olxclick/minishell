@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/18 17:14:16 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 12:55:23 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
 int	read_fd(char *file_name);
+void	child_process(t_list *expressions, t_envs *envs, t_params *params);
+int	redir_needed(t_list *expressions);
 int	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
 int	do_unset(t_args *expr, t_envs *my_envs);
