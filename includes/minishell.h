@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 12:55:23 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:23:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*get_path(char *expr, t_envs *envs);
 int	is_builtin(char *cmd);
 size_t	process(char *input, t_envs *my_envs);
 t_envs	*init_envs(t_envs *my_envs, char **envs);
+void	redirect(t_params *params);
 int	do_exit(t_args *expr, t_params *params);
 int	do_echo(t_args *expr);
 int	search_var(t_envs *envs, char *to_find);

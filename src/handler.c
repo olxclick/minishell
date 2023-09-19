@@ -6,11 +6,20 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 13:03:15 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 15:36:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	redirect(t_params *params)
+{
+	if (params->input_fd != STDIN_FILENO)
+	{
+		dup2(params->input_fd, STDIN_FILENO);
+		close(params->input_fd);
+	}
+}
 
 void	redir_input(t_list *expressions, t_params *params)
 {
@@ -18,7 +27,7 @@ void	redir_input(t_list *expressions, t_params *params)
 	int	flag; 
 
 	flag = 0;
-	expr = expressions->content;
+	params->input_fd = 0;
 	while (expressions->next)
 	{
 		expr = expressions->content;
@@ -34,7 +43,6 @@ int	redir_needed(t_list *expressions)
 {
 	t_args	*expr;
 
-	expr = expressions->content;
 	while (expressions->next)
 	{
 		expr = expressions->content;
