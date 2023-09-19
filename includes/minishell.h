@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 15:23:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:01:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ int	do_echo(t_args *expr);
 int	search_var(t_envs *envs, char *to_find);
 t_token set_args_tokens(char *input);
 size_t	count_quotes(char *str);
+int	check_delim(t_args *expr);
 void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params(t_list *expresisons);
 char	*redo_token(char *input, char c);
@@ -120,16 +121,16 @@ char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
 t_state	get_state(t_args *args, t_state prev_state);
 int	read_fd(char *file_name);
-void	child_process(t_list *expressions, t_envs *envs, t_params *params);
+int	child_process(t_list *expressions, t_envs *envs, t_params *params);
 int	redir_needed(t_list *expressions);
 int	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
 int	do_unset(t_args *expr, t_envs *my_envs);
 int	file(t_list *expressions);
 t_state	get_delim_state(char *token);
-void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
+int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
-void	exec_child_builtin(t_args *expr, t_params *params);
+int	exec_child_builtin(t_args *expr, t_params *params);
 void	free_envs(t_envs *my_envs);
 static inline int is_delim(char *token)
 {

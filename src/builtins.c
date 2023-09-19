@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 16:09:08 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/19 17:08:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,17 @@ int	do_pwd()
 	return (0);
 }
 
-void	exec_child_builtin(t_args *expr, t_params *params)
+int	exec_child_builtin(t_args *expr, t_params *params)
 {
 	(void)params;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
 		g_exit = do_pwd();
+	return (g_exit);
 }
 
-void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
+int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
 		g_exit = do_exit(expr, params);
@@ -45,6 +46,7 @@ void	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = do_export(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
 		g_exit = do_unset(expr, my_envs);
+	return (g_exit);
 }
 
 int	do_unset(t_args *expr, t_envs *my_envs)
@@ -233,6 +235,22 @@ int	do_env(t_envs *my_envs)
 	return (0);
 }
 
+int	check_delim(t_args *expr)
+{
+	size_t	j;
+
+	j = -1;
+	while (++j < expr->len)
+		if (ft_strcmp(expr->args[j], ">") == 0
+			|| ft_strcmp(expr->args[j], "<") == 0
+			|| ft_strcmp(expr->args[j], ">>") == 0
+			|| ft_strcmp(expr->args[j], "<<") == 0
+			|| ft_strcmp(expr->args[j], "|") == 0
+			|| ft_strcmp(expr->args[j], "||") == 0)
+			return (printf("Error: character is not allowed with echo\n"));
+	return (0);
+}
+
 int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit status
 {
 	size_t	i;
@@ -242,6 +260,8 @@ int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit
 	i = 1;
 	if (expr->args[1])
 		i = (ft_strcmp(expr->args[1], "-n") == 0) ? 2 : 1;
+	if (check_delim(expr))
+		return (1);
 	while (expr->args[i])
 	{
 		if (flag)
