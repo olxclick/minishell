@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 16:37:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:47:30 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,24 +78,28 @@ int dir_change(t_args *expr, t_envs *my_envs)
         chdir(value);
         printf("value: %s\n", value);
     }
-    // else if (expr->args[1] && !ft_strcmp(expr->args[1], "-"))
-    // {
-    //     dir = pos_env_var(my_envs, "OLDPWD");
-    //     printf("%s\n", dir);
-    // }
-    // else if (expr->next->str)
-    // {
-    //     dir = ft_strdup(expr->next->str);
-    // }
-    // if (dir && chdir(dir) != 0)
-    // {
-    //     g_exit = 1; // Assuming g_exit is a global variable
-    //     printf("%s\n", "UNKNOWN");
-    // }
-    // else
-    // {
-    //     update_pwd(ft_strdup(oldpwd), my_envs); // Changed the parameter name
-    // }
+    else if (!ft_strcmp(expr->args[1], "-"))
+    {
+        dir = pos_env_var(my_envs, "OLDPWD");
+        start = 8;
+        value = ft_substr(my_envs->vars[dir], start, ft_strlen(my_envs->vars[dir]));
+        chdir(value);
+        printf("%d\n", dir);
+        printf("value: %s\n", value);
+    }
+    //else if (expr->args[1])
+    //{
+    //    dir = ft_strdup(expr->args[1]);
+    //}
+    //if (dir && chdir(dir) != 0)
+    //{
+    //   g_exit = 1; // Assuming g_exit is a global variable
+    //    printf("%s\n", "UNKNOWN");
+    //}
+    //else
+    //{
+    //    update_pwd(ft_strdup(oldpwd), my_envs); // Changed the parameter name
+    //}
     free(value);
     free(buf);
     free(oldpwd);
