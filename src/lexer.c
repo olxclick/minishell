@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/06 17:39:56 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/20 15:01:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ char	*operator_return(char *input, int i)
 	char	*token;
 
 	token = NULL;
-	if (input[i] == '|')
+	if (input[i] == '|' && input[i + 1] == '|')
+		token = ft_substr(input, 0, sizeof("||") - 1);
+	else if (input[i] == '|')
 		token = ft_substr(input, 0, sizeof("|") - 1);
 	else if (input[i] == '>' && input[i + 1] == '>')
 		token = ft_substr(input, 0, sizeof(">>") - 1);

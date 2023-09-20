@@ -81,6 +81,7 @@ void	loop(t_envs *my_envs)
 		add_history(input);
 		if (process(input, my_envs))
 			break ;
+		// printf("exit_status: %d\n", g_exit);
 	}
 }
 
