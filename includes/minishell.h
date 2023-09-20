@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 17:01:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:38:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ char	*check_token(char *input);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);
+int dir_change(t_args *expr, t_envs *my_envs);
 void	do_redir_out(t_params *params);
 int	get_envs_size(char **envs);
 void	swap(char** a, char** b);

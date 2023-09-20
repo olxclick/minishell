@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 15:02:00 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/20 16:37:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = do_export(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
 		g_exit = do_unset(expr, my_envs);
+	else if (ft_strcmp(expr->args[0], "cd") == 0)
+      		g_exit = dir_change(expr, my_envs);
 	return (g_exit);
 }
 
