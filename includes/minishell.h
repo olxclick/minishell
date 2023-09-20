@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 16:38:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/20 18:10:31 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct s_args
 typedef struct s_envs
 {
 	char	**vars;
+	char	*oldpwd;
+	char	*buf;
 	int	len;
 }			t_envs;
 
