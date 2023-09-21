@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/21 12:52:14 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/21 17:27:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,21 @@
 //     last_pwd(oldpwd, envs);
 //     free(pwd);
 // }
+
+int	get_lenght(t_envs *envs, int i)
+{
+	int	j;
+
+	j = 0;
+	while(envs->vars[i][j])
+	{
+		if (envs->vars[i][j] == '=')
+			return (j + 1);
+		j++;
+	}
+	return (j);
+}
+
 int	dir_change(t_args *expr, t_envs *my_envs)
 {
 	char *value;
@@ -72,7 +87,7 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 	if ((!ft_strcmp(expr->args[1], "~") && expr->len == 2) || expr->len == 1)
 	{
 		dir = pos_env_var(my_envs, "HOME");
-		start = 5;
+		start = get_lenght(my_envs, dir);
 		value = ft_substr(my_envs->vars[dir], start, ft_strlen(my_envs->vars[dir]));
 	}
 	else if (!ft_strcmp(expr->args[1], "-") && expr->len == 2)
@@ -85,7 +100,7 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 	if (value && chdir(value) != 0)
 	{
 		g_exit = 1;
-		printf("UNKNOWN PATH\n");
+		printf("cd: Unknown Path\n");
 	}
 	//else
 	//{
