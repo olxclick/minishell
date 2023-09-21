@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 18:30:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/21 12:52:14 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,32 +64,29 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 	char *value;
 	int dir;
 	int start;
-	
+
 	dir = 0;
 	value = NULL;
 	my_envs->buf = NULL;
 	my_envs->oldpwd = getcwd(my_envs->buf, PATH_MAX);
-	if (!ft_strcmp(expr->args[1], "~"))
+	if ((!ft_strcmp(expr->args[1], "~") && expr->len == 2) || expr->len == 1)
 	{
-		dir = pos_env_var(my_envs, "HOME"); // y do char **
+		dir = pos_env_var(my_envs, "HOME");
 		start = 5;
 		value = ft_substr(my_envs->vars[dir], start, ft_strlen(my_envs->vars[dir]));
-		chdir(value);
 	}
-	else if (!ft_strcmp(expr->args[1], "-"))
+	else if (!ft_strcmp(expr->args[1], "-") && expr->len == 2)
 	{
 		printf("oldpwd: %s\n", my_envs->oldpwd);
 		chdir(my_envs->oldpwd);
 	}
-	//else if (expr->args[1])
-	//{
-	//    dir = ft_strdup(expr->args[1]);
-	//}
-	//if (dir && chdir(dir) != 0)
-	//{
-	//   g_exit = 1; // Assuming g_exit is a global variable
-	//    printf("%s\n", "UNKNOWN");
-	//}
+	else if (expr->args[1] && expr->len == 2)
+		value = ft_strdup(expr->args[1]);
+	if (value && chdir(value) != 0)
+	{
+		g_exit = 1;
+		printf("UNKNOWN PATH\n");
+	}
 	//else
 	//{
 	//    update_pwd(ft_strdup(oldpwd), my_envs); // Changed the parameter name
@@ -97,5 +94,5 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 	free(value);
 	free(my_envs->buf);
 	free(my_envs->oldpwd);
-	return (0);
+	return (g_exit);
 }
