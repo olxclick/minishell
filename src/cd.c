@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 17:31:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:36:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 		buffer = ft_strdup(my_envs->oldpwd);
 	if (expr->len > 2)
 	{
-		printf("cd: too many arguments\n");
+		printf("cd: invalid number of arguments\n");
 		g_exit = 2;
 	}
 	else if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~") && expr->len == 2))
