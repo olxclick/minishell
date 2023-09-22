@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 13:27:14 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/22 16:52:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	free_token(char **my_envs)
 	while (i < get_envs_size(my_envs))
 		free(my_envs[i++]);
 	free(my_envs);
+}
+
+void	cd_free(char *value, char *buffer, t_envs *my_envs)
+{
+	free(value);
+	free(buffer);
+	free(my_envs->buf);
 }
 
 void	free_args(t_args *expression) {

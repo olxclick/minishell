@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 15:14:42 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/22 17:26:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define MINISHELL_H
 
 # include <stdio.h>
+# include <sys/stat.h>
 # include <stdlib.h>
 # include <stdbool.h>
 # include <signal.h>
@@ -91,6 +92,7 @@ int	do_echo(t_args *expr);
 int	search_var(t_envs *envs, char *to_find);
 t_token set_args_tokens(char *input);
 size_t	count_quotes(char *str);
+char	*check_cd(t_args *expr, char *value);
 int	check_delim(t_args *expr);
 void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params(t_list *expresisons);
@@ -115,12 +117,14 @@ int	get_envs_size(char **envs);
 void	swap(char** a, char** b);
 int	count_files_needed(t_list *expressions);
 void	free_token(char **my_envs);
+char	*get_home(t_envs *my_envs, char *value);
 char	*operator_return(char *input, int i);
 t_list    *get_all_tokens(t_token t);
 void signals(int sig);
+void	cd_free(char *value, char *buffer, t_envs *my_envs);
 void	restore(int sig);
 void	ctrl_c(int sig);
-void	update_pwd(t_envs *envs);
+void	update_pwd(t_envs *envs, char *buffer);
 void	back_slash();
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
