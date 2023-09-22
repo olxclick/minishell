@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/21 17:26:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/22 15:14:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_list    *get_all_tokens(t_token t);
 void signals(int sig);
 void	restore(int sig);
 void	ctrl_c(int sig);
+void	update_pwd(t_envs *envs);
 void	back_slash();
 char **get_args(t_token t, int end);
 void	handle_pipes(t_list *expressions, t_params *parameters);
@@ -130,12 +131,10 @@ int	redir_needed(t_list *expressions);
 int	do_export(t_args *expr, t_envs *envs);
 void print_list(t_list *head);
 int	do_unset(t_args *expr, t_envs *my_envs);
-int	file(t_list *expressions);
 t_state	get_delim_state(char *token);
 int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 char **set_envs(char **envs);
 int	exec_child_builtin(t_args *expr, t_params *params);
-void	free_envs(t_envs *my_envs);
 static inline int is_delim(char *token)
 {
     return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0) || (ft_strcmp(token, ">") == 0)

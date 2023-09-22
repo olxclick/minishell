@@ -32,6 +32,7 @@ t_envs	*init_envs(t_envs *my_envs, char **envs)
 	my_envs->vars = set_envs(envs);
 	my_envs->len = get_envs_size(envs);
 	my_envs->buf = NULL;
+	my_envs->oldpwd = NULL;
 	return (my_envs);
 }
 
