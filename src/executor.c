@@ -81,6 +81,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	params->pid = fork();
 	signals(2);
 	signal(SIGQUIT, SIG_IGN);
+	g_exit = 0;
 	if (params->pid == 0)
 		exit(g_exit = child_process(expressions, envs, params));
 	else

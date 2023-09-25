@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 17:36:56 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/25 12:56:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*check_cd(t_args *expr, char *value)
 	struct stat buf;
 
 	if (stat(expr->args[1], &buf) == 0)
-	{	
+	{
 		if (S_ISDIR(buf.st_mode))
 			value = ft_strdup(expr->args[1]);
 		else
