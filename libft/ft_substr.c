@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 13:25:52 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 15:59:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:09:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	size_t	i;
 	size_t	j;
 
-	printf("str received for substr: %s\n", s);
 	if (!s || !(new_str = (char *)malloc(len + 1)))
 		return (0);
 	i = start;

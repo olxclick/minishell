@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:01:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:25:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,8 +144,10 @@ char	*get_var(char *input, t_envs *envs)
 	j = 0;
 	pos = pos_env_var(envs, &input[i]);
 	if (pos == -1)
-	
+	{
+		g_exit = 1;
 		return (input);
+	}
 	while (envs->vars[pos][j] != '=')
 		j++;
 	start = j + 1;
@@ -241,7 +243,7 @@ size_t	count_quotes(char *str)
 
 t_token set_args_tokens(char *input, t_envs *envs)
 {
-	char *token;
+	char	*token;
 	size_t j = 0;
 	size_t	n_quotes = 0;
 	t_token t;
@@ -254,12 +256,17 @@ t_token set_args_tokens(char *input, t_envs *envs)
 		token = get_token(input);
 		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
+		if (g_exit)
+		{
+			free(token);
+			break ;
+		}
 		t.token[j] = token;
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
-		input += ft_strlen(token) + (n_quotes - count_quotes(token)); 
+		input += ft_strlen(token) + (n_quotes - count_quotes(token));
 		while (*input && *input == ' ')
 			input++;
 	}

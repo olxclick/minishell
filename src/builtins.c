@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 15:42:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:27:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,8 @@ int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit
 
 	flag = 0;
 	i = 1;
+	if (expr->len == 1)
+		printf("\n");
 	if (expr->args[1])
 	{
 		if (ft_strcmp(expr->args[1], "-n") == 0)
