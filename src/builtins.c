@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 14:06:55 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:42:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,21 +99,6 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	return (g_exit);
 }
 
-int	search_var(t_envs *envs, char *to_find)
-{
-	int	size;
-	int	i;
-
-	i = 0;
-	size = envs->len - 1;
-	while (i < size)
-	{
-		if (ft_strncmp(envs->vars[i], to_find, ft_strlen(to_find) - 1) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 int	add_env(t_envs *envs, char *expr)
 {
@@ -265,7 +250,12 @@ int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit
 	flag = 0;
 	i = 1;
 	if (expr->args[1])
-		i = (ft_strcmp(expr->args[1], "-n") == 0) ? 2 : 1;
+	{
+		if (ft_strcmp(expr->args[1], "-n") == 0)
+			i = 2;
+		else
+			i = 1;
+	}
 	if (check_delim(expr))
 		return (1);
 	while (expr->args[i])
@@ -279,7 +269,8 @@ int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit
 			flag = 0;
 	}
 	if (expr->args[1])
-		(ft_strcmp(expr->args[1], "-n") != 0) ? printf("\n") : 0;
+		if (ft_strcmp(expr->args[1], "-n") != 0)
+    			printf("\n");
 	return (0);
 }
 

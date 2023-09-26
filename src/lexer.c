@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 15:01:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:01:36 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,12 @@ char	*get_token(char *input)
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
-			in_quote = !in_quote ? true : false;
+		{
+			if (!in_quote)
+				in_quote = true;
+			else
+				in_quote = false;
+		}
 		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
@@ -87,10 +92,14 @@ int	is_same_quotes(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == DOUBLE_QUOTE)
+		if (str[i] == SINGLE_QUOTE)
 			countS++;
 		else if (str[i] == DOUBLE_QUOTE)
+		{
+			if (str[i + 1] == '$')
+				return (-1);
 			countD++;
+		}
 		i++;
 	}
 	if ((countS % 2 == 0 && countS != 0) || (countD % 2 == 0 && countD != 0))
@@ -98,7 +107,7 @@ int	is_same_quotes(char *str)
 	return (0);
 }
 
-char	*check_token(char *input)
+char	*check_token(char *input, t_envs *envs)
 {
 	int	i;
 	int	flag;
@@ -107,30 +116,55 @@ char	*check_token(char *input)
 	flag = is_same_quotes(input);
 	while (input[i])
 	{
-		if (flag)
+		if (flag > 0)
 			return (remove_quotes(input));
 		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
 		{
-			input = redo_token(input, SINGLE_QUOTE);
+			input = redo_token(input, SINGLE_QUOTE, flag, envs);
 			break ;
 		}
 		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
 		{
-			input = redo_token(input, DOUBLE_QUOTE);
+			input = redo_token(input, DOUBLE_QUOTE, flag, envs);
 			break ;
 		}
 		i++;
 	}
 	return (input);
 }
+char	*get_var(char *input, t_envs *envs)
+{
+	char	*res;
+	int	i;
+	int	j;
+	int	start;
+	int	pos;
 
-char	*redo_token(char *input, char c)
+	i = 1;
+	j = 0;
+	pos = pos_env_var(envs, &input[i]);
+	if (pos == -1)
+	
+		return (input);
+	while (envs->vars[pos][j] != '=')
+		j++;
+	start = j + 1;
+	while (envs->vars[pos][j])
+		j++;
+	res = ft_substr(envs->vars[pos], start, j);
+	free(input);
+	return (res);
+}
+
+char	*redo_token(char *input, char c, int flag, t_envs *envs)
 {
 	int	start = 0;
 	char	*new_input;
 	int	end = ft_strlen(input) - 1;
 	int	diff;
 
+	if (flag == -1)
+		return (get_var(remove_quotes(input), envs));
 	if (c == SINGLE_QUOTE)
 	{
 		while ((input[start] == SINGLE_QUOTE) && start <= end)
@@ -188,6 +222,8 @@ size_t	count_quotes(char *str)
 	i = 0;
 	flag = 0;
 	count = 0;
+	if (!str)
+		return (0);
 	while (str[i])
 	{
 		if (flag && str[i] == c)
@@ -203,7 +239,7 @@ size_t	count_quotes(char *str)
 	return (count);
 }
 
-t_token set_args_tokens(char *input)
+t_token set_args_tokens(char *input, t_envs *envs)
 {
 	char *token;
 	size_t j = 0;
@@ -217,13 +253,13 @@ t_token set_args_tokens(char *input)
 	{
 		token = get_token(input);
 		n_quotes = count_quotes(token);
-		token = check_token(token);
+		token = check_token(token, envs);
 		t.token[j] = token;
 		j++;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
-		input += ft_strlen(token) + (n_quotes - count_quotes(token)); //echo problem is here
+		input += ft_strlen(token) + (n_quotes - count_quotes(token)); 
 		while (*input && *input == ' ')
 			input++;
 	}

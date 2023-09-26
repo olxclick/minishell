@@ -20,10 +20,10 @@ char	*get_path(char *expr, t_envs *envs)
 	size_t		i;
 
 	bin = NULL;
-	if (search_var(envs, "PATH") != -1)
+	if (pos_env_var(envs, "PATH") != -1)
 	{
 		bin = ft_strjoin("/", expr);
-		path_env = ft_split(envs->vars[search_var(envs, "PATH")], ':');
+		path_env = ft_split(envs->vars[pos_env_var(envs, "PATH")], ':');
 		i = 0;
 		while (path_env[i])
 		{

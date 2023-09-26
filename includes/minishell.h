@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 17:40:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 15:23:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,13 @@ void	redirect(t_params *params);
 int	get_lenght(t_envs *envs, int i);
 int	do_exit(t_args *expr, t_params *params);
 int	do_echo(t_args *expr);
-int	search_var(t_envs *envs, char *to_find);
-t_token set_args_tokens(char *input);
+t_token set_args_tokens(char *input, t_envs *envs);
 size_t	count_quotes(char *str);
 char	*check_cd(t_args *expr, char *value);
 int	check_delim(t_args *expr);
 void	exec(t_args *expr, t_envs *my_envs);
 t_params	init_params(t_list *expresisons);
-char	*redo_token(char *input, char c);
+char	*redo_token(char *input, char c, int flag, t_envs *envs);
 void   executor(t_list *expressions, t_envs *envs, t_params *params);
 t_args    *get_parsed(t_token t);
 int	*create_files(t_list *expressions);
@@ -107,7 +106,7 @@ char	*get_token(char *input);
 char	*remove_quotes(char *input);
 void	copy_free(t_envs *my_envs);
 int	pos_env_var(t_envs *envs, char *find);
-char	*check_token(char *input);
+char	*check_token(char *input, t_envs *envs);
 char	**ft_realloc(char **str, size_t new_size);
 void	sort_envs(t_envs *envs);
 void	envs_printer(t_envs *envs);

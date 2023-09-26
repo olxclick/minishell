@@ -43,7 +43,7 @@ size_t	process(char *input, t_envs *envs)
 	t_token	tokens;
 	t_params	params;
 
-	tokens = set_args_tokens(input);
+	tokens = set_args_tokens(input, envs);
 	expressions = get_all_tokens(tokens);
 	if (!expressions)
 	{
