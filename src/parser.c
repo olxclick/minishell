@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 15:02:38 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:41:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 char	**get_args(t_token t, int end)
 {
-	int i;
-    	char **args;
+	int		i;
+	char	**args;
 
 	i = 0;
-    	args = malloc((end + 1) * sizeof(char *));
-	while (i < end)//ls | wc
+	args = malloc((end + 1) * sizeof(char *));
+	while (i < end) //ls | wc
 	{
 		args[i] = ft_strdup(t.token[i]);
 		i++;
@@ -28,13 +28,14 @@ char	**get_args(t_token t, int end)
 	return (args);
 }
 
-t_list    *get_all_tokens(t_token t)
+t_list	*get_all_tokens(t_token t)
 {
-	t_list *head;
-	t_args *expr;
+	t_list	*head;
+	t_args	*expr;
 
 	expr = get_parsed(t);
-	if((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0 || ft_strcmp(expr->args[0], "||") == 0))
+	if ((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0
+			|| ft_strcmp(expr->args[0], "||") == 0))
 	{
 		printf("Expression error.\n");
 		free_token(expr->args);
@@ -47,19 +48,21 @@ t_list    *get_all_tokens(t_token t)
 	{
 		t.token += expr->len; //passar para o/os proximo token
 		expr = get_parsed(t);
-		ft_lstadd_back(&head, ft_lstnew(expr));//adicionar a nova expressão à lista
+		ft_lstadd_back(&head, ft_lstnew(expr));
+			//adicionar a nova expressão à lista
 	}
 	return (head);
 }
 
-t_args    *get_parsed(t_token t)
+t_args	*get_parsed(t_token t)
 {
-    	t_args	*expression;
-	int	i;
-    	static t_state prev_state = DEFAULT;
+	t_args			*expression;
+	int				i;
+	static t_state	prev_state;
 
+	prev_state = DEFAULT;
 	i = 0;
-    	expression = malloc(sizeof(t_args));
+	expression = malloc(sizeof(t_args));
 	while (t.token[i])
 	{
 		if ((is_delim(t.token[i])) || (!t.token[i + 1]))
@@ -69,8 +72,8 @@ t_args    *get_parsed(t_token t)
 				expression->args = get_args(t, 1);
 				expression->len = 1;
 			}
-			else 
-			{	
+			else
+			{
 				expression->args = get_args(t, i + 1);
 				expression->len = (!t.token[i + 1]) ? i + 1 : i;
 			}
@@ -78,15 +81,15 @@ t_args    *get_parsed(t_token t)
 			prev_state = expression->state;
 			return (expression);
 		}
-	  	i++;
+		i++;
 	}
-    	free(expression);
+	free(expression);
 	return (NULL);
 }
 
 t_state	get_state(t_args *expression, t_state prev_state)
 {
-   	t_state state;
+	t_state	state;
 
 	if (prev_state >= 2 && prev_state <= 5)
 		state = DOC;
@@ -99,7 +102,7 @@ t_state	get_state(t_args *expression, t_state prev_state)
 
 t_state	get_delim_state(char *token)
 {
-	t_state state;
+	t_state	state;
 
 	state = DEFAULT;
 	if (ft_strcmp(token, "|") == 0)

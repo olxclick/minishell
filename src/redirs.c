@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/15 00:33:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:41:39 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	do_redir_out(t_params *params) //reads from a file
 {
-	char	*line;
+	char *line;
 
 	while (1)
 	{
@@ -40,10 +40,10 @@ void	define_file(t_args *expr, int *files, t_state prev_state)
 int	*create_files(t_list *expressions)
 {
 	t_args	*expr;
-	t_state prev_state;
+	t_state	prev_state;
 	size_t	i;
-	int	*files;
-	int	n_files;
+	int		*files;
+	int		n_files;
 
 	i = 0;
 	expr = expressions->content;
@@ -69,8 +69,8 @@ int	*create_files(t_list *expressions)
 
 int	count_files_needed(t_list *expressions)
 {
-	t_args *expr;
-	int	count;
+	t_args	*expr;
+	int		count;
 
 	count = 0;
 	expr = expressions->content;
@@ -79,8 +79,8 @@ int	count_files_needed(t_list *expressions)
 		expr = expressions->content;
 		if (expr->args[0])
 		{
-			if (ft_strcmp(expr->args[0], ">") == 0
-				|| ft_strcmp(expr->args[0], ">>") == 0)
+			if (ft_strcmp(expr->args[0], ">") == 0 || ft_strcmp(expr->args[0],
+					">>") == 0)
 				count++;
 		}
 		expressions = expressions->next;

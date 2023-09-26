@@ -1,24 +1,23 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/26 14:22:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:40:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-int	g_exit;
+int			g_exit;
 
 t_params	init_params(t_list *expressions)
 {
-	t_params params;
-	
+	t_params	params;
+
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.exited = 0;
@@ -38,9 +37,9 @@ t_envs	*init_envs(t_envs *my_envs, char **envs)
 
 size_t	process(char *input, t_envs *envs)
 {
-	size_t	has_finished;
-	t_list	*expressions;
-	t_token	tokens;
+	size_t		has_finished;
+	t_list		*expressions;
+	t_token		tokens;
 	t_params	params;
 
 	tokens = set_args_tokens(input, envs);
@@ -89,10 +88,10 @@ void	loop(t_envs *my_envs)
 
 int	main(int argc, char **argv, char **envs)
 {
-	(void)argc;
-	(void)argv;
 	t_envs	*my_envs;
 
+	(void)argc;
+	(void)argv;
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
@@ -103,9 +102,11 @@ int	main(int argc, char **argv, char **envs)
 
 void	print_list(t_list *expressions)
 {
+	int	i;
+
 	while (expressions->next)
 	{
-		int i = 0;
+		i = 0;
 		while (((t_args *)expressions->content)->args[i])
 			printf("Token: %s\n", ((t_args *)expressions->content)->args[i++]);
 		printf("State: %d\n", ((t_args *)expressions->content)->state);

@@ -6,13 +6,13 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/19 12:36:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:41:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"  
+#include "../includes/minishell.h"
 
-void signals(int sig)
+void	signals(int sig)
 {
 	if (sig == 1)
 	{
@@ -43,7 +43,7 @@ void	ctrl_c(int sig)
 	(void)sig;
 }
 
-void	back_slash() //ctrl + backslash 
+void	back_slash(void) //ctrl + backslash
 {
 	g_exit = 131;
 	printf("Quit (core dumped)\n");

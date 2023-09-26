@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:25:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 16:42:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_token(char *input)
 {
-	int	i;
+	int		i;
 	bool	in_quote;
 
 	i = 0;
@@ -28,9 +28,11 @@ char	*get_token(char *input)
 			else
 				in_quote = false;
 		}
-		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
+		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<')
+			&& !in_quote)
 			return (operator_return(input, i));
-		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>' || input[i] == '<') && !in_quote)
+		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
+					|| input[i] == '<') && !in_quote)
 			return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
@@ -83,10 +85,10 @@ char	**ft_realloc(char **str, size_t new_size)
 
 int	is_same_quotes(char *str)
 {
-	int	i;
+	int		i;
 	size_t	countS;
 	size_t	countD;
-	
+
 	countS = 0;
 	countD = 0;
 	i = 0;
@@ -118,12 +120,14 @@ char	*check_token(char *input, t_envs *envs)
 	{
 		if (flag > 0)
 			return (remove_quotes(input));
-		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input) - 1] == SINGLE_QUOTE)
+		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input)
+			- 1] == SINGLE_QUOTE)
 		{
 			input = redo_token(input, SINGLE_QUOTE, flag, envs);
 			break ;
 		}
-		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input) - 1] == DOUBLE_QUOTE)
+		else if (input[i] == DOUBLE_QUOTE && input[ft_strlen(input)
+				- 1] == DOUBLE_QUOTE)
 		{
 			input = redo_token(input, DOUBLE_QUOTE, flag, envs);
 			break ;
@@ -135,10 +139,10 @@ char	*check_token(char *input, t_envs *envs)
 char	*get_var(char *input, t_envs *envs)
 {
 	char	*res;
-	int	i;
-	int	j;
-	int	start;
-	int	pos;
+	int		i;
+	int		j;
+	int		start;
+	int		pos;
 
 	i = 1;
 	j = 0;
@@ -160,11 +164,13 @@ char	*get_var(char *input, t_envs *envs)
 
 char	*redo_token(char *input, char c, int flag, t_envs *envs)
 {
-	int	start = 0;
+	int		start;
 	char	*new_input;
-	int	end = ft_strlen(input) - 1;
-	int	diff;
+	int		end;
+	int		diff;
 
+	start = 0;
+	end = ft_strlen(input) - 1;
 	if (flag == -1)
 		return (get_var(remove_quotes(input), envs));
 	if (c == SINGLE_QUOTE)
@@ -192,18 +198,24 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 
 char	*remove_quotes(char *input)
 {
-	int	i = 0;
-	int	j = 0;
-	int	len = ft_strlen(input);
-	char	*new_input = (char *)malloc(len + 1);
+	int		i;
+	int		j;
+	int		len;
+	char	*new_input;
 
+	i = 0;
+	j = 0;
+	len = ft_strlen(input);
+	new_input = (char *)malloc(len + 1);
 	while (i < len)
 	{
 		if (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE)
 		{
-			while (input[i] && (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE))
+			while (input[i] && (input[i] == SINGLE_QUOTE
+					|| input[i] == DOUBLE_QUOTE))
 				i++;
-			while (i < len && (input[i] != SINGLE_QUOTE && input[i] != DOUBLE_QUOTE))
+			while (i < len && (input[i] != SINGLE_QUOTE
+					&& input[i] != DOUBLE_QUOTE))
 				new_input[j++] = input[i++];
 		}
 		else
@@ -216,8 +228,8 @@ char	*remove_quotes(char *input)
 
 size_t	count_quotes(char *str)
 {
-	int	i;
-	int	flag;
+	int		i;
+	int		flag;
 	size_t	count;
 	char	c;
 
@@ -241,13 +253,15 @@ size_t	count_quotes(char *str)
 	return (count);
 }
 
-t_token set_args_tokens(char *input, t_envs *envs)
+t_token	set_args_tokens(char *input, t_envs *envs)
 {
 	char	*token;
-	size_t j = 0;
-	size_t	n_quotes = 0;
-	t_token t;
+	size_t	j;
+	size_t	n_quotes;
+	t_token	t;
 
+	j = 0;
+	n_quotes = 0;
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
