@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 15:04:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 14:06:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,25 @@ int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 	return (g_exit);
 }
 
+int	remove_var(t_args *expr, t_envs *my_envs, int pos)
+{
+	(void)expr;
+	if (pos == my_envs->len - 1)
+		free(my_envs->vars[pos]);
+	else
+	{
+		free(my_envs->vars[pos]);
+		while (pos != my_envs->len - 1)
+		{
+			my_envs->vars[pos] = my_envs->vars[pos + 1];
+			pos++;
+		}
+		my_envs->vars[pos] = NULL;
+	}
+	my_envs->len--;
+	return (0);
+}
+
 int	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
@@ -59,7 +78,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	i = 1;
 	if (expr->len > 1)
 	{
-		while (i < my_envs->len)
+		while (i < my_envs->len && expr->args[i])
 		{
 			pos = pos_env_var(my_envs, expr->args[i]);
 			if (pos < 0)
@@ -68,22 +87,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 				return (1);
 			}
 			else
-			{
-				if (pos == my_envs->len - 1)
-					free(my_envs->vars[pos]);
-				else
-				{
-					free(my_envs->vars[pos]);
-					while (pos != my_envs->len - 1)
-					{
-						my_envs->vars[pos] = my_envs->vars[pos + 1];
-						pos++;
-					}
-					my_envs->vars[pos] = NULL;
-				}
-				my_envs->len--;
-				return (0);
-			}
+				g_exit = remove_var(expr, my_envs, pos);
 			i++;
 		}
 	}
@@ -92,7 +96,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 		printf("unset: not enough arguments\n");
 		return (1);
 	}
-	return (0);
+	return (g_exit);
 }
 
 int	search_var(t_envs *envs, char *to_find)

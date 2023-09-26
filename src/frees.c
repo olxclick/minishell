@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/22 16:52:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:50:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	copy_free(t_envs *my_envs)
 	i = 0;
 	while (i < my_envs->len)
 		free(my_envs->vars[i++]);
-	if (my_envs->oldpwd)
-		free(my_envs->oldpwd);	
+	free(my_envs->oldpwd);
 	free(my_envs->vars);
 	free(my_envs);
 }

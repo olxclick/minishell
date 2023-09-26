@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/20 18:08:23 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/26 13:50:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_envs	*copy_envs(t_envs *new_envs, t_envs *envs)
 	i = 0;
 	new_envs->len = envs->len;
 	new_envs->vars = malloc(envs->len * sizeof(char *));
+	new_envs->oldpwd = NULL;
 	while (i < envs->len)
 	{
 		new_envs->vars[i] = ft_strdup(envs->vars[i]);
