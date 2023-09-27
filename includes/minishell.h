@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 15:51:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:53:09 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
 int					check_delim(t_args *expr);
+char				*get_var(char *input, t_envs *envs, bool flag);
 void				exec(t_args *expr, t_envs *my_envs);
 t_params			init_params(t_list *expresisons);
 char				*redo_token(char *input, char c, int flag, t_envs *envs);
@@ -103,7 +104,7 @@ int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs);
 void				redir_input(t_list *expressions, t_params *params);
-char				*get_token(char *input);
+char				*get_token(char *input, t_envs *envs);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
 int					pos_env_var(t_envs *envs, char *find);

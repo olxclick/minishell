@@ -6,19 +6,21 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 15:25:11 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:53:47 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_token(char *input)
+char	*get_token(char *input, t_envs *envs)
 {
 	int		i;
 	bool	in_quote;
 
 	i = 0;
 	in_quote = false;
+	if (input[i] == '$')
+		return (get_var(input, envs, true));
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
@@ -136,7 +138,7 @@ char	*check_token(char *input, t_envs *envs)
 	}
 	return (input);
 }
-char	*get_var(char *input, t_envs *envs)
+char	*get_var(char *input, t_envs *envs, bool flag)
 {
 	char	*res;
 	int		i;
@@ -158,7 +160,8 @@ char	*get_var(char *input, t_envs *envs)
 	while (envs->vars[pos][j])
 		j++;
 	res = ft_substr(envs->vars[pos], start, j);
-	free(input);
+	if (!flag)
+		free(input);
 	return (res);
 }
 
@@ -172,7 +175,7 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	start = 0;
 	end = ft_strlen(input) - 1;
 	if (flag == -1)
-		return (get_var(remove_quotes(input), envs));
+		return (get_var(remove_quotes(input), envs, false));
 	if (c == SINGLE_QUOTE)
 	{
 		while ((input[start] == SINGLE_QUOTE) && start <= end)
@@ -267,7 +270,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		input++;
 	while (1 && *input)
 	{
-		token = get_token(input);
+		token = get_token(input, envs);
 		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
 		if (g_exit == 1)
