@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 16:22:39 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:38:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	**get_args(t_token t, int end)
 
 	i = 0;
 	args = malloc((end + 1) * sizeof(char *));
-	while (i < end) //ls | wc
+	while (i < end)
 	{
 		args[i] = ft_strdup(t.token[i]);
 		i++;
@@ -37,7 +37,7 @@ t_list	*get_all_tokens(t_token t)
 	if (!expr)
 		return (NULL);
 	if (((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0
-			|| ft_strcmp(expr->args[0], "||") == 0)))
+				|| ft_strcmp(expr->args[0], "||") == 0)))
 	{
 		printf("Expression error.\n");
 		free_token(expr->args);
@@ -58,10 +58,9 @@ t_args	*get_parsed(t_token t)
 {
 	t_args			*expression;
 	int				i;
-	static t_state	prev_state;
+	static t_state	prev_state = DEFAULT;
 
 	i = 0;
-	prev_state = DEFAULT;
 	expression = malloc(sizeof(t_args));
 	while (t.token[i])
 	{
@@ -80,10 +79,8 @@ t_args	*get_parsed(t_token t)
 				else
 					expression->len = i;
 			}
-			printf("prev_state to send: %d\n", prev_state);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
-			printf("prev_state: %d\n", prev_state);
 			return (expression);
 		}
 		i++;
