@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 15:26:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:00:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,8 @@ int	redir_needed(t_list *expressions)
 	while (expressions->next)
 	{
 		expr = expressions->content;
-		printf("expr->state: %d\n", expr->state);
 		if (expr->state == REDIR_IN || expr->state == HEREDOC)
-		{
-			printf("helloooooooooo\n");
 			return (1);
-		}
 		expressions = expressions->next;
 	}
 	return (0);

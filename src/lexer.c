@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 16:53:47 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 17:00:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,26 +88,26 @@ char	**ft_realloc(char **str, size_t new_size)
 int	is_same_quotes(char *str)
 {
 	int		i;
-	size_t	countS;
-	size_t	countD;
+	size_t	count_s;
+	size_t	count_d;
 
-	countS = 0;
-	countD = 0;
+	count_s = 0;
+	count_d = 0;
 	i = 0;
 	while (str[i])
 	{
 		if (str[i] == SINGLE_QUOTE)
-			countS++;
+			count_s++;
 		else if (str[i] == DOUBLE_QUOTE)
 		{
 			if (str[i + 1] == '$')
 				return (-1);
-			countD++;
+			count_d++;
 		}
 		i++;
 	}
-	if ((countS % 2 == 0 && countS != 0) || (countD % 2 == 0 && countD != 0))
-		return (countS == count_quotes(str) || countD == count_quotes(str));
+	if ((count_s % 2 == 0 && count_s != 0) || (count_d % 2 == 0 && count_d != 0))
+		return (count_s == count_quotes(str) || count_d == count_quotes(str));
 	return (0);
 }
 

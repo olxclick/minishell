@@ -49,7 +49,6 @@ void	exec(t_args *expr, t_envs *my_envs)
 {
     	char    *path;
 
-        // procura o caminho de N cmd que está na posicao 0
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
 	execve(path, expr->args, my_envs->vars);
