@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 15:13:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:25:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,13 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
-	int	pos;
+	int		pos;
 	char	*key;
 
 	i = 0;
 	while (expr[i] && expr[i] != '=')
 		i++;
-	if (i == ft_strlen(expr))
-		return (1);
-	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]))
+	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]) || i == ft_strlen(expr))
 	{
 		printf("export: bad input\n");
 		return (1);

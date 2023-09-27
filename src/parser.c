@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 13:52:26 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:22:39 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,14 @@ t_list	*get_all_tokens(t_token t)
 		printf("Expression error.\n");
 		free_token(expr->args);
 		free(expr);
-		g_exit = 1;
 		return (NULL);
 	}
 	head = ft_lstnew(expr);
 	while (expr)
 	{
-		t.token += expr->len; //passar para o/os proximo token
+		t.token += expr->len;
 		expr = get_parsed(t);
 		ft_lstadd_back(&head, ft_lstnew(expr));
-			//adicionar a nova expressão à lista
 	}
 	return (head);
 }
@@ -77,10 +75,15 @@ t_args	*get_parsed(t_token t)
 			else
 			{
 				expression->args = get_args(t, i + 1);
-				expression->len = (!t.token[i + 1]) ? i + 1 : i;
+				if (!t.token[i + 1])
+					expression->len = i + 1;
+				else
+					expression->len = i;
 			}
+			printf("prev_state to send: %d\n", prev_state);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
+			printf("prev_state: %d\n", prev_state);
 			return (expression);
 		}
 		i++;
