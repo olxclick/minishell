@@ -6,25 +6,12 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/25 12:56:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 20:02:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	get_lenght(t_envs *envs, int i)
-{
-	int	j;
-
-	j = 0;
-	while(envs->vars[i][j])
-	{
-		if (envs->vars[i][j] == '=')
-			return (j + 1);
-		j++;
-	}
-	return (j);
-}
 void	update_pwd(t_envs *envs, char *buffer)
 {
 	if (envs->oldpwd)

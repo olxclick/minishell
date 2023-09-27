@@ -6,17 +6,11 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 16:25:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 20:11:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_builtin(char *cmd)
-{
-	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "env") == 0) || (ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "cd") == 0)
-        || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
-}
 
 int	do_pwd(t_args *expr)
 {
@@ -99,8 +93,6 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	}
 	return (g_exit);
 }
-
-
 int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
@@ -131,25 +123,6 @@ int	add_env(t_envs *envs, char *expr)
 	free(key);
 	return (0);
 }
-
-int	pos_env_var(t_envs *envs, char *find)
-{
-	int	i;
-	int	equal_sign;
-
-	i = 0;
-	equal_sign = 0;
-	while (find[equal_sign] && find[equal_sign] != '=')
-		equal_sign += 1;
-	while (i < envs->len)
-	{
-		if (ft_strncmp(find, envs->vars[i], equal_sign) == 0)
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
 int	do_export(t_args *expr, t_envs *envs)
 {
 	int	i;
@@ -168,63 +141,6 @@ int	do_export(t_args *expr, t_envs *envs)
 	}
 	return (g_exit);
 }
-
-void	envs_printer(t_envs *envs)
-{
-	int	i;
-	int	j;
-	int	flag;
-	char	c;
-
-	c = '"';
-	i = 0;
-	flag = 0;
-	while (i < envs->len)
-	{
-		j = 0;
-		printf("declare -x ");
-		while (envs->vars[i][j])
-		{
-			if (envs->vars[i][j] == '=' || !envs->vars[i][j + 1])
-				flag = 1;
-			printf("%c", envs->vars[i][j]);
-			if (flag)
-				printf("%c", c);
-			flag = 0;
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
-
-void	swap(char** a, char** b)
-{
-	char* temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-int	get_envs_size(char **envs)
-{
-	int	i;
-	
-	i = 0;
-	while (envs[i] != NULL)
-		i++;
-	return (i);
-}
-
-int	do_env(t_envs *my_envs)
-{
-	int	i;
-
-	i = 0;
-	while (i < my_envs->len)
-		printf("%s\n", my_envs->vars[i++]);
-	return (0);
-}
-
 int	check_delim(t_args *expr)
 {
 	size_t	j;
@@ -240,8 +156,7 @@ int	check_delim(t_args *expr)
 			return (printf("Error: character is not allowed with echo\n"));
 	return (0);
 }
-
-int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit status
+int	do_echo(t_args *expr)
 {
 	size_t	i;
 	size_t	flag;
@@ -274,7 +189,6 @@ int	do_echo(t_args *expr) // add condition for "echo $?" which should print exit
     			printf("\n");
 	return (0);
 }
-
 int	do_exit(t_args *expr, t_params *params)
 {
 	int	mini_exit;

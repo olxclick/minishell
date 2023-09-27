@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 16:53:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 20:01:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ void				envs_printer(t_envs *envs);
 int					dir_change(t_args *expr, t_envs *my_envs);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
+int					is_same_quotes(char *str);
 void				swap(char **a, char **b);
 int					count_files_needed(t_list *expressions);
 void				free_token(char **my_envs);
@@ -154,5 +155,10 @@ static inline void	close_file_descriptors(t_params *params)
 		close(params->input_fd);
 	if (params->output_fd != STDOUT_FILENO)
 		close(params->output_fd);
+}
+static inline int	is_builtin(char *cmd)
+{
+	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "env") == 0) || (ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "cd") == 0)
+        || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
 }
 #endif
