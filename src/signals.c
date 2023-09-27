@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:41:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 14:13:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ void	ctrl_c(int sig)
 	(void)sig;
 }
 
-void	back_slash(void) //ctrl + backslash
+void	back_slash(int sig) //ctrl + backslash
 {
 	g_exit = 131;
 	printf("Quit (core dumped)\n");
 	signal(SIGQUIT, SIG_IGN);
+	(void)sig;
 }

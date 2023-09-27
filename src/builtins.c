@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:27:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:13:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@ int	is_builtin(char *cmd)
         || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
 }
 
-int	do_pwd()
+int	do_pwd(t_args *expr)
 {
 	char	cwd[PATH_MAX];
 
 	printf("%s\n", getcwd(cwd, PATH_MAX));
+	(void)expr;
 	return (0);
 }
 
@@ -32,7 +33,7 @@ int	exec_child_builtin(t_args *expr, t_params *params)
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
-		g_exit = do_pwd();
+		g_exit = do_pwd(expr);
 	return (g_exit);
 }
 

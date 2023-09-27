@@ -27,8 +27,8 @@ char	*get_path(char *expr, t_envs *envs)
 		i = 0;
 		while (path_env[i])
 		{
-			full_path = ft_strjoin(path_env[i], bin); //usr/local/bin/ls
-			if (access(full_path, F_OK) == 0) //verificar se existe no atual full_path
+			full_path = ft_strjoin(path_env[i], bin);
+			if (access(full_path, F_OK) == 0)
 			{
 				free_token(path_env);
 				free(bin);
@@ -40,6 +40,8 @@ char	*get_path(char *expr, t_envs *envs)
 		free_token(path_env);
 	}
 	free(bin);
+	printf("%s: command not found\n", expr);
+	g_exit = 127;
 	return (NULL);
 }
 
@@ -81,7 +83,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	params->pid = fork();
 	signals(2);
 	signal(SIGQUIT, SIG_IGN);
-	g_exit = 0;
 	if (params->pid == 0)
 		exit(g_exit = child_process(expressions, envs, params));
 	else

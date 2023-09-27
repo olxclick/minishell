@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:40:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:16:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	loop(t_envs *my_envs)
 
 	while (true)
 	{
+		g_exit = 0;
 		signals(1);
 		input = readline("shell--> ");
 		if (!input)
@@ -82,7 +83,7 @@ void	loop(t_envs *my_envs)
 		add_history(input);
 		if (process(input, my_envs))
 			break ;
-		// printf("exit_status: %d\n", g_exit);
+		printf("exit_status: %d\n", g_exit);
 	}
 }
 

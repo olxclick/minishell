@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:42:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 15:15:39 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		token = get_token(input);
 		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
-		if (g_exit)
+		if (g_exit == 1)
 		{
 			free(token);
 			break ;

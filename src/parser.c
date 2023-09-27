@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/26 16:41:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/27 13:52:26 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,10 @@ t_list	*get_all_tokens(t_token t)
 	t_args	*expr;
 
 	expr = get_parsed(t);
-	if ((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0
-			|| ft_strcmp(expr->args[0], "||") == 0))
+	if (!expr)
+		return (NULL);
+	if (((expr->len == 1) && (ft_strcmp(expr->args[0], "|") == 0
+			|| ft_strcmp(expr->args[0], "||") == 0)))
 	{
 		printf("Expression error.\n");
 		free_token(expr->args);
@@ -60,8 +62,8 @@ t_args	*get_parsed(t_token t)
 	int				i;
 	static t_state	prev_state;
 
-	prev_state = DEFAULT;
 	i = 0;
+	prev_state = DEFAULT;
 	expression = malloc(sizeof(t_args));
 	while (t.token[i])
 	{
