@@ -47,23 +47,26 @@ char	*get_path(char *expr, t_envs *envs)
 
 void	exec(t_list *expressions, t_args *expr, t_envs *my_envs, t_params *params)
 {
-    char    *path;
+   	char    *path;
 	char	*line;
+	int	i;
 
+	i = 1;
 	line = NULL;
-	(void)expressions;
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
 	if (redir_needed(expressions) == 2)
 	{
 		line = get_next_line(params->input_fd);
-		expr->args[1] = ft_strdup(line);
 		while (line)
 		{
-			expr->args[1] = ft_strjoin(expr->args[1], line);
+			if (!expr->args[i])
+				expr->args[i] = ft_strdup(line);
+			else
+				expr->args[i] = ft_strjoin(expr->args[i], line);
+			i++;
 			line = get_next_line(params->input_fd);
 		}
-		printf("line: %s\n", expr->args[1]);
 	}
 	execve(path, expr->args, my_envs->vars);
 }
