@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 20:14:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 13:18:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,9 +92,12 @@ t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
 int					check_delim(t_args *expr);
+int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, bool flag);
 void				exec(t_args *expr, t_envs *my_envs);
+void				swap(char** a, char** b);
 t_params			init_params(t_list *expresisons);
+int					pos_env_var(t_envs *envs, char *find);
 char				*redo_token(char *input, char c, int flag, t_envs *envs);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params);
