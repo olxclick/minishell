@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 15:24:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 16:10:11 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char				*check_cd(t_args *expr, char *value);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, bool flag);
-void				exec(t_args *expr, t_envs *my_envs);
+void				exec(t_list *expressions, t_args *expr, t_envs *my_envs, t_params *params);
 void				swap(char** a, char** b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
