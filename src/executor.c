@@ -59,10 +59,17 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	t_args	*expr;
 
 	expr = expressions->content;
-	if (redir_needed(expressions))
+	if (redir_needed(expressions) == 1)
 	{
 		redir_input(expressions, params);
 		redirect(params);
+	}
+	else if (redir_needed(expressions) == 2)
+	{
+		params->heredoc_fd = open("heredoc.tmp", O_CREAT
+				| O_TRUNC | O_RDWR, 0644);
+		do_heredoc(expressions, params);
+		handle_pipes(expressions, params);
 	}
 	else
 		handle_pipes(expressions, params);

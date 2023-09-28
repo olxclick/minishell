@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 17:00:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:05:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ int	redir_needed(t_list *expressions)
 	while (expressions->next)
 	{
 		expr = expressions->content;
-		if (expr->state == REDIR_IN || expr->state == HEREDOC)
+		if (expr->state == REDIR_IN)
 			return (1);
+		else if (expr->state == HEREDOC)
+			return (2);
 		expressions = expressions->next;
 	}
 	return (0);

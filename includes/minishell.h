@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 13:18:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:52:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_params
 	int				*files;
 	int				input_fd;
 	int				output_fd;
+	int				heredoc_fd;
 	long long		exit_status;
 	pid_t			pid;
 	size_t			exited;
@@ -86,8 +87,10 @@ size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params);
 int					get_lenght(t_envs *envs, int i);
+int					do_heredoc(t_list *expressions, t_params *params);
 int					do_exit(t_args *expr, t_params *params);
 int					do_echo(t_args *expr);
+int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);

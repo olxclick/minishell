@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 16:38:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 14:51:40 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ t_state	get_state(t_args *expression, t_state prev_state)
 {
 	t_state	state;
 
-	if (prev_state >= 2 && prev_state <= 5)
+	if (prev_state >= 2 && prev_state <= 4)
 		state = DOC;
 	else if (expression->len == 1 && is_delim(expression->args[0]))
 		state = get_delim_state(expression->args[0]);
