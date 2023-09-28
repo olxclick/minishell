@@ -50,6 +50,7 @@ void	exec(t_args *expr, t_envs *my_envs)
     	char    *path;
 
 	path = get_path(expr->args[0], my_envs);
+	printf("exprlen: %zu\n", expr->len);
 	expr->args[expr->len] = 0;
 	execve(path, expr->args, my_envs->vars);
 }
@@ -69,12 +70,14 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		params->heredoc_fd = open("heredoc.tmp", O_CREAT
 				| O_TRUNC | O_RDWR, 0644);
 		do_heredoc(expressions, params);
-		handle_pipes(expressions, params);
 	}
 	else
 		handle_pipes(expressions, params);
 	if (!is_builtin(expr->args[0]))
+	{
+		printf("here\n");
 		exec(expr, envs);
+	}
 	else 
 		g_exit = exec_child_builtin(expr, params);
 	close_file_descriptors(params);
