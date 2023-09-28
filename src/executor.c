@@ -77,6 +77,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		exec(expr, envs);
 	else 
 		g_exit = exec_child_builtin(expr, params);
+	close_file_descriptors(params);
 	return (g_exit);
 }
 

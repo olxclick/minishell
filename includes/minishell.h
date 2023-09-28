@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 14:52:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:24:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,8 @@ static inline void	close_file_descriptors(t_params *params)
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
 	if (params->output_fd != STDOUT_FILENO)
+		close(params->output_fd);
+	if (params->heredoc_fd != STDOUT_FILENO)
 		close(params->output_fd);
 }
 static inline int	is_builtin(char *cmd)

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 14:45:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/28 15:25:00 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_params	init_params(t_list *expressions)
 
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
-	params.heredoc_fd = STDIN_FILENO;
+	params.heredoc_fd = STDOUT_FILENO;
 	params.exited = 0;
 	params.exit_status = 130;
 	params.files = create_files(expressions);
