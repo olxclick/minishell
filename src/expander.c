@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 19:49:47 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:49:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ char	*get_var(char *input, t_envs *envs, bool flag)
 	if (pos == -1)
 	{
 		g_exit = 1;
+		printf("'%s' not a variable\n", input);
 		return (input);
 	}
 	while (envs->vars[pos][j] != '=')

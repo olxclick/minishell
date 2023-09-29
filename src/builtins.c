@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 21:02:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:43:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,7 @@ int	add_env(t_envs *envs, char *expr)
 	while (expr[i] && expr[i] != '=')
 		i++;
 	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]) || i == ft_strlen(expr))
-	{
-		printf("export: bad input\n");
-		return (1);
-	}
+		return (printf("export: bad input\n"));
 	key = ft_substr(expr, 0, i);
 	pos = pos_env_var(envs, key);
 	if (pos == -1)
@@ -136,6 +133,8 @@ int	do_export(t_args *expr, t_envs *envs)
 			g_exit = add_env(envs, expr->args[i]);
 		i++;
 	}
+	if (g_exit > 0)
+		g_exit = 1;
 	return (g_exit);
 }
 int	check_delim(t_args *expr)

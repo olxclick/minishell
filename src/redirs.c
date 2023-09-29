@@ -6,13 +6,13 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:36:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:41:47 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	do_redir_out(t_params *params) //reads from a file
+void	do_redir_out(t_params *params)
 {
 	char	*line;
 
@@ -28,7 +28,6 @@ void	do_redir_out(t_params *params) //reads from a file
 			break ;
 	}
 }
-
 void	define_file(t_args *expr, int *files, t_state prev_state)
 {
 	if (prev_state == REDIR_OUT)
@@ -36,7 +35,6 @@ void	define_file(t_args *expr, int *files, t_state prev_state)
 	else
 		*files = open(expr->args[0], O_WRONLY | O_APPEND, 0644);
 }
-
 int	*create_files(t_list *expressions)
 {
 	t_args	*expr;
@@ -53,20 +51,18 @@ int	*create_files(t_list *expressions)
 	files = malloc(sizeof(int) * n_files);
 	while (expressions->next)
 	{
-		i = 0;
+		i = -1;
 		expr = expressions->content;
-		while (i < expr->len)
+		while (++i < expr->len)
 		{
 			if (expr->state == DOC)
 				define_file(expr, &files[i], prev_state);
-			i++;
 		}
 		prev_state = expr->state;
 		expressions = expressions->next;
 	}
 	return (files);
 }
-
 int	count_files_needed(t_list *expressions)
 {
 	t_args	*expr;
@@ -97,7 +93,6 @@ int	heredoc_checker(char *line, char *delim)
 		return (1);
 	return (0);
 }
-
 char	*get_heredoc_delim(t_list *expressions)
 {
 	char	*res;
@@ -121,7 +116,6 @@ char	*get_heredoc_delim(t_list *expressions)
 	}
 	return (res);
 }
-
 int	do_heredoc(t_list *expressions, t_params *params)
 {
 	char	*heredoc_line;

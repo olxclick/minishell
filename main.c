@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:33:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:51:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ size_t	process(char *input, t_envs *envs)
 		return (0);
 	}
 	params = init_params(expressions);
+	if (g_exit)
+		return (0);
 	executor(expressions, envs, &params);
 	has_finished = params.exited;
 	free_token(tokens.token);
