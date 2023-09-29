@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 15:25:00 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:33:46 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_params	init_params(t_list *expressions)
 
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
-	params.heredoc_fd = STDOUT_FILENO;
+	params.heredoc_fd = open(".heredoc.tmp", O_CREAT
+				| O_TRUNC | O_RDWR, 0644);
 	params.exited = 0;
 	params.exit_status = 130;
 	params.files = create_files(expressions);
@@ -59,6 +60,8 @@ size_t	process(char *input, t_envs *envs)
 	free(params.files);
 	free_list(expressions);
 	free(input);
+	unlink(".heredoc.tmp");
+	close(params.heredoc_fd);
 	return (has_finished);
 }
 

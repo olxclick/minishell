@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 15:23:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 15:34:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	do_heredoc(t_list *expressions, t_params *params)
 			write(params->heredoc_fd, line, ft_strlen(line));
 		free(line);
 	}
-	params->heredoc_fd = open("heredoc.tmp", O_RDONLY | 0644);
+	params->heredoc_fd = open(".heredoc.tmp", O_RDONLY | 0644);
 	params->input_fd = params->heredoc_fd;
 	free(delim);
 	return (0);

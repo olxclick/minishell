@@ -45,7 +45,7 @@ char	*get_path(char *expr, t_envs *envs)
 	return (NULL);
 }
 
-void	exec(t_list *expressions, t_args *expr, t_envs *my_envs, t_params *params)
+void	exec(t_args *expr, t_envs *my_envs)
 {
    	char    *path;
 	char	*line;
@@ -55,22 +55,8 @@ void	exec(t_list *expressions, t_args *expr, t_envs *my_envs, t_params *params)
 	line = NULL;
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
-	if (redir_needed(expressions) == 2)
-	{
-		line = get_next_line(params->input_fd);
-		while (line)
-		{
-			if (!expr->args[i])
-				expr->args[i] = ft_strdup(line);
-			else
-				expr->args[i] = ft_strjoin(expr->args[i], line);
-			i++;
-			line = get_next_line(params->input_fd);
-		}
-	}
 	execve(path, expr->args, my_envs->vars);
 }
-
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;
@@ -82,18 +68,12 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		redirect(params);
 	}
 	else if (redir_needed(expressions) == 2)
-	{
-		params->heredoc_fd = open("heredoc.tmp", O_CREAT
-				| O_TRUNC | O_RDWR, 0644);
 		do_heredoc(expressions, params);
-	}
-	else
-		handle_pipes(expressions, params);
+	handle_pipes(expressions, params);
 	if (!is_builtin(expr->args[0]))
-		exec(expressions, expr, envs, params);
-	else 
+		exec(expr, envs);
+	else
 		g_exit = exec_child_builtin(expr, params);
-	close_file_descriptors(params);
 	return (g_exit);
 }
 
