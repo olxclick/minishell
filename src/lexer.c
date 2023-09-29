@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:53:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 17:17:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,6 @@ int	is_same_quotes(char *str)
 		return (count_s == count_quotes(str) || count_d == count_quotes(str));
 	return (0);
 }
-
-
-
 t_token	set_args_tokens(char *input, t_envs *envs)
 {
 	char	*token;
@@ -130,10 +127,9 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		token = get_token(input, envs);
 		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
-		if (g_exit == 1)
+		if (g_exit)
 			break ;
-		t.token[j] = token;
-		j++;
+		t.token[j++] = token;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= ft_strlen(token))
 			break ;

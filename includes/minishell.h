@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:25:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/09/29 16:16:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int					redir_needed(t_list *expressions);
 int					do_export(t_args *expr, t_envs *envs);
 void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs);
+
 t_state				get_delim_state(char *token);
 int					exec_parent_builtin(t_args *expr, t_params *params,
 						t_envs *my_envs);

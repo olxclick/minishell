@@ -117,5 +117,5 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		}
 		close_file_descriptors(params);
 	}
-	// printf("EXIT_STATUS: %d\n", g_exit);
+	printf("EXIT_STATUS: %d\n", g_exit);
 }
