@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 13:17:38 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:19:44 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	*get_var(char *input, t_envs *envs, bool flag)
 		free(input);
 	return (res);
 }
-
 char	*redo_token(char *input, char c, int flag, t_envs *envs)
 {
 	int		start;
