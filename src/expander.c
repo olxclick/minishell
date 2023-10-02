@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 13:24:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/02 14:51:31 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char	*get_var(char *input, t_envs *envs, bool flag)
 	int		pos;
 
 	j = 0;
+	if (ft_strcmp(input, "$?") == 0)
+		return (ft_itoa(g_exit));
 	pos = pos_env_var(envs, &input[1]);
 	if (pos == -1)
 		return (NULL);
