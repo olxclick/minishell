@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 14:52:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/02 15:40:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		token = check_token(token, envs);
 		t.token[j++] = token;
 		t.token = ft_realloc(t.token, j + 1);
-		if (ft_strlen(input) <= ft_strlen(token))
+		if (ft_strlen(input) <= ft_strlen(token) || ft_strcmp(input, "$?") == 0)
 			break ;
 		input += ft_strlen(token) + (n_quotes - count_quotes(token));
 		while (*input && *input == ' ')
