@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 13:24:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:24:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	free(input);
 	return (new_input);
 }
-
 char	*remove_quotes(char *input)
 {
 	int		i;
