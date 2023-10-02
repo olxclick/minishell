@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 16:59:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/02 13:17:38 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,14 @@ char	*check_token(char *input, t_envs *envs)
 char	*get_var(char *input, t_envs *envs, bool flag)
 {
 	char	*res;
-	int		i;
 	int		j;
 	int		start;
 	int		pos;
 
-	i = 1;
 	j = 0;
-	pos = pos_env_var(envs, &input[i]);
+	pos = pos_env_var(envs, &input[1]);
 	if (pos == -1)
-	{
-		g_exit = 1;
-		printf("'%s' is not a variable\n", input);
-		return (input);
-	}
+		return (NULL);
 	while (envs->vars[pos][j] != '=')
 		j++;
 	start = j + 1;
@@ -133,10 +127,10 @@ char	*remove_quotes(char *input)
 
 size_t	count_quotes(char *str)
 {
-	int		i;
-	int		flag;
 	size_t	count;
 	char	c;
+	int		i;
+	int		flag;
 
 	i = 0;
 	flag = 0;
