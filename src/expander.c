@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 17:03:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:34:28 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*check_token(char *input, t_envs *envs)
 	i = 0;
 	flag = is_same_quotes(input);
 	if (input[0] == '$')
-		return (get_var(input, envs, false));
+		return (get_var(input, envs));
 	while (input[i])
 	{
 		if (flag > 0)
@@ -41,7 +41,7 @@ char	*check_token(char *input, t_envs *envs)
 	}
 	return (input);
 }
-char	*get_var(char *input, t_envs *envs, bool flag)
+char	*get_var(char *input, t_envs *envs)
 {
 	char	*res;
 	int		j;
@@ -63,8 +63,7 @@ char	*get_var(char *input, t_envs *envs, bool flag)
 			j++;
 		res = ft_substr(envs->vars[pos], start, j);
 	}
-	if (!flag)
-		free(input);
+	free(input);
 	return (res);
 }
 char	*redo_token(char *input, char c, int flag, t_envs *envs)
@@ -77,7 +76,7 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	start = 0;
 	end = ft_strlen(input) - 1;
 	if (flag == -1)
-		return (get_var(remove_quotes(input), envs, false));
+		return (get_var(remove_quotes(input), envs));
 	if (c == SINGLE_QUOTE)
 	{
 		while ((input[start] == SINGLE_QUOTE) && start <= end)

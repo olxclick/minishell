@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 17:16:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:31:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 {
 	char	*token;
 	size_t	j;
+	size_t	size;
 	size_t	n_quotes;
 	t_token	t;
 
@@ -124,15 +125,16 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 	while (1 && *input)
 	{
 		token = get_token(input, envs);
+		size = ft_strlen(token);
 		if (!token)
 			break ;
 		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
 		t.token[j++] = token;
 		t.token = ft_realloc(t.token, j + 1);
-		if (ft_strlen(input) <= ft_strlen(token))
+		if (ft_strlen(input) <= size)
 			break ;
-		input += ft_strlen(token) + (n_quotes - count_quotes(token));
+		input += size + (n_quotes - count_quotes(token));
 		while (*input && *input == ' ')
 			input++;
 	}

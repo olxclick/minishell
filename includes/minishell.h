@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 15:36:03 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:34:38 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
-char				*get_var(char *input, t_envs *envs, bool flag);
+char				*get_var(char *input, t_envs *envs);
 void				exec(t_args *expr, t_envs *my_envs);
 void				swap(char** a, char** b);
 t_params			init_params(t_list *expresisons);
