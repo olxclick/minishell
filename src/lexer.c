@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 15:17:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:16:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ char	*get_token(char *input, t_envs *envs)
 	i = 0;
 	(void)envs;
 	in_quote = false;
-	if (ft_strcmp(input, "$?") == 0)
-		return (ft_itoa(g_exit));
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
@@ -37,7 +35,7 @@ char	*get_token(char *input, t_envs *envs)
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
 					|| input[i] == '<') && !in_quote)
 			return (ft_substr(input, 0, i));
-		else if (input[i + 1] == '\0')
+		else if (input[i + 1] == '\0') //
 			return (ft_substr(input, 0, i + 1));
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 14:23:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:03:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*check_token(char *input, t_envs *envs)
 
 	i = 0;
 	flag = is_same_quotes(input);
+	if (input[0] == '$')
+		return (get_var(input, envs, false));
 	while (input[i])
 	{
 		if (flag > 0)
@@ -48,10 +50,12 @@ char	*get_var(char *input, t_envs *envs, bool flag)
 
 	j = 0;
 	pos = pos_env_var(envs, &input[1]);
-	if (pos == -1)
-		return (NULL);
+	if (ft_strcmp(input, "$?") == 0)
+		res = ft_itoa(g_exit);
 	else
-	{	
+	{
+		if (pos == -1)
+			return (NULL);
 		while (envs->vars[pos][j] != '=')
 			j++;
 		start = j + 1;
