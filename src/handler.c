@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:20:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:18:31 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	read_fd(char *file_name)
 void	handle_pipes(t_list *expressions, t_params *params)
 {
 	t_args *nextExpr = expressions->next->content;
-	if (expressions->next->content && (nextExpr->state != HEREDOC && nextExpr->state != REDIR_IN))
+	if (nextExpr && nextExpr->state != HEREDOC && nextExpr->state != REDIR_IN)
 	{
         	//fechar read_end pois nao vai ser preciso
 		close(params->pipe_fd[R]);

@@ -44,7 +44,6 @@ char	*get_path(char *expr, t_envs *envs)
 	g_exit = 127;
 	return (NULL);
 }
-
 void	exec(t_args *expr, t_envs *my_envs)
 {
    	char    *path;
@@ -69,9 +68,11 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	}
 	else if (redir_needed(expressions) == 2)
 		do_heredoc(expressions, params);
-	handle_pipes(expressions, params);
-	if (!is_builtin(expr->args[0]))
+	if (!is_child_builtin(expr->args[0]))
+	{
+		handle_pipes(expressions, params);
 		exec(expr, envs);
+	}
 	else
 		g_exit = exec_child_builtin(expr, params);
 	return (g_exit);
@@ -96,7 +97,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
-		if (is_builtin(expr->args[0]))
+		if (is_parent_builtin(expr->args[0]))
 			exec_parent_builtin(expr, params, envs);
         	while (expressions->next)
 		{

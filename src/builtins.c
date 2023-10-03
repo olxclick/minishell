@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 15:13:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:14:15 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	do_pwd(t_args *expr)
 {
 	char	cwd[PATH_MAX];
+	(void)expr;
 
 	printf("%s\n", getcwd(cwd, PATH_MAX));
-	(void)expr;
 	return (0);
 }
 

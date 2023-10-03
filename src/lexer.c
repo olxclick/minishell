@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 15:48:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:17:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ char	*get_token(char *input, t_envs *envs)
 	bool	in_quote;
 
 	i = 0;
+	(void)envs;
 	in_quote = false;
-	if (input[i] == '$')
-		return (get_var(input, envs, true));
+	if (ft_strcmp(input, "$?") == 0)
+		return (ft_itoa(g_exit));
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
@@ -131,7 +132,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		token = check_token(token, envs);
 		t.token[j++] = token;
 		t.token = ft_realloc(t.token, j + 1);
-		if (ft_strlen(input) <= ft_strlen(token) || ft_strcmp(input, "$?") == 0)
+		if (ft_strlen(input) <= ft_strlen(token))
 			break ;
 		input += ft_strlen(token) + (n_quotes - count_quotes(token));
 		while (*input && *input == ' ')
