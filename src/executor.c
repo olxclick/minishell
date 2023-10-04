@@ -40,7 +40,11 @@ char	*get_path(char *expr, t_envs *envs)
 		free_token(path_env);
 	}
 	free(bin);
-	g_exit = 127;
+	if (!is_parent_builtin(expr))
+	{
+		g_exit = 127;
+		printf("%s: command not found\n", expr);
+	}
 	return (NULL);
 }
 void	exec(t_args *expr, t_envs *my_envs)
@@ -74,6 +78,31 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		g_exit = exec_child_builtin(expr, params);
 	return (g_exit);
 }
+void	run_parent(t_list *expressions, t_params *params, t_envs *envs, t_args *expr)
+{
+	while (expressions->next)
+	{
+		close(params->pipe_fd[W]);
+		if (params->input_fd != STDIN_FILENO)
+			close(params->input_fd);
+		expr = expressions->content;
+		if (expr->state == PIPE)
+		{
+			params->input_fd = params->pipe_fd[R];
+			expressions = expressions->next;
+			executor(expressions, envs, params);
+			break ;
+		}
+		else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
+		{
+			params->input_fd = params->pipe_fd[R];
+			do_redir_out(params);
+		}
+		expressions = expressions->next;
+	}
+	if (is_parent_builtin(expr->args[0]))
+		exec_parent_builtin(expr, params, envs);
+}
 
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
@@ -94,33 +123,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
        		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
-		while (expressions->next)
-		{
-			close(params->pipe_fd[W]);
-			if (params->input_fd != STDIN_FILENO)
-				close(params->input_fd);
-			expr = expressions->content;
-			if (expr->state == PIPE)
-			{
-				params->input_fd = params->pipe_fd[R];
-				expressions = expressions->next;
-				executor(expressions, envs, params);
-				break ;
-			}
-			else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
-			{
-				params->input_fd = params->pipe_fd[R];
-				do_redir_out(params);
-			}
-			expressions = expressions->next;
-		}
-		if (is_parent_builtin(expr->args[0]))
-		{
-			printf("hello\n");
-			exec_parent_builtin(expr, params, envs);
-		}
+		run_parent(expressions, params, envs, expr);
 		close_file_descriptors(params);
 	}
-	if (g_exit == 127)
-		printf("%s: command not found\n", expr->args[0]);
 }
