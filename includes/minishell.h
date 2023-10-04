@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/04 12:45:31 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/04 15:14:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_params
 	int				input_fd;
 	int				output_fd;
 	int				heredoc_fd;
-	long long		exit_status;
 	pid_t			pid;
 	size_t			exited;
 }					t_params;
