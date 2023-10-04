@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/04 14:49:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/03 16:28:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void	cd_free(char *value, char *buffer, t_envs *my_envs)
 	free(my_envs->buf);
 }
 
-void	free_args(t_args *expression)
-{
+void	free_args(t_args *expression) {
 	if (expression == NULL)
 		return;
 
@@ -57,13 +56,11 @@ void	free_args(t_args *expression)
 	free(expression);
 }
 
-void free_list(t_list *head)
-{
+void free_list(t_list *head) {
 	t_list *current = head;
 	t_list *next;
 
-	while (current != NULL)
-	{
+	while (current != NULL) {
 		next = current->next;
 		free_args(current->content);
 		free(current);

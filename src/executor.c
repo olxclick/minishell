@@ -100,17 +100,18 @@ void	run_parent(t_list *expressions, t_params *params, t_envs *envs, t_args *exp
 		}
 		expressions = expressions->next;
 	}
-	exec_parent_builtin(expr, params, envs);
-}
+	if (is_parent_builtin(expr->args[0]))
+		exec_parent_builtin(expr, params, envs);
+}	
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args  *expr;
 
-	signals(2);
-	params->pid = fork();
 	pipe(params->pipe_fd);
-	signal(SIGQUIT, SIG_IGN);
 	expr = expressions->content;
+	params->pid = fork();
+	signals(2);
+	signal(SIGQUIT, SIG_IGN);
 	if (params->pid == 0)
 		exit(g_exit = child_process(expressions, envs, params));
 	else
