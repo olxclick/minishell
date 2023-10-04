@@ -102,8 +102,7 @@ void	run_parent(t_list *expressions, t_params *params, t_envs *envs, t_args *exp
 	}
 	if (is_parent_builtin(expr->args[0]))
 		exec_parent_builtin(expr, params, envs);
-}
-
+}	
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args  *expr;

@@ -6,64 +6,44 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:03:42 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 13:24:57 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/04 14:37:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*ft_zero(int n, char *str)
+static size_t	get_digits(int n)
 {
-	if (n == 0)
-		str = ft_strdup("0");
-	return (str);
-}
+	size_t	i;
 
-static int	ft_size_char(int n)
-{
-	int	i;
-
-	i = 0;
-	if (n == -2147483648)
-		return (11);
-	if (n < 0)
-	{
-		n = n * -1;
+	i = 1;
+	while (n /= 10)
 		i++;
-	}
-	while (n > 0)
-	{
-		n = n / 10;
-		i++;
-	}
 	return (i);
 }
 
-char	*ft_itoa(int n)
+char			*ft_itoa(int n)
 {
-	char	*str;
-	int		i;
+	char		*str_num;
+	size_t		digits;
+	long int	num;
 
-	i = ft_size_char(n);
-	str = malloc(i * sizeof(char) + 1);
-	str[i--] = '\0';
-	if (n == -2147483648)
-	{
-		n = -214748364;
-		str[i--] = '8';
-	}
-	str = ft_zero(n, str);
-	if (!str)
-		return (0);
+	num = n;
+	digits = get_digits(n);
 	if (n < 0)
 	{
-		str[0] = '-';
-		n *= -1;
+		num *= -1;
+		digits++;
 	}
-	while (n > 0)
+	if (!(str_num = (char *)malloc(sizeof(char) * (digits + 1))))
+		return (NULL);
+	*(str_num + digits) = 0;
+	while (digits--)
 	{
-		str[i--] = (n % 10) + 48;
-		n /= 10;
+		*(str_num + digits) = num % 10 + '0';
+		num = num / 10;
 	}
-	return (str);
+	if (n < 0)
+		*(str_num + 0) = '-';
+	return (str_num);
 }
