@@ -50,11 +50,7 @@ char	*get_path(char *expr, t_envs *envs)
 void	exec(t_args *expr, t_envs *my_envs)
 {
    	char    *path;
-	char	*line;
-	int	i;
 
-	i = 1;
-	line = NULL;
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
 	execve(path, expr->args, my_envs->vars);
