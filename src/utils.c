@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:59:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 20:02:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:45:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,19 @@ int	get_envs_size(char **envs)
 	while (envs[i] != NULL)
 		i++;
 	return (i);
+}
+int	search_var(t_envs *envs, char *find)
+{
+	int	i;
+
+	i = 0;
+	while (i < envs->len)
+	{
+		if (ft_strncmp(find, envs->vars[i], get_lenght(envs, i) - 1) == 0)
+			return (i);
+		i++;
+	}
+	return (-1);
 }
 int	pos_env_var(t_envs *envs, char *find)
 {

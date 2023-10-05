@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/04 12:45:31 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 13:46:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int					get_lenght(t_envs *envs, int i);
 int					do_heredoc(t_list *expressions, t_params *params);
 int					do_exit(t_args *expr, t_params *params);
 int					do_echo(t_args *expr);
+int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
