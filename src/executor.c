@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 17:03:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:38:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
 	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 	{
 		exec_child_builtin(expr, params, my_envs);
-		exit(g_exit);
 	}
 	execve(path, expr->args, my_envs->vars);
 }
@@ -67,12 +66,12 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		do_heredoc(expressions, params);
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path 
-		|| (ft_strcmp(expr->args[0], "export") == 0))
+		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 	{
 		handle_pipes(expressions, params);
 		exec(expr, envs, path, params);
 	}
-	else if (!is_parent_builtin(expr->args[0]))
+	else if (!is_parent_builtin(expr->args[0], expr->len))
 	{
 		g_exit = 127;
 		printf("%s: command not found\n", expr->args[0]);
@@ -85,7 +84,7 @@ void	run_parent(t_list *expressions, t_params *params,
 	close(params->pipe_fd[W]);
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
-	if ((is_parent_builtin(expr->args[0]) && ft_lstsize(expressions) == 1))
+	if ((is_parent_builtin(expr->args[0], expr->len)))
 		exec_parent_builtin(expr, params, envs);
 	while (expressions->next)
 	{
@@ -115,7 +114,11 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	signals(2);
 	signal(SIGQUIT, SIG_IGN);
 	if (params->pid == 0)
-		exit(child_process(expressions, envs, params));
+	{
+		child_process(expressions, envs, params);
+		free_list(expressions);
+		exit(g_exit);
+	}
 	else
 	{
 		waitpid(params->pid, &g_exit, 0);

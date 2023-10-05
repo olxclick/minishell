@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 16:39:13 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 18:38:00 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,12 +171,12 @@ static inline int	is_child_builtin(char *cmd)
 	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0));
 }
 
-static inline int	is_parent_builtin(char *cmd)
+static inline int	is_parent_builtin(char *cmd, int len)
 {
 	return ((ft_strcmp(cmd, "exit") == 0)
 		|| (ft_strcmp(cmd, "env") == 0)
 		|| (ft_strcmp(cmd, "cd") == 0)
-		|| (ft_strcmp(cmd, "export") == 0)
+		|| (ft_strcmp(cmd, "export") == 0 && len > 1)
 		|| (ft_strcmp(cmd, "unset") == 0));
 }
 #endif
