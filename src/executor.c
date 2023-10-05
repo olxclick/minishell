@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/07/27 00:21:343:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:17:16 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,16 @@ char	*get_path(char *expr, t_envs *envs)
 	}
 	return (NULL);
 }
+
 void	exec(t_args *expr, t_envs *my_envs)
 {
-   	char    *path;
+	char	*path;
 
 	path = get_path(expr->args[0], my_envs);
 	expr->args[expr->len] = 0;
 	execve(path, expr->args, my_envs->vars);
 }
+
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;
@@ -74,7 +76,9 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		g_exit = exec_child_builtin(expr, params);
 	return (g_exit);
 }
-void	run_parent(t_list *expressions, t_params *params, t_envs *envs, t_args *expr)
+
+void	run_parent(t_list *expressions, t_params *params,
+	t_envs *envs, t_args *expr)
 {
 	while (expressions->next)
 	{
@@ -98,10 +102,11 @@ void	run_parent(t_list *expressions, t_params *params, t_envs *envs, t_args *exp
 	}
 	if (is_parent_builtin(expr->args[0]))
 		exec_parent_builtin(expr, params, envs);
-}	
+}
+
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
-	t_args  *expr;
+	t_args	*expr;
 
 	pipe(params->pipe_fd);
 	expr = expressions->content;
@@ -115,7 +120,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		waitpid(params->pid, &g_exit, 0);
 		if (!WTERMSIG(g_exit))
 			g_exit = WEXITSTATUS(g_exit);
-       		close(params->pipe_fd[W]);
+		close(params->pipe_fd[W]);
 		if (params->input_fd != STDIN_FILENO)
 			close(params->input_fd);
 		run_parent(expressions, params, envs, expr);

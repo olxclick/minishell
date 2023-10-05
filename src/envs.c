@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 20:07:03 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:18:50 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	**set_envs(char **envs)
 {
 	char	**my_envs;
-	int	i;
+	int		i;
 
 	i = 0;
 	my_envs = malloc((get_envs_size(envs) + 1) * sizeof(char *));
@@ -57,8 +57,8 @@ t_envs	*copy_envs(t_envs *new_envs, t_envs *envs)
 void	sort_envs(t_envs *envs)
 {
 	t_envs	*envs_copy;
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	envs_copy = malloc(sizeof(t_envs));
@@ -77,11 +77,12 @@ void	sort_envs(t_envs *envs)
 	envs_printer(envs_copy);
 	copy_free(envs_copy);
 }
+
 void	envs_printer(t_envs *envs)
 {
-	int	i;
-	int	j;
-	int	flag;
+	int		i;
+	int		j;
+	int		flag;
 	char	c;
 
 	c = '"';

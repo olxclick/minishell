@@ -6,7 +6,7 @@
 /*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:58:05 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/28 17:04:54 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:22:04 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		ft_atoi(const char *str);
 
 void	ft_bzero(void *s, size_t n);
 
-int	ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 void	*ft_calloc(size_t nmemb, size_t size);
 

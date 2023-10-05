@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:02:45 by jbranco-          #+#    #+#             */
-/*   Updated: 2022/11/21 15:59:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:21:11 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strdup(const char *src)
 		{
 			new[i] = src[i];
 			i++;
-		}	
+		}
 	}
 	else
 	{

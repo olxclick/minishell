@@ -3,30 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:59:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 13:45:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:03:33 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	swap(char** a, char** b)
+void	swap(char **a, char **b)
 {
-	char* temp = *a;
+	char	*temp;
+
+	temp = *a;
 	*a = *b;
 	*b = temp;
 }
+
 int	get_envs_size(char **envs)
 {
 	int	i;
-	
+
 	i = 0;
 	while (envs[i] != NULL)
 		i++;
 	return (i);
 }
+
 int	search_var(t_envs *envs, char *find)
 {
 	int	i;
@@ -40,6 +44,7 @@ int	search_var(t_envs *envs, char *find)
 	}
 	return (-1);
 }
+
 int	pos_env_var(t_envs *envs, char *find)
 {
 	int	i;
@@ -57,12 +62,13 @@ int	pos_env_var(t_envs *envs, char *find)
 	}
 	return (-1);
 }
+
 int	get_lenght(t_envs *envs, int i)
 {
 	int	j;
 
 	j = 0;
-	while(envs->vars[i][j])
+	while (envs->vars[i][j])
 	{
 		if (envs->vars[i][j] == '=')
 			return (j + 1);

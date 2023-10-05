@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 16:13:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:09:38 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	do_pwd(t_args *expr)
 {
 	char	cwd[PATH_MAX];
 	(void)expr;
-
 	printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
 }
@@ -30,6 +29,7 @@ int	exec_child_builtin(t_args *expr, t_params *params)
 		g_exit = do_pwd(expr);
 	return (g_exit);
 }
+
 int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
@@ -41,9 +41,10 @@ int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
 		g_exit = do_unset(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "cd") == 0)
-      		g_exit = dir_change(expr, my_envs);
+		g_exit = dir_change(expr, my_envs);
 	return (g_exit);
 }
+
 int	remove_var(t_args *expr, t_envs *my_envs, int pos)
 {
 	(void)expr;
@@ -62,6 +63,7 @@ int	remove_var(t_args *expr, t_envs *my_envs, int pos)
 	my_envs->len--;
 	return (0);
 }
+
 int	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
@@ -90,6 +92,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	}
 	return (g_exit);
 }
+
 int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
@@ -99,7 +102,8 @@ int	add_env(t_envs *envs, char *expr)
 	i = 0;
 	while (expr[i] && expr[i] != '=')
 		i++;
-	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1]) || i == ft_strlen(expr))
+	if (!ft_isalnum(expr[i - 1]) || !ft_isalnum(expr[i + 1])
+		|| i == ft_strlen(expr))
 		return (printf("export: bad input\n"));
 	key = ft_substr(expr, 0, i);
 	pos = pos_env_var(envs, key);
@@ -117,6 +121,7 @@ int	add_env(t_envs *envs, char *expr)
 	free(key);
 	return (0);
 }
+
 int	do_export(t_args *expr, t_envs *envs)
 {
 	int	i;
@@ -137,6 +142,7 @@ int	do_export(t_args *expr, t_envs *envs)
 		g_exit = 1;
 	return (g_exit);
 }
+
 int	check_delim(t_args *expr)
 {
 	size_t	j;
@@ -152,6 +158,7 @@ int	check_delim(t_args *expr)
 			return (printf("Error: character is not allowed with echo\n"));
 	return (0);
 }
+
 int	do_echo(t_args *expr)
 {
 	size_t	i;
@@ -182,9 +189,10 @@ int	do_echo(t_args *expr)
 	}
 	if (expr->args[1])
 		if (ft_strcmp(expr->args[1], "-n") != 0)
-    			printf("\n");
+			printf("\n");
 	return (0);
 }
+
 int	do_exit(t_args *expr, t_params *params)
 {
 	int	mini_exit;

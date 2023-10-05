@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/03 16:28:16 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:28:23 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_token(char **my_envs)
 	i = 0;
 	while (i < get_envs_size(my_envs))
 	{
-		
 		free(my_envs[i++]);
 	}
 	if (my_envs)
@@ -45,22 +44,30 @@ void	cd_free(char *value, char *buffer, t_envs *my_envs)
 	free(my_envs->buf);
 }
 
-void	free_args(t_args *expression) {
-	if (expression == NULL)
-		return;
+void	free_args(t_args *expression)
+{
+	size_t	i;
 
-	for (size_t i = 0; expression->args[i]; i++) {
+	i = 0;
+	if (expression == NULL)
+		return ;
+	while (expression->args[i])
+	{
 		free(expression->args[i]);
+		i++;
 	}
-	free(expression->args);
-	free(expression);
+	free (expression->args);
+	free (expression);
 }
 
-void free_list(t_list *head) {
-	t_list *current = head;
-	t_list *next;
+void	free_list(t_list *head)
+{
+	t_list	*current;
+	t_list	*next;
 
-	while (current != NULL) {
+	current = head;
+	while (current != NULL)
+	{
 		next = current->next;
 		free_args(current->content);
 		free(current);

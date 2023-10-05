@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 13:46:06 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:24:29 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef enum
 	REDIR_OUT,
 	REDIR_APPEND,
 	HEREDOC,
-	DOC, //FILE
+	DOC,
 	DEFAULT
 }					t_state;
 
@@ -99,7 +99,7 @@ int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
 void				exec(t_args *expr, t_envs *my_envs);
-void				swap(char** a, char** b);
+void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
 char				*redo_token(char *input, char c, int flag, t_envs *envs);
@@ -150,12 +150,14 @@ int					exec_parent_builtin(t_args *expr, t_params *params,
 						t_envs *my_envs);
 char				**set_envs(char **envs);
 int					exec_child_builtin(t_args *expr, t_params *params);
+
 static inline int	is_delim(char *token)
 {
-	return (ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0)
-	|| (ft_strcmp(token, ">") == 0) || (ft_strcmp(token, "<<") == 0)
-	|| (ft_strcmp(token, ">>") == 0);
+	return ((ft_strcmp(token, "|") == 0) || (ft_strcmp(token, "<") == 0)
+		|| (ft_strcmp(token, ">") == 0) || (ft_strcmp(token, "<<") == 0)
+		|| (ft_strcmp(token, ">>") == 0));
 }
+
 static inline void	close_file_descriptors(t_params *params)
 {
 	if (params->input_fd != STDIN_FILENO)
@@ -163,6 +165,7 @@ static inline void	close_file_descriptors(t_params *params)
 	if (params->output_fd != STDOUT_FILENO)
 		close(params->output_fd);
 }
+
 static inline int	is_child_builtin(char *cmd)
 {
 	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0));
@@ -170,6 +173,10 @@ static inline int	is_child_builtin(char *cmd)
 
 static inline int	is_parent_builtin(char *cmd)
 {
-	return (ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "env") == 0) || (ft_strcmp(cmd, "cd") == 0) || (ft_strcmp(cmd, "export") == 0 || (ft_strcmp(cmd, "unset") == 0));
+	return ((ft_strcmp(cmd, "exit") == 0)
+		|| (ft_strcmp(cmd, "env") == 0)
+		|| (ft_strcmp(cmd, "cd") == 0)
+		|| (ft_strcmp(cmd, "export") == 0)
+		|| (ft_strcmp(cmd, "unset") == 0));
 }
 #endif

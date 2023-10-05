@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/04 12:31:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:18:11 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_home(t_envs *my_envs, char *value)
 
 char	*check_cd(t_args *expr, char *value)
 {
-	struct stat buf;
+	struct stat	buf;
 
 	if (stat(expr->args[1], &buf) == 0)
 	{
@@ -64,6 +64,7 @@ char	*change_dir(t_args *expr, t_envs *my_envs, char *value)
 		value = check_cd(expr, value);
 	return (value);
 }
+
 int	dir_change(t_args *expr, t_envs *my_envs)
 {
 	char	*value;
@@ -79,7 +80,8 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 		printf("cd: invalid number of arguments\n");
 		g_exit = 2;
 	}
-	else if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~") && expr->len == 2))
+	else if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
+			&& expr->len == 2))
 		value = get_home(my_envs, value);
 	else if (expr->len == 2)
 		value = change_dir(expr, my_envs, value);

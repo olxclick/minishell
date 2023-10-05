@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 15:25:49 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/08/29 12:17:24 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:19:51 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 			dest[i] = src[i];
 			i++;
 		}
-	dest[i] = '\0';
+		dest[i] = '\0';
 	}
 	return (j);
 }

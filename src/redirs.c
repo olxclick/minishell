@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/29 15:41:47 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:10:10 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	do_redir_out(t_params *params)
 			break ;
 	}
 }
+
 void	define_file(t_args *expr, int *files, t_state prev_state)
 {
 	if (prev_state == REDIR_OUT)
@@ -35,6 +36,7 @@ void	define_file(t_args *expr, int *files, t_state prev_state)
 	else
 		*files = open(expr->args[0], O_WRONLY | O_APPEND, 0644);
 }
+
 int	*create_files(t_list *expressions)
 {
 	t_args	*expr;
@@ -63,6 +65,7 @@ int	*create_files(t_list *expressions)
 	}
 	return (files);
 }
+
 int	count_files_needed(t_list *expressions)
 {
 	t_args	*expr;
@@ -83,6 +86,7 @@ int	count_files_needed(t_list *expressions)
 	}
 	return (count);
 }
+
 int	heredoc_checker(char *line, char *delim)
 {
 	if (!line)
@@ -93,11 +97,12 @@ int	heredoc_checker(char *line, char *delim)
 		return (1);
 	return (0);
 }
+
 char	*get_heredoc_delim(t_list *expressions)
 {
 	char	*res;
 	bool	flag;
-	int	i;
+	int		i;
 
 	flag = false;
 	res = NULL;
@@ -116,6 +121,7 @@ char	*get_heredoc_delim(t_list *expressions)
 	}
 	return (res);
 }
+
 int	do_heredoc(t_list *expressions, t_params *params)
 {
 	char	*heredoc_line;

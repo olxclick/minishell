@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/09/27 14:13:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:58:19 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ctrl_c(int sig)
 	(void)sig;
 }
 
-void	back_slash(int sig) //ctrl + backslash
+void	back_slash(int sig)
 {
 	g_exit = 131;
 	printf("Quit (core dumped)\n");

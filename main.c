@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/02 14:58:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:56:40 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_params	init_params(t_list *expressions)
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.heredoc_fd = open(".heredoc.tmp", O_CREAT
-				| O_TRUNC | O_RDWR, 0644);
+			| O_TRUNC | O_RDWR, 0644);
 	params.exited = 0;
 	params.exit_status = 130;
 	params.files = create_files(expressions);

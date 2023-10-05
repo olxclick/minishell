@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 13:48:35 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:58:07 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*check_token(char *input, t_envs *envs)
 		if (flag > 0)
 			return (remove_quotes(input));
 		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input)
-			- 1] == SINGLE_QUOTE)
+				- 1] == SINGLE_QUOTE)
 		{
 			input = redo_token(input, SINGLE_QUOTE, flag, envs);
 			break ;
@@ -41,6 +41,7 @@ char	*check_token(char *input, t_envs *envs)
 	}
 	return (input);
 }
+
 char	*get_var(char *input, t_envs *envs)
 {
 	char	*res;
@@ -69,6 +70,7 @@ char	*get_var(char *input, t_envs *envs)
 	free(input);
 	return (res);
 }
+
 char	*redo_token(char *input, char c, int flag, t_envs *envs)
 {
 	int		start;
@@ -102,6 +104,7 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	free(input);
 	return (new_input);
 }
+
 char	*remove_quotes(char *input)
 {
 	int		i;

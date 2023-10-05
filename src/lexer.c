@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/04 14:33:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 14:59:45 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*get_token(char *input, t_envs *envs)
 			&& !in_quote)
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
-					|| input[i] == '<') && !in_quote)
+				|| input[i] == '<') && !in_quote)
 			return (ft_substr(input, 0, i));
-		else if (input[i + 1] == '\0') //
+		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
 		i++;
 	}
@@ -105,10 +105,12 @@ int	is_same_quotes(char *str)
 		}
 		i++;
 	}
-	if ((count_s % 2 == 0 && count_s != 0) || (count_d % 2 == 0 && count_d != 0))
+	if ((count_s % 2 == 0 && count_s != 0)
+		|| (count_d % 2 == 0 && count_d != 0))
 		return (count_s == count_quotes(str) || count_d == count_quotes(str));
 	return (0);
 }
+
 t_token	set_args_tokens(char *input, t_envs *envs)
 {
 	char	*token;
