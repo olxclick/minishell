@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:09:38 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:32:11 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,15 @@ int	do_pwd(t_args *expr)
 	return (0);
 }
 
-int	exec_child_builtin(t_args *expr, t_params *params)
+int	exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	(void)params;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
 		g_exit = do_pwd(expr);
+	else if (ft_strcmp(expr->args[0], "export") == 0)
+		g_exit = do_export(expr, my_envs);
 	return (g_exit);
 }
 

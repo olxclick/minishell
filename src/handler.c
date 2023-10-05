@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:02:04 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:10:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ void	handle_pipes(t_list *expressions, t_params *params)
 {
 	t_args	*nextexpr;
 
-	nextexpr = expressions->next->content;
+	nextexpr = NULL;
+	if (expressions->next)
+		nextexpr = expressions->next->content;
 	if (nextexpr && nextexpr->state != HEREDOC && nextexpr->state != REDIR_IN)
 	{
 		close(params->pipe_fd[R]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:24:29 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/05 16:39:13 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ char				*check_cd(t_args *expr, char *value);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
-void				exec(t_args *expr, t_envs *my_envs);
+void				exec(t_args *expr, t_envs *my_envs, char *path, t_params *params);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
@@ -149,7 +149,7 @@ t_state				get_delim_state(char *token);
 int					exec_parent_builtin(t_args *expr, t_params *params,
 						t_envs *my_envs);
 char				**set_envs(char **envs);
-int					exec_child_builtin(t_args *expr, t_params *params);
+int					exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs);
 
 static inline int	is_delim(char *token)
 {
