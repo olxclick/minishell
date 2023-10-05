@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 18:38:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/05 22:52:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,7 @@ void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
 {
 	expr->args[expr->len] = 0;
 	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
-	{
 		exec_child_builtin(expr, params, my_envs);
-	}
 	execve(path, expr->args, my_envs->vars);
 }
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
@@ -69,6 +67,8 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 	{
 		handle_pipes(expressions, params);
+		if (ft_strcmp(expr->args[0], "export") == 0)
+			free(expr->args[1]);
 		exec(expr, envs, path, params);
 	}
 	else if (!is_parent_builtin(expr->args[0], expr->len))
@@ -76,6 +76,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		g_exit = 127;
 		printf("%s: command not found\n", expr->args[0]);
 	}
+	free(path);
 	return (g_exit);
 }
 void	run_parent(t_list *expressions, t_params *params,
