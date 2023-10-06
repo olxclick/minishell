@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/06 14:15:18 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/06 15:39:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 	{
 		handle_pipes(expressions, params);
-		if (ft_strcmp(expr->args[0], "echo") != 0)
+		if (is_child_builtin(expr->args[0]) && expr->len == 1)
 			free(expr->args[1]);
 		exec(expr, envs, path, params);
 	}
@@ -87,7 +87,7 @@ void	run_parent(t_list *expressions, t_params *params,
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
 	if ((is_parent_builtin(expr->args[0], expr->len)))
-		exec_parent_builtin(expr, params, envs);
+		g_exit = exec_parent_builtin(expr, params, envs);
 	while (expressions->next)
 	{
 		expr = expressions->content;
