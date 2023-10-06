@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 16:32:11 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/06 14:10:13 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	do_pwd(t_args *expr)
 	printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
 }
-
 int	exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	(void)params;
@@ -31,7 +30,6 @@ int	exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = do_export(expr, my_envs);
 	return (g_exit);
 }
-
 int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
@@ -46,7 +44,6 @@ int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = dir_change(expr, my_envs);
 	return (g_exit);
 }
-
 int	remove_var(t_args *expr, t_envs *my_envs, int pos)
 {
 	(void)expr;
@@ -60,12 +57,11 @@ int	remove_var(t_args *expr, t_envs *my_envs, int pos)
 			my_envs->vars[pos] = my_envs->vars[pos + 1];
 			pos++;
 		}
-		my_envs->vars[pos] = NULL;
 	}
+	my_envs->vars[pos] = NULL;
 	my_envs->len--;
 	return (0);
 }
-
 int	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
@@ -94,7 +90,6 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	}
 	return (g_exit);
 }
-
 int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
@@ -123,7 +118,6 @@ int	add_env(t_envs *envs, char *expr)
 	free(key);
 	return (0);
 }
-
 int	do_export(t_args *expr, t_envs *envs)
 {
 	int	i;
@@ -144,7 +138,6 @@ int	do_export(t_args *expr, t_envs *envs)
 		g_exit = 1;
 	return (g_exit);
 }
-
 int	check_delim(t_args *expr)
 {
 	size_t	j;
@@ -160,7 +153,6 @@ int	check_delim(t_args *expr)
 			return (printf("Error: character is not allowed with echo\n"));
 	return (0);
 }
-
 int	do_echo(t_args *expr)
 {
 	size_t	i;
@@ -194,7 +186,6 @@ int	do_echo(t_args *expr)
 			printf("\n");
 	return (0);
 }
-
 int	do_exit(t_args *expr, t_params *params)
 {
 	int	mini_exit;
