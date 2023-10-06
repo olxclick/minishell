@@ -6,40 +6,45 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/06 15:39:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/06 16:16:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_path(char *expr, t_envs *envs)
+char	*define_path(t_envs *envs, char *expr)
 {
 	char		*full_path;
 	char		*bin;
 	char		**path_env;
-	size_t		i;
+	size_t	i;
 
-	bin = NULL;
-	if (pos_env_var(envs, "PATH") != -1)
+	i = 0;
+	bin = ft_strjoin("/", expr);
+	path_env = ft_split(envs->vars[pos_env_var(envs, "PATH")], ':');
+	i = 0;
+	while (path_env[i])
 	{
-		bin = ft_strjoin("/", expr);
-		path_env = ft_split(envs->vars[pos_env_var(envs, "PATH")], ':');
-		i = 0;
-		while (path_env[i])
+		full_path = ft_strjoin(path_env[i], bin);
+		if (access(full_path, F_OK) == 0)
 		{
-			full_path = ft_strjoin(path_env[i], bin);
-			if (access(full_path, F_OK) == 0)
-			{
-				free_token(path_env);
-				free(bin);
-				return (full_path);
-			}
-			free(full_path);
-			i++;
+			free_token(path_env);
+			free(bin);
+			return (full_path);
 		}
-		free_token(path_env);
+		free(full_path);
+		i++;
 	}
 	free(bin);
+	return (NULL);
+}
+
+char	*get_path(char *expr, t_envs *envs)
+{
+	if (expr[0] == '/')
+		return (expr);
+	if (pos_env_var(envs, "PATH") != -1)
+		return (define_path(envs, expr));
 	return (NULL);
 }
 void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
@@ -114,7 +119,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	expr = expressions->content;
 	params->pid = fork();
 	signals(2);
-	signal(SIGQUIT, SIG_IGN);
 	if (params->pid == 0)
 	{
 		child_process(expressions, envs, params);
