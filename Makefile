@@ -6,7 +6,7 @@
 #    By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:31:03 by jbranco-          #+#    #+#              #
-#    Updated: 2023/10/06 14:43:35 by jbranco-         ###   ########.fr        #
+#    Updated: 2023/10/09 13:04:20 by jbranco-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CFLAGS = -Wall -Wextra -Werror -fPIE #-fsanitize=address -g3
 LIBFT_A = libft/libft.a
 GET_NEXT_LINE = ./get_next_line/get_next_line.a
 
-all: $(NAME)
+all: $(NAME) clear
 
 $(NAME): $(OBJS) $(LIBFT_A) $(GET_NEXT_LINE)
 	cc $(CFLAGS) $(OBJS) -lreadline -o $(NAME) $(LIBFT_A) $(GET_NEXT_LINE)
@@ -27,6 +27,9 @@ $(LIBFT_A):
 
 $(GET_NEXT_LINE):
 	make -C get_next_line
+
+clear:
+	clear
 
 clean:
 	rm -rf $(OBJS)

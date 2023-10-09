@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 14:58:07 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:38:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ char	*remove_quotes(char *input)
 	free(input);
 	return (new_input);
 }
-
 size_t	count_quotes(char *str)
 {
 	size_t	count;
@@ -145,6 +144,7 @@ size_t	count_quotes(char *str)
 	i = 0;
 	flag = 0;
 	count = 0;
+	c = 0;
 	if (!str)
 		return (0);
 	while (str[i])

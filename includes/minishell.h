@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/06 14:03:39 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:48:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs);
 void				redir_input(t_list *expressions, t_params *params);
-char				*get_token(char *input, t_envs *envs);
+char				*get_token(char *input);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
 int					pos_env_var(t_envs *envs, char *find);
@@ -174,7 +174,7 @@ static inline int	is_child_builtin(char *cmd)
 static inline int	is_parent_builtin(char *cmd, int len)
 {
 	return ((ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "env") == 0 && len > 1)
+		|| (ft_strcmp(cmd, "env") == 0)
 		|| (ft_strcmp(cmd, "cd") == 0)
 		|| (ft_strcmp(cmd, "export") == 0 && len > 1)
 		|| (ft_strcmp(cmd, "unset") == 0));

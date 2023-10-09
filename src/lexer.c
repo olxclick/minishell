@@ -6,19 +6,18 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/06 15:55:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:37:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_token(char *input, t_envs *envs)
+char	*get_token(char *input)
 {
 	int		i;
 	bool	in_quote;
 
 	i = 0;
-	(void)envs;
 	in_quote = false;
 	while (input[i])
 	{
@@ -34,7 +33,7 @@ char	*get_token(char *input, t_envs *envs)
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
 				|| input[i] == '<') && !in_quote)
-			return (ft_substr(input, 0, i));
+					return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
 		i++;
@@ -116,27 +115,24 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 	char	*token;
 	size_t	j;
 	size_t	size;
-	size_t	n_quotes;
 	t_token	t;
 
 	j = 0;
-	n_quotes = 0;
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
 	while (1 && *input)
 	{
-		token = get_token(input, envs);
+		token = get_token(input);
 		size = ft_strlen(token);
 		if (!token)
 			break ;
-		n_quotes = count_quotes(token);
 		token = check_token(token, envs);
 		t.token[j++] = token;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= size)
 			break ;
-		input += size + (n_quotes - count_quotes(token));
+		input += size;
 		while (*input && *input == ' ')
 			input++;
 	}
