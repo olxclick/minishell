@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 13:03:15 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 15:09:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ int	do_echo(t_args *expr)
 		printf("\n");
 	if (expr->args[1])
 	{
+		if (ft_strcmp(expr->args[1], "\\") == 0)
+			return (0);
 		if (ft_strncmp(expr->args[1], "-n", 2) == 0)
 			i = 2;
 		else
