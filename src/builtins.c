@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:53:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:30:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ int	add_env(t_envs *envs, char *expr)
 		free(envs->vars[pos]);
 		envs->vars[pos] = ft_strdup(expr);
 	}
+	envs->vars[envs->len] = NULL;
 	free(key);
 	return (0);
 }

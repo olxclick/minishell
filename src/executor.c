@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 16:35:37 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:21:10 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,16 @@ char	*get_path(char *expr, t_envs *envs)
 	if (pos_env_var(envs, "PATH") != -1)
 		return (define_path(envs, expr));
 	return (NULL);
+}
+void printStringArray(char **strArray) {
+    if (strArray == NULL) {
+        printf("Array is NULL\n");
+        return;
+    }
+
+    for (int i = 0; strArray[i] != NULL; i++) {
+        printf("%s\n", strArray[i]);
+    }
 }
 void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
 {

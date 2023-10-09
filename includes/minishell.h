@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 15:14:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 17:36:25 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@
 # define SINGLE_QUOTE '\''
 
 extern int			g_exit;
-
+extern char	**global_args;
+extern char	**global_envs;
 typedef enum
 {
 	CMD,
@@ -95,6 +96,7 @@ int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
+void   				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);

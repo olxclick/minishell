@@ -6,13 +6,15 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/06 15:20:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:52:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 int			g_exit;
+char	**global_envs;
+char	**global_args;
 
 t_params	init_params(t_list *expressions)
 {
@@ -88,13 +90,14 @@ void	loop(t_envs *my_envs)
 			break ;
 	}
 }
-
 int	main(int argc, char **argv, char **envs)
 {
 	t_envs	*my_envs;
 
 	(void)argc;
 	(void)argv;
+	global_args = argv;
+	global_envs = envs;
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);
