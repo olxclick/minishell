@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 13:55:35 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/09 16:35:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ char	*get_path(char *expr, t_envs *envs)
 }
 void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
 {
-	expr->args[expr->len] = 0;
+	expr->args[expr->len] = NULL;
 	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 		exec_child_builtin(expr, params, my_envs);
 	else
 	{
-		printf("before execve\n");
-		execve(path, expr->args, my_envs->vars);
+		if (execve(path, expr->args, my_envs->vars) == -1)
+		{
+   			perror("execve");
+   			exit(EXIT_FAILURE);
+		}
 	}
 }
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
@@ -72,7 +75,6 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	else if (redir_needed(expressions) == 2)
 		do_heredoc(expressions, params);
 	path = get_path(expr->args[0], envs);
-	printf("path: %s\n", path);
 	if (is_child_builtin(expr->args[0]) || path
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 	{
