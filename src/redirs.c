@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 15:05:24 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:07:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	define_file(t_args *expr, int *files, t_state prev_state)
 	if (prev_state == REDIR_OUT)
 		*files = open(expr->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		*files = open(expr->args[0], O_WRONLY | O_APPEND, 0644);
+		*files = open(expr->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
 int	*create_files(t_list *expressions)
