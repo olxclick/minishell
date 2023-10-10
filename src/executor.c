@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 14:59:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:51:36 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ char	*define_path(t_envs *envs, char *expr)
 	i = 0;
 	while (path_env[i])
 	{
+		printf("path_envs: %s\n", path_env[i]);
 		full_path = ft_strjoin(path_env[i], bin);
+		printf("full_path: %s\n", full_path);
 		if (access(full_path, F_OK) == 0)
 		{
 			free_token(path_env);
