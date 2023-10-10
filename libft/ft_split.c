@@ -3,102 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/15 15:47:05 by jbranco-          #+#    #+#             */
-/*   Updated: 2022/11/21 15:08:04 by jbranco-         ###   ########.fr       */
+/*   Created: 2023/10/10 22:13:48 by jbranco-          #+#    #+#             */
+/*   Updated: 2023/10/10 22:13:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	ft_checkset(char charset, char c)
+static size_t	ft_countword(char const *s, char c)
 {
-	if (charset == c)
-		return (1);
-	return (0);
-}
+	size_t	count;
 
-static int	ft_size_wout_sep(char *str, char charset)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && !ft_checkset(charset, str[i]))
-		i++;
-	return (i);
-}
-
-static int	tam_splited(char *str, char charset)
-{
-	int	i;
-	int	tam;
-
-	i = 0;
-	tam = 0;
-	while (str[i])
+	if (!*s)
+		return (0);
+	count = 0;
+	while (*s)
 	{
-		while (str[i] && ft_checkset(charset, str[i]))
-			i++;
-		if (str[i])
-			tam++;
-		while (str[i] && !ft_checkset(charset, str[i]))
-			i++;
+		while (*s == c)
+			s++;
+		if (*s)
+			count++;
+		while (*s != c && *s)
+			s++;
 	}
-	return (tam);
-}
-
-static char	*phrase_wout_sep(char *str, char charset)
-{
-	char	*string;
-	int		i;
-	int		length;
-
-	i = 0;
-	length = ft_size_wout_sep(str, charset);
-	string = (char *) malloc(length * sizeof(char) + 1);
-	if (!string)
-		return (NULL);
-	while (i < length)
-	{
-		string[i] = str[i];
-		i++;
-	}
-	string[i] = '\0';
-	return (string);
+	return (count);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**splited;
-	int		length_splited;
-	int		j;
+	char	**lst;
+	size_t	word_len;
+	int		i;
 
-	j = 0;
-	length_splited = tam_splited((char *)s, c);
-	splited = (char **) malloc((length_splited + 1) * sizeof(char *));
-	if (!splited || !s)
-		return (NULL);
+	lst = (char **)malloc((ft_countword(s, c) + 1) * sizeof(char *));
+	if (!s || !lst)
+		return (0);
+	i = 0;
 	while (*s)
 	{
-		while (*s && ft_checkset(c, *s))
+		while (*s == c && *s)
 			s++;
 		if (*s)
 		{
-			splited[j] = phrase_wout_sep((char *)s, c);
-			j++;
+			if (!ft_strchr(s, c))
+				word_len = ft_strlen(s);
+			else
+				word_len = ft_strchr(s, c) - s;
+			lst[i++] = ft_substr(s, 0, word_len);
+			s += word_len;
 		}
-		while (*s && !ft_checkset(c, *s))
-			s++;
 	}
-	splited[j] = 0;
-	return ((char **)splited);
+	lst[i] = NULL;
+	return (lst);
 }
-/*
-int	main()
-{
-	char **res;
-
-	res = ft_split("miau frufruu", 'f');
-	printf("%s || %s", res[0], res[1]);
-}*/

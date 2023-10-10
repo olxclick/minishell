@@ -6,11 +6,24 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 15:51:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:38:21 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+char	*check_path(char *path)
+{
+	int	i;
+	char	*new_path;
+
+	i = 0;
+	while (path[i] != '/')
+		i++;
+	new_path = ft_substr(path, i, ft_strlen(path));
+	free(path);
+	return (new_path);
+}
 
 char	*define_path(t_envs *envs, char *expr)
 {
@@ -25,9 +38,9 @@ char	*define_path(t_envs *envs, char *expr)
 	i = 0;
 	while (path_env[i])
 	{
-		printf("path_envs: %s\n", path_env[i]);
 		full_path = ft_strjoin(path_env[i], bin);
-		printf("full_path: %s\n", full_path);
+		if (full_path[0] != '/')
+			full_path = check_path(full_path);
 		if (access(full_path, F_OK) == 0)
 		{
 			free_token(path_env);
