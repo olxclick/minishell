@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:21:10 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:49:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,13 @@ char	*get_path(char *expr, t_envs *envs)
 		return (define_path(envs, expr));
 	return (NULL);
 }
-void printStringArray(char **strArray) {
-    if (strArray == NULL) {
-        printf("Array is NULL\n");
-        return;
-    }
-
-    for (int i = 0; strArray[i] != NULL; i++) {
-        printf("%s\n", strArray[i]);
-    }
-}
 void	exec(t_args *expr, t_envs *my_envs, char *path, t_params *params)
 {
 	expr->args[expr->len] = NULL;
 	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 		exec_child_builtin(expr, params, my_envs);
 	else
-	{
-		if (execve(path, expr->args, my_envs->vars) == -1)
-		{
-   			perror("execve");
-   			exit(EXIT_FAILURE);
-		}
-	}
+		execve(path, expr->args, my_envs->vars);
 }
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 {

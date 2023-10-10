@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:36:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 12:48:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	signals(int sig)
 		signal(SIGQUIT, back_slash);
 	}
 }
-
 void	restore(int sig)
 {
 	g_exit = 130;
@@ -35,14 +34,12 @@ void	restore(int sig)
 	rl_redisplay();
 	(void)sig;
 }
-
 void	ctrl_c(int sig)
 {
 	g_exit = 130;
 	write(1, "\n", 1);
 	(void)sig;
 }
-
 void    back_slash(int sig)
 {
 	g_exit = 131;
