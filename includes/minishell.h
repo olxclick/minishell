@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:36:25 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:00:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params);
 int					get_lenght(t_envs *envs, int i);
-int					do_heredoc(t_list *expressions, t_params *params);
+int					do_heredoc(t_list *expressions, t_params *params, t_envs *envs);
 int					do_exit(t_args *expr, t_params *params);
 int					do_echo(t_args *expr);
 int					search_var(t_envs *envs, char *find);
@@ -116,7 +116,7 @@ char				*get_token(char *input);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
 int					pos_env_var(t_envs *envs, char *find);
-char				*check_token(char *input, t_envs *envs);
+char				*check_token(char *input, t_envs *envs, bool flag_exp);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);

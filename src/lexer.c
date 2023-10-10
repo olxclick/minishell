@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 13:37:03 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:40:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,13 @@ int	is_same_quotes(char *str)
 t_token	set_args_tokens(char *input, t_envs *envs)
 {
 	char	*token;
+	bool	flag;
 	size_t	j;
 	size_t	size;
 	t_token	t;
 
 	j = 0;
+	flag = false;
 	t.token = malloc(1 * sizeof(char *));
 	while (*input && *input == ' ')
 		input++;
@@ -127,8 +129,10 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		size = ft_strlen(token);
 		if (!token)
 			break ;
-		token = check_token(token, envs);
+		token = check_token(token, envs, flag);
 		t.token[j++] = token;
+		if (ft_strcmp(token, "<<") == 0)
+			flag = true;
 		t.token = ft_realloc(t.token, j + 1);
 		if (ft_strlen(input) <= size)
 			break ;

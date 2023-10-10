@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:34:55 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 15:05:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,21 @@ char	*get_heredoc_delim(t_list *expressions)
 	}
 	return (res);
 }
+char	*check_line(char *line, t_envs *envs)
+{
+	char	*new_line;
+	int	i;
 
-int	do_heredoc(t_list *expressions, t_params *params)
+	i = 0;
+	new_line = NULL;
+	if (line[i] == '$' && ft_isalnum(line[i + 1]))
+	{
+		new_line = get_var(line, envs); 
+		return (new_line);
+	}
+	return (line);
+}
+int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
 {
 	char	*heredoc_line;
 	char	*line;
@@ -137,13 +150,15 @@ int	do_heredoc(t_list *expressions, t_params *params)
       		signal(SIGINT, &ft_here_sig);
 		heredoc_line = readline("> ");
 		line = ft_strjoin(heredoc_line, "\n");
+		line = check_line(line, envs);
 		free(heredoc_line);
 		done = heredoc_checker(line, delim);
 		if (done)
 			break ;
 		if (ft_strcmp(((t_args *)expressions->content)->args[1], "<<") == 0)
 			write(params->heredoc_fd, line, ft_strlen(line));
-		free(line);
+		if (line)
+			free(line);
 	}
 	params->heredoc_fd = open(".heredoc.tmp", O_RDONLY | 0644);
 	params->input_fd = params->heredoc_fd;

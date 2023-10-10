@@ -6,20 +6,20 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 12:49:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:41:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*check_token(char *input, t_envs *envs)
+char	*check_token(char *input, t_envs *envs, bool flag_exp)
 {
 	int	i;
 	int	flag;
 
 	i = 0;
 	flag = is_same_quotes(input);
-	if (input[0] == '$')
+	if (input[0] == '$' && !flag_exp)
 		return (get_var(input, envs));
 	while (input[i])
 	{

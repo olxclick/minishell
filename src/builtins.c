@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/09 17:30:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 13:40:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	}
 	else
 	{
-		printf("unset: not enough arguments\n");
+		printf("unset: invalid Syntax\n");
 		return (1);
 	}
 	return (g_exit);

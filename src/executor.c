@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 12:49:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 14:59:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ char	*define_path(t_envs *envs, char *expr)
 	free(bin);
 	return (NULL);
 }
-
 char	*get_path(char *expr, t_envs *envs)
 {
 	if (expr[0] == '/')
@@ -67,7 +66,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		redirect(params);
 	}
 	else if (redir_needed(expressions) == 2)
-		do_heredoc(expressions, params);
+		do_heredoc(expressions, params, envs);
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
