@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 22:38:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/10 22:38:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	*check_path(char *path)
 	free(path);
 	return (new_path);
 }
-
 char	*define_path(t_envs *envs, char *expr)
 {
 	char		*full_path;
