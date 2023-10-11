@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:18:50 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/11 13:48:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ void	envs_printer(t_envs *envs)
 	int		i;
 	int		j;
 	int		flag;
-	char	c;
 
-	c = '"';
 	i = 0;
 	flag = 0;
 	while (i < envs->len)
@@ -94,14 +92,16 @@ void	envs_printer(t_envs *envs)
 		printf("declare -x ");
 		while (envs->vars[i][j])
 		{
-			if (envs->vars[i][j] == '=' || !envs->vars[i][j + 1])
+			if (envs->vars[i][j] == '=')
 				flag = 1;
 			printf("%c", envs->vars[i][j]);
 			if (flag)
-				printf("%c", c);
+				printf("\"");
 			flag = 0;
 			j++;
 		}
+		if (!envs->vars[i][j])
+			printf("\"");
 		printf("\n");
 		i++;
 	}
