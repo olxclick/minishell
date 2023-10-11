@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 17:44:31 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:45:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,8 +215,11 @@ int	do_exit(t_args *expr, t_params *params)
 	else if (expr->len == 2)
 	{
 		if (digits_in((char *)expr->args[1]))
-				printf("%s: numeric argument required\n",
-					(char *)expr->args[1]);
+		{
+			printf("%s: numeric argument required\n",
+				(char *)expr->args[1]);
+			mini_exit = 2;
+		}
 		else
 			mini_exit = ft_atoi(expr->args[1]);
 	}
