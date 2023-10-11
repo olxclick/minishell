@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:58:05 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 22:17:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:52:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <string.h>
+# include <limits.h>
 
 int		ft_atoi(const char *str);
 

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 14:04:24 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/11 16:40:40 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*define_path(t_envs *envs, char *expr)
 }
 char	*get_path(char *expr, t_envs *envs)
 {
-	if (expr[0] == '/')
+	if (expr[0] == '/' || ft_strncmp(expr, "./", 2) == 0)
 		return (expr);
 	if (pos_env_var(envs, "PATH") != -1)
 		return (define_path(envs, expr));

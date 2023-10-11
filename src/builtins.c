@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 14:03:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:44:31 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,9 +186,24 @@ int	do_echo(t_args *expr)
 			printf("\n");
 	return (0);
 }
+int	digits_in(char *arg)
+{
+	size_t	i;
+
+	i = 1;
+	if (!ft_isdigit(arg[0]) && !(arg[0] == '-') && !(arg[0] == '+'))
+		return (1);
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (1);
+		i += 1;
+	}
+	return (0);
+}
 int	do_exit(t_args *expr, t_params *params)
 {
-	int	mini_exit;
+	long int mini_exit;
 
 	mini_exit = 0;
 	printf("exit\n");
@@ -199,10 +214,12 @@ int	do_exit(t_args *expr, t_params *params)
 	}
 	else if (expr->len == 2)
 	{
-		mini_exit = ft_atoi(expr->args[1]);
-		params->exited = 1;
+		if (digits_in((char *)expr->args[1]))
+				printf("%s: numeric argument required\n",
+					(char *)expr->args[1]);
+		else
+			mini_exit = ft_atoi(expr->args[1]);
 	}
-	else
-		params->exited = 1;
-	return (mini_exit);
+	params->exited = 1;
+	return ((int)mini_exit);
 }
