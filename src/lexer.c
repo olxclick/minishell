@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:41:49 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:25:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 		token = get_token(input);
 		size = ft_strlen(token);
 		token = check_token(token, envs, flag);
-		printf("token: %s\n", token);
 		if (!token)
 			break ;
 		t.token[j++] = token;

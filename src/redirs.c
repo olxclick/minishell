@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/10 15:10:13 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/12 13:26:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,10 @@ char	*get_heredoc_delim(t_list *expressions)
 		while (((t_args *)expressions->content)->args[i])
 		{
 			if (flag)
+			{
 				res = ft_strdup(((t_args *)expressions->content)->args[i]);
+				return (res);
+			}
 			if (((t_args *)expressions->content)->state == HEREDOC)
 				flag = true;
 			i++;
