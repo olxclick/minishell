@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 17:04:11 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:19:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params);
 int					get_lenght(t_envs *envs, int i);
 int					do_heredoc(t_list *expressions, t_params *params, t_envs *envs);
-int					do_exit(t_args *expr, t_params *params);
+int					do_exit(t_list *expressions, t_args *expr, t_params *params);
 int					do_echo(t_args *expr);
 int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
@@ -102,7 +102,7 @@ void   				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
-void				exec(t_args *expr, t_envs *my_envs, char *path, t_params *params);
+void				exec(t_args *expr, t_envs *my_envs, char *path);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
@@ -150,10 +150,10 @@ void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs);
 
 t_state				get_delim_state(char *token);
-int					exec_parent_builtin(t_args *expr, t_params *params,
+int					exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params,
 						t_envs *my_envs);
 char				**set_envs(char **envs);
-int					exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs);
+int					exec_child_builtin(t_args *expr, t_envs *my_envs);
 
 static inline int	is_delim(char *token)
 {
