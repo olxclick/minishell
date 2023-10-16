@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/12 13:35:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:05:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*check_path(char *path)
 {
-	int	i;
 	char	*new_path;
+	int	i;
 
 	i = 0;
 	while (path[i] != '/')
