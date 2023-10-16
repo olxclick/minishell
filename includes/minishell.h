@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/13 14:19:17 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:44:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct s_params
 	int				input_fd;
 	int				output_fd;
 	int				heredoc_fd;
+	int				exit_flag;
 	long long		exit_status;
 	pid_t			pid;
 	size_t			exited;
@@ -91,13 +92,14 @@ t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params);
 int					get_lenght(t_envs *envs, int i);
 int					do_heredoc(t_list *expressions, t_params *params, t_envs *envs);
-int					do_exit(t_list *expressions, t_args *expr, t_params *params);
+int					ver_exit(t_list *expressions, t_args *expr, t_params *params);
 int					do_echo(t_args *expr);
 int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
+long int	do_exit(t_args *expr, long int mini_exit);
 void   				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);

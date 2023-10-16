@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/13 14:26:47 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:44:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	exec_child_builtin(t_args *expr, t_envs *my_envs)
 int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
-		g_exit = do_exit(expressions, expr, params);
+		g_exit = ver_exit(expressions, expr, params);
 	else if (ft_strcmp(expr->args[0], "env") == 0)
 		g_exit = do_env(my_envs);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
@@ -215,13 +215,8 @@ int	check_for_pipe(t_list *expressions)
 	return 0;
 }
 
-int	do_exit(t_list *expressions, t_args *expr, t_params *params) //se houver pipe na expressao entao o exit nunca e executado
+long int	do_exit(t_args *expr, long int mini_exit)
 {
-	long int mini_exit;
-
-	mini_exit = 0;
-	if (check_for_pipe(expressions))
-		return (g_exit);
 	printf("exit\n");
 	if (expr->len >= 3)
 	{
@@ -239,6 +234,24 @@ int	do_exit(t_list *expressions, t_args *expr, t_params *params) //se houver pip
 		else
 			mini_exit = ft_atoi(expr->args[1]);
 	}
+	return (mini_exit);
+}
+
+int	ver_exit(t_list *expressions, t_args *expr, t_params *params)
+{
+	long int mini_exit;
+
+	mini_exit = 0;
+	if (check_for_pipe(expressions) || params->exit_flag)
+	{
+		params->exit_flag = 1;
+		if (expr->args[1])
+			g_exit = ft_atoi(expr->args[1]);
+		return (g_exit);
+	}
+	else
+		mini_exit = do_exit(expr, mini_exit);
+	params->exit_flag = 0;
 	params->exited = 1;
 	return ((int)mini_exit);
 }
