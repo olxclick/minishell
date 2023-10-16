@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/16 15:21:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:54:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_envs	*init_envs(t_envs *my_envs, char **envs)
 	my_envs->len = get_envs_size(envs);
 	my_envs->buf = NULL;
 	my_envs->oldpwd = NULL;
+	my_envs->pwd = getcwd(my_envs->buf, PATH_MAX);
 	return (my_envs);
 }
 
@@ -49,6 +50,7 @@ size_t	process(char *input, t_envs *envs)
 
 	tokens = set_args_tokens(input, envs);
 	expressions = get_all_tokens(tokens);
+	envs->pwd = getcwd(envs->buf, PATH_MAX);
 	if (!expressions)
 	{
 		free_token(tokens.token);

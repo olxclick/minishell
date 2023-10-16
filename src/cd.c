@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:18:11 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/16 17:53:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 
 void	update_pwd(t_envs *envs, char *buffer)
 {
+	int	pwd_pos;
+	int	oldpwd_pos;
+
+	pwd_pos = pos_env_var(envs, "PWD");
+	oldpwd_pos = pos_env_var(envs, "OLDPWD");
 	if (envs->oldpwd)
 		free(envs->oldpwd);
 	if (!buffer)
 		envs->oldpwd = getcwd(envs->buf, PATH_MAX);
 	else
 		envs->oldpwd = ft_strdup(buffer);
+	free(envs->vars[oldpwd_pos]);
+	free(envs->vars[pwd_pos]);
+	envs->vars[pwd_pos] = ft_strjoin("PWD=", ft_strdup(envs->pwd));
+	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", ft_strdup(envs->oldpwd));
+	
 }
 
 char	*get_home(t_envs *my_envs, char *value)
