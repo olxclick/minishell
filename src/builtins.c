@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/12 13:18:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/13 14:26:47 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,8 @@ int	do_pwd(t_args *expr)
 	printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
 }
-int	exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs)
+int	exec_child_builtin(t_args *expr, t_envs *my_envs)
 {
-	(void)params;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
@@ -30,10 +29,10 @@ int	exec_child_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = do_export(expr, my_envs);
 	return (g_exit);
 }
-int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
+int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
-		g_exit = do_exit(expr, params);
+		g_exit = do_exit(expressions, expr, params);
 	else if (ft_strcmp(expr->args[0], "env") == 0)
 		g_exit = do_env(my_envs);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
@@ -44,9 +43,8 @@ int	exec_parent_builtin(t_args *expr, t_params *params, t_envs *my_envs)
 		g_exit = dir_change(expr, my_envs);
 	return (g_exit);
 }
-int	remove_var(t_args *expr, t_envs *my_envs, int pos)
+int	remove_var(t_envs *my_envs, int pos)
 {
-	(void)expr;
 	if (pos == my_envs->len - 1)
 		free(my_envs->vars[pos]);
 	else
@@ -79,7 +77,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 				return (1);
 			}
 			else
-				g_exit = remove_var(expr, my_envs, pos);
+				g_exit = remove_var(my_envs, pos);
 			i++;
 		}
 	}
@@ -201,11 +199,29 @@ int	digits_in(char *arg)
 	}
 	return (0);
 }
-int	do_exit(t_args *expr, t_params *params)
+
+int	check_for_pipe(t_list *expressions)
+{
+   	while (expressions->next)
+   	{
+		t_args *expr = expressions->content;
+		if (expr->state == PIPE)
+		{
+			printf("pipe found\n");
+			return 1;
+		}
+		expressions = expressions->next;
+    	}
+	return 0;
+}
+
+int	do_exit(t_list *expressions, t_args *expr, t_params *params) //se houver pipe na expressao entao o exit nunca e executado
 {
 	long int mini_exit;
 
 	mini_exit = 0;
+	if (check_for_pipe(expressions))
+		return (g_exit);
 	printf("exit\n");
 	if (expr->len >= 3)
 	{
@@ -214,7 +230,7 @@ int	do_exit(t_args *expr, t_params *params)
 	}
 	else if (expr->len == 2)
 	{
-		if (digits_in((char *)expr->args[1]))
+		if (digits_in((char *)expr->args[1]) || ft_atoi(expr->args[1]) > INT_MAX)
 		{
 			printf("%s: numeric argument required\n",
 				(char *)expr->args[1]);

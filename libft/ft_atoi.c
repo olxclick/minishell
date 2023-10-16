@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:38:55 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:53:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/13 13:34:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	ft_check_white_spaces(char *s)
 	return (i);
 }
 
-int	ft_atoi(const char *str)
+long int	ft_atoi(const char *str)
 {
 	int	i;
 	int	signal;
-	int	atoi;
+	long int	atoi;
 
 	i = ft_check_white_spaces((char *)str);
 	atoi = 0;

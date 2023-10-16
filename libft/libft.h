@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 14:58:05 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:52:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/13 13:39:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <string.h>
 # include <limits.h>
 
-int		ft_atoi(const char *str);
+long int		ft_atoi(const char *str);
 
 void	ft_bzero(void *s, size_t n);
 
