@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/16 17:53:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/17 13:35:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_pwd(t_envs *envs, char *buffer)
 
 	pwd_pos = pos_env_var(envs, "PWD");
 	oldpwd_pos = pos_env_var(envs, "OLDPWD");
-	if (envs->oldpwd)
+	if (envs->oldpwd && !buffer)
 		free(envs->oldpwd);
 	if (!buffer)
 		envs->oldpwd = getcwd(envs->buf, PATH_MAX);
