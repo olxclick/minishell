@@ -6,12 +6,15 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/16 15:44:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:03:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+/*
+    printa o diretorio atual
+*/
 int	do_pwd(t_args *expr)
 {
 	char	cwd[PATH_MAX];
@@ -19,6 +22,13 @@ int	do_pwd(t_args *expr)
 	printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
 }
+
+/*
+    funcao responsavel por executar os builtins
+    no child process, verifica o nome do comando
+    na estrutura "expr" e chama a funcao para 
+    tratar do built in
+*/
 int	exec_child_builtin(t_args *expr, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "echo") == 0)
@@ -29,6 +39,13 @@ int	exec_child_builtin(t_args *expr, t_envs *my_envs)
 		g_exit = do_export(expr, my_envs);
 	return (g_exit);
 }
+
+/*
+    funcao responsavel por executar os parent builtins
+    verifica o nome do comando
+    na estrutura "expr" e chama a funcao para 
+    tratar do built in
+*/
 int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
@@ -43,6 +60,11 @@ int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_e
 		g_exit = dir_change(expr, my_envs);
 	return (g_exit);
 }
+
+/*
+    remove variaves numa posicao exata na estrutura
+    "my_envs", da tambem update na lista
+*/
 int	remove_var(t_envs *my_envs, int pos)
 {
 	if (pos == my_envs->len - 1)
@@ -60,6 +82,12 @@ int	remove_var(t_envs *my_envs, int pos)
 	my_envs->len--;
 	return (0);
 }
+
+/*
+    percorre pelas variaveis , encontra a posicao
+    e remove-las caso o nome nao seja especificado ou
+    nao seja encontrado da return de 0
+*/
 int	do_unset(t_args *expr, t_envs *my_envs)
 {
 	int	i;
@@ -88,6 +116,13 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	}
 	return (g_exit);
 }
+
+/*
+    adiciona ou da update as variaveis
+    pega o nome da variavel atraves da "envs"
+    encontra a sua posicao e adiciona ou da update
+    na variavel
+*/
 int	add_env(t_envs *envs, char *expr)
 {
 	size_t	i;
@@ -114,6 +149,7 @@ int	add_env(t_envs *envs, char *expr)
 	free(key);
 	return (0);
 }
+
 int	do_export(t_args *expr, t_envs *envs)
 {
 	int	i;
@@ -134,6 +170,11 @@ int	do_export(t_args *expr, t_envs *envs)
 		g_exit = 1;
 	return (g_exit);
 }
+
+/*
+    procura pelo delimitador e printa 
+    uma mensagem de erro caso encontre
+*/
 int	check_delim(t_args *expr)
 {
 	size_t	j;
@@ -149,6 +190,11 @@ int	check_delim(t_args *expr)
 			return (printf("Error: character is not allowed with echo\n"));
 	return (0);
 }
+
+/*
+    replica as funcionalidades do echo e 
+    ignora o "\" e o "-n"
+*/
 int	do_echo(t_args *expr)
 {
 	size_t	i;
@@ -184,6 +230,11 @@ int	do_echo(t_args *expr)
 			printf("\n");
 	return (0);
 }
+
+/*
+    verifica se a string e um inteiro valido e 
+    verifica tambem se a string so tem digitos
+*/
 int	digits_in(char *arg)
 {
 	size_t	i;
@@ -200,6 +251,11 @@ int	digits_in(char *arg)
 	return (0);
 }
 
+/*
+    verifica a existncia de um pipe da return de 1
+    casotenha sido encontrado e de 0 caso nao seja
+    nao contrado
+*/
 int	check_for_pipe(t_list *expressions)
 {
    	while (expressions->next)
@@ -215,6 +271,11 @@ int	check_for_pipe(t_list *expressions)
 	return 0;
 }
 
+/*
+    da handle ao exit command e determina o seu
+    exit status , da print a mensagem apropriada
+    de acordo com o numero de argumentos
+*/
 long int	do_exit(t_args *expr, long int mini_exit)
 {
 	printf("exit\n");

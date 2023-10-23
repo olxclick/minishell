@@ -6,24 +6,25 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/17 13:34:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:08:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
 int			g_exit;
-char	**global_envs;
-char	**global_args;
 
+/*
+    inicializa certos valores para os devidos
+    parametros que vao ser utlilizados pelo
+    programa
+*/
 t_params	init_params(t_list *expressions)
 {
 	t_params	params;
 
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
-	params.heredoc_fd = open(".heredoc.tmp", O_CREAT
-			| O_TRUNC | O_RDWR, 0644);
 	params.exited = 0;
 	params.exit_flag = 0;
 	params.exit_status = 130;
@@ -31,6 +32,10 @@ t_params	init_params(t_list *expressions)
 	return (params);
 }
 
+/*
+    inicializa a estrotura t_envs com os devidos 
+    valores dados as variaveis ambientais
+*/
 t_envs	*init_envs(t_envs *my_envs, char **envs)
 {
 	my_envs->vars = set_envs(envs);
@@ -41,6 +46,10 @@ t_envs	*init_envs(t_envs *my_envs, char **envs)
 	return (my_envs);
 }
 
+/*
+    funcaorespnsavel por tratar do inputs
+    e os paramtros do programa
+*/
 size_t	process(char *input, t_envs *envs)
 {
 	size_t		has_finished;
@@ -70,6 +79,11 @@ size_t	process(char *input, t_envs *envs)
 	return (has_finished);
 }
 
+/*
+    fica num loop continuo ate que encontre
+    determinada condicao, trata tambem dos 
+    sinais o shell
+*/
 void	loop(t_envs *my_envs)
 {
 	char	*input;
@@ -93,14 +107,17 @@ void	loop(t_envs *my_envs)
 			break ;
 	}
 }
+
+/*
+    funcao responsavel pelo progama onde por
+    onde vai ser executado
+*/
 int	main(int argc, char **argv, char **envs)
 {
 	t_envs	*my_envs;
 
 	(void)argc;
 	(void)argv;
-	global_args = argv;
-	global_envs = envs;
 	my_envs = malloc(sizeof(t_envs));
 	my_envs = init_envs(my_envs, envs);
 	loop(my_envs);

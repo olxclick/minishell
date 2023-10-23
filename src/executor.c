@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/17 13:41:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:09:59 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*check_path(char *path)
 	free(path);
 	return (new_path);
 }
+
 char	*define_path(t_envs *envs, char *expr)
 {
 	char		*full_path;
@@ -52,6 +53,7 @@ char	*define_path(t_envs *envs, char *expr)
 	free(bin);
 	return (NULL);
 }
+
 char	*get_path(char *expr, t_envs *envs)
 {
 	if (expr[0] == '/' || ft_strncmp(expr, "./", 2) == 0)
@@ -60,6 +62,7 @@ char	*get_path(char *expr, t_envs *envs)
 		return (define_path(envs, expr));
 	return (NULL);
 }
+
 void	exec(t_args *expr, t_envs *my_envs, char *path)
 {
 	expr->args[expr->len] = NULL;
@@ -68,6 +71,18 @@ void	exec(t_args *expr, t_envs *my_envs, char *path)
 	else
 		execve(path, expr->args, my_envs->vars);
 }
+
+int	verify_expr(t_args *expr)
+{
+	int	i;
+
+	i = 0;
+	while (expr->args[i++])
+		if (expr->state == REDIR_IN)
+			return (1);
+	return (0);
+}
+
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;
@@ -80,10 +95,15 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		redirect(params);
 	}
 	else if (redir_needed(expressions) == 2)
+	{
+		params->heredoc_fd = open(".heredoc.tmp", O_CREAT
+		| O_TRUNC | O_RDWR, 0644);
 		do_heredoc(expressions, params, envs);
+	}
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path
-		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
+    		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)
+      		&& !verify_expr(expr)))
 	{
 		handle_pipes(expressions, params);
 		if (is_child_builtin(expr->args[0]) && expr->len == 1)
@@ -98,6 +118,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	free(path);
 	return (g_exit);
 }
+
 void	run_parent(t_list *expressions, t_params *params,
 	t_envs *envs, t_args *expr)
 {
@@ -118,12 +139,16 @@ void	run_parent(t_list *expressions, t_params *params,
 		}
 		else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
 		{
-			params->input_fd = params->pipe_fd[R];
+			if (open(".heredoc.tmp", O_RDONLY | 0644) == -1)
+				params->input_fd = params->pipe_fd[R];
+			else
+				params->input_fd = open(".heredoc.tmp", O_RDONLY | 0644);
 			do_redir_out(params);
 		}
 		expressions = expressions->next;
 	}
 }
+
 void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/11 16:42:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:03:58 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	}
 	return (input);
 }
+
 char	*get_var(char *input, t_envs *envs)
 {
 	char	*res;
@@ -69,6 +70,7 @@ char	*get_var(char *input, t_envs *envs)
 	free(input);
 	return (res);
 }
+
 char	*redo_token(char *input, char c, int flag, t_envs *envs)
 {
 	int		start;
@@ -102,6 +104,7 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	free(input);
 	return (new_input);
 }
+
 char	*remove_quotes(char *input)
 {
 	int		i;
@@ -131,6 +134,7 @@ char	*remove_quotes(char *input)
 	free(input);
 	return (new_input);
 }
+
 size_t	count_quotes(char *str)
 {
 	size_t	count;

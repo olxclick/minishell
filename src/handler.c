@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/13 14:14:38 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:56:57 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	redirect(t_params *params)
 void	redir_input(t_list *expressions, t_params *params)
 {
 	t_args	*expr;
-	int		flag; 
+	int		flag;
 
 	flag = 0;
 	params->input_fd = 0;
