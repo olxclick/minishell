@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:09:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/23 16:31:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,6 @@ void	exec(t_args *expr, t_envs *my_envs, char *path)
 		execve(path, expr->args, my_envs->vars);
 }
 
-int	verify_expr(t_args *expr)
-{
-	int	i;
-
-	i = 0;
-	while (expr->args[i++])
-		if (expr->state == REDIR_IN)
-			return (1);
-	return (0);
-}
-
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;
@@ -102,13 +91,16 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	}
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path
-    		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)
-      		&& !verify_expr(expr)))
+    		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)))
 	{
 		handle_pipes(expressions, params);
-		if (is_child_builtin(expr->args[0]) && expr->len == 1)
-			free(expr->args[1]);
-		exec(expr, envs, path);
+		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
+			|| redir_needed(expressions) != 2)
+		{
+			if (is_child_builtin(expr->args[0]) && expr->len == 1)
+				free(expr->args[1]);
+			exec(expr, envs, path);
+		}
 	}
 	else if (!is_parent_builtin(expr->args[0], expr->len))
 	{
