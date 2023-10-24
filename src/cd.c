@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 20:50:50 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 21:59:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	update_pwd(t_envs *envs, char *buffer)
 	int	pwd_pos;
 	int	oldpwd_pos;
 
-	printf("UPDATING PWD");
 	pwd_pos = pos_env_var(envs, "PWD");
 	oldpwd_pos = pos_env_var(envs, "OLDPWD");
 	if (envs->oldpwd)
@@ -28,8 +27,8 @@ void	update_pwd(t_envs *envs, char *buffer)
 		envs->oldpwd = ft_strdup(buffer);
 	free(envs->vars[oldpwd_pos]);
 	free(envs->vars[pwd_pos]);
-	envs->vars[pwd_pos] = ft_strjoin("PWD=", ft_strdup(envs->pwd));
-	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->oldpwd);
+	envs->vars[pwd_pos] = ft_strjoin("PWD=", envs->oldpwd);
+	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->pwd);
 }
 
 char	*get_home(t_envs *my_envs, char *value)
