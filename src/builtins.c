@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:03:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:56:46 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	remove_var(t_envs *my_envs, int pos)
 
 /*
     percorre pelas variaveis , encontra a posicao
-    e remove-las caso o nome nao seja especificado ou
+    e remove-as. caso o nome nao seja especificado ou
     nao seja encontrado da return de 0
 */
 int	do_unset(t_args *expr, t_envs *my_envs)
@@ -145,7 +145,7 @@ int	add_env(t_envs *envs, char *expr)
 		free(envs->vars[pos]);
 		envs->vars[pos] = ft_strdup(expr);
 	}
-	envs->vars[envs->len] = NULL;
+	// envs->vars[envs->len] = NULL;
 	free(key);
 	return (0);
 }

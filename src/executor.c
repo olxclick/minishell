@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:31:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:32:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*define_path(t_envs *envs, char *expr)
 		free(full_path);
 		i++;
 	}
+	free_token(path_env);
 	free(bin);
 	return (NULL);
 }
@@ -163,5 +164,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		run_parent(expressions, params, envs, expr);
 		close_file_descriptors(params);
 	}
+	free(envs->pwd);
 	envs->pwd = getcwd(envs->buf, PATH_MAX);
 }

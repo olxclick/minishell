@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:08:08 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:24:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ size_t	process(char *input, t_envs *envs)
 	}
 	params = init_params(expressions);
 	executor(expressions, envs, &params);
-	update_pwd(envs, envs->oldpwd);
 	has_finished = params.exited;
 	free_token(tokens.token);
 	free(params.files);

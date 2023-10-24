@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/17 13:47:18 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 13:22:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,8 @@ static inline void	close_file_descriptors(t_params *params)
 		close(params->input_fd);
 	if (params->output_fd != STDOUT_FILENO)
 		close(params->output_fd);
-	close(params->heredoc_fd);
+	if (open(".heredoc.tmp", O_RDONLY, 0644))
+		close(params->heredoc_fd);
 }
 
 static inline int	is_child_builtin(char *cmd)

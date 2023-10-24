@@ -6,14 +6,14 @@
 #    By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/25 16:31:03 by jbranco-          #+#    #+#              #
-#    Updated: 2023/10/09 13:04:20 by jbranco-         ###   ########.fr        #
+#    Updated: 2023/10/24 13:24:15 by jbranco-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 SRC = main.c src/lexer.c src/utils.c src/expander.c src/cd.c src/signals.c src/redirs.c src/builtins.c src/parser.c src/frees.c src/envs.c src/handler.c src/executor.c
 OBJS = $(SRC:.c=.o)
-CFLAGS = -Wall -Wextra -Werror -fPIE #-fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fPIE -fsanitize=address -g3
 LIBFT_A = libft/libft.a
 GET_NEXT_LINE = ./get_next_line/get_next_line.a
 

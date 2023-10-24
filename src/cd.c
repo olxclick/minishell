@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/17 13:35:32 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 14:20:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	update_pwd(t_envs *envs, char *buffer)
 
 	pwd_pos = pos_env_var(envs, "PWD");
 	oldpwd_pos = pos_env_var(envs, "OLDPWD");
-	if (envs->oldpwd && !buffer)
+	if (envs->oldpwd)
 		free(envs->oldpwd);
 	if (!buffer)
 		envs->oldpwd = getcwd(envs->buf, PATH_MAX);
@@ -27,9 +27,8 @@ void	update_pwd(t_envs *envs, char *buffer)
 		envs->oldpwd = ft_strdup(buffer);
 	free(envs->vars[oldpwd_pos]);
 	free(envs->vars[pwd_pos]);
-	envs->vars[pwd_pos] = ft_strjoin("PWD=", ft_strdup(envs->pwd));
-	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", ft_strdup(envs->oldpwd));
-	
+	envs->vars[pwd_pos] = ft_strjoin("PWD=", envs->pwd);
+	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->oldpwd);
 }
 
 char	*get_home(t_envs *my_envs, char *value)
@@ -95,8 +94,6 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 		value = get_home(my_envs, value);
 	else if (expr->len == 2)
 		value = change_dir(expr, my_envs, value);
-	if (value)
-		update_pwd(my_envs, NULL);
 	if (chdir(value) != 0)
 		update_pwd(my_envs, buffer);
 	cd_free(value, buffer, my_envs);
