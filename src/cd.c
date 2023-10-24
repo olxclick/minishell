@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 14:20:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/24 20:50:50 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	update_pwd(t_envs *envs, char *buffer)
 	int	pwd_pos;
 	int	oldpwd_pos;
 
+	printf("UPDATING PWD");
 	pwd_pos = pos_env_var(envs, "PWD");
 	oldpwd_pos = pos_env_var(envs, "OLDPWD");
 	if (envs->oldpwd)
@@ -27,7 +28,7 @@ void	update_pwd(t_envs *envs, char *buffer)
 		envs->oldpwd = ft_strdup(buffer);
 	free(envs->vars[oldpwd_pos]);
 	free(envs->vars[pwd_pos]);
-	envs->vars[pwd_pos] = ft_strjoin("PWD=", envs->pwd);
+	envs->vars[pwd_pos] = ft_strjoin("PWD=", ft_strdup(envs->pwd));
 	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->oldpwd);
 }
 
@@ -96,6 +97,8 @@ int	dir_change(t_args *expr, t_envs *my_envs)
 		value = change_dir(expr, my_envs, value);
 	if (chdir(value) != 0)
 		update_pwd(my_envs, buffer);
+	else
+		update_pwd(my_envs, NULL);
 	cd_free(value, buffer, my_envs);
 	return (g_exit);
 }
