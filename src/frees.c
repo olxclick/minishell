@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:49:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:35:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,9 @@ void	free_token(char **my_envs)
 		free(my_envs);
 }
 
-void	cd_free(char *value, char *buffer, t_envs *my_envs)
+void	cd_free(char *value, t_envs *my_envs)
 {
 	free(value);
-	free(buffer);
 	free(my_envs->buf);
 }
 

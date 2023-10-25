@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:56:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:32:40 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_e
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
 		g_exit = do_unset(expr, my_envs);
 	else if (ft_strcmp(expr->args[0], "cd") == 0)
-		g_exit = dir_change(expr, my_envs);
+		g_exit = dir_change(expressions, expr, my_envs);
 	return (g_exit);
 }
 
@@ -262,10 +262,7 @@ int	check_for_pipe(t_list *expressions)
    	{
 		t_args *expr = expressions->content;
 		if (expr->state == PIPE)
-		{
-			printf("pipe found\n");
 			return 1;
-		}
 		expressions = expressions->next;
     	}
 	return 0;

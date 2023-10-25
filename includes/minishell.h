@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:08:26 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:35:13 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ char				*redo_token(char *input, char c, int flag, t_envs *envs);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params);
 t_args				*get_parsed(t_token t);
+char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs, char *value);
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs);
@@ -125,7 +126,7 @@ char				*check_token(char *input, t_envs *envs, bool flag_exp);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);
-int					dir_change(t_args *expr, t_envs *my_envs);
+int					dir_change(t_list *expressions, t_args *expr, t_envs *my_envs);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
 int					is_same_quotes(char *str);
@@ -136,9 +137,10 @@ char				*get_home(t_envs *my_envs, char *value);
 char				*operator_return(char *input, int i);
 t_list				*get_all_tokens(t_token t);
 void				signals(int sig);
-void				cd_free(char *value, char *buffer, t_envs *my_envs);
+void				cd_free(char *value, t_envs *my_envs);
 void				restore(int sig);
 void				ctrl_c(int sig);
+int	check_for_pipe(t_list *expressions);
 void				update_pwd(t_envs *envs, char *buffer);
 void				back_slash(int sig);
 char				**get_args(t_token t, int end);

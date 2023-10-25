@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 21:59:08 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:34:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,39 +65,37 @@ char	*check_cd(t_args *expr, char *value)
 	return (value);
 }
 
-char	*change_dir(t_args *expr, t_envs *my_envs, char *value)
+char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs, char *value)
 {
-	if (!ft_strcmp(expr->args[1], "-") && expr->len == 2)
+	if (check_for_pipe(expressions))
+		return (NULL);
+	if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
+			&& expr->len == 2))
+		value = get_home(my_envs, value);
+	else if (!ft_strcmp(expr->args[1], "-") && expr->len == 2)
 		value = ft_strdup(my_envs->oldpwd);
 	else if (expr->args[1] && expr->len == 2)
 		value = check_cd(expr, value);
 	return (value);
 }
 
-int	dir_change(t_args *expr, t_envs *my_envs)
+int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
 {
 	char	*value;
-	char	*buffer;
 
 	value = NULL;
-	buffer = NULL;
 	my_envs->buf = NULL;
-	if (my_envs->oldpwd)
-		buffer = ft_strdup(my_envs->oldpwd);
 	if (expr->len > 2)
 	{
 		printf("cd: invalid number of arguments\n");
 		g_exit = 2;
 	}
-	else if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
-			&& expr->len == 2))
-		value = get_home(my_envs, value);
-	else if (expr->len == 2)
-		value = change_dir(expr, my_envs, value);
-	if (chdir(value) != 0)
-		update_pwd(my_envs, buffer);
 	else
+		value = change_dir(expressions, expr, my_envs, value);
+	if (chdir(value) == 0)
 		update_pwd(my_envs, NULL);
-	cd_free(value, buffer, my_envs);
+	// else
+	// 	update_pwd(my_envs, NULL);
+	cd_free(value, my_envs);
 	return (g_exit);
 }
