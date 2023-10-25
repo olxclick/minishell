@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:04:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:24:57 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,16 @@ char	*check_line(char *line, t_envs *envs)
 	return (line);
 }
 
+int	check_vars(char *line)
+{
+	int	i;
+
+	i = 0;
+	if (line[i] == '$' && ft_isalnum(line[i + 1]))
+		return (1);
+	return (0);
+}
+
 int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
 {
 	char	*heredoc_line;
@@ -148,6 +158,7 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
 	size_t	done;
 
 	done = 0;
+	(void)envs;
 	delim = get_heredoc_delim(expressions);
 	while (true)
 	{
@@ -155,9 +166,13 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
       		signal(SIGINT, &ft_here_sig);
 		heredoc_line = readline("> ");
 		line = ft_strjoin(heredoc_line, "\n");
-		line = check_line(line, envs);
 		free(heredoc_line);
 		done = heredoc_checker(line, delim);
+		if (check_vars(line))
+		{
+			line = check_line(line, envs);
+			line = ft_strjoin(line, "\n");
+		}
 		if (done)
 			break ;
 		if (ft_strcmp(((t_args *)expressions->content)->args[1], "<<") == 0)
