@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 17:24:57 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 17:27:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,6 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
 	size_t	done;
 
 	done = 0;
-	(void)envs;
 	delim = get_heredoc_delim(expressions);
 	while (true)
 	{
