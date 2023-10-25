@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 12:56:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:08:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_params	init_params(t_list *expressions)
 	params.input_fd = STDIN_FILENO;
 	params.output_fd = STDOUT_FILENO;
 	params.exited = 0;
+	params.heredoc_fd = -1;
 	params.exit_flag = 0;
 	params.exit_status = 130;
 	params.files = create_files(expressions);
@@ -92,7 +93,6 @@ void	loop(t_envs *my_envs)
 	{
 		signals(1);
 		input = readline("shell--> ");
-		// printf("");
 		if (!input)
 		{
 			printf("exit\n");
