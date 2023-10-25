@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 14:24:06 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:56:36 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,12 @@ void	loop(t_envs *my_envs)
 {
 	char	*input;
 
+	input = NULL;
 	while (true)
 	{
 		signals(1);
 		input = readline("shell--> ");
+		// printf("");
 		if (!input)
 		{
 			printf("exit\n");
