@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:34:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:53:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
 		value = change_dir(expressions, expr, my_envs, value);
 	if (chdir(value) == 0)
 		update_pwd(my_envs, NULL);
-	// else
-	// 	update_pwd(my_envs, NULL);
 	cd_free(value, my_envs);
 	return (g_exit);
 }
