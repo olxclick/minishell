@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:35:13 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:42:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ static inline void	close_file_descriptors(t_params *params)
 
 static inline int	is_child_builtin(char *cmd)
 {
-	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0));
+	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0));
 }
 
 static inline int	is_parent_builtin(char *cmd, int len)
