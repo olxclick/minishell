@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:42:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:10:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ void				cd_free(char *value, t_envs *my_envs);
 void				restore(int sig);
 void				ctrl_c(int sig);
 int	check_for_pipe(t_list *expressions);
-void				update_pwd(t_envs *envs, char *buffer);
+void				update_pwd(t_envs *envs);
 void				back_slash(int sig);
 char				**get_args(t_token t, int end);
 void				handle_pipes(t_list *expressions, t_params *parameters);

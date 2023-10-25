@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:42:56 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:42:21 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,9 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	expr = expressions->content;
 	params->pid = fork();
 	signals(2);
+	if (envs->pwd)
+		free(envs->pwd);
+	envs->pwd = getcwd(envs->buf, PATH_MAX);
 	if (params->pid == 0)
 	{
 		child_process(expressions, envs, params);
@@ -164,6 +167,4 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		run_parent(expressions, params, envs, expr);
 		close_file_descriptors(params);
 	}
-	free(envs->pwd);
-	envs->pwd = getcwd(envs->buf, PATH_MAX);
 }
