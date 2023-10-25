@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:17:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/25 14:49:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	loop(t_envs *my_envs)
 		if (!input)
 		{
 			printf("exit\n");
-			break ;
+			exit(g_exit);
 		}
 		if (!ft_strlen(input))
 		{
