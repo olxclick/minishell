@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 15:44:40 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 03:30:24 by vasco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
+ da update ao pwd dando free ao ultimo valor que tinha
+ sido guardada antes e alloca o novo valor do pwd 
+*/
 void	update_pwd(t_envs *envs)
 {
 	int	pwd_pos;
@@ -27,7 +30,9 @@ void	update_pwd(t_envs *envs)
 	envs->vars[pwd_pos] = ft_strjoin("PWD=", envs->oldpwd);
 	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->pwd);
 }
-
+/*
+	funcao responsavel por adquirir o valor de home
+*/
 char	*get_home(t_envs *my_envs, char *value)
 {
 	int	dir;
@@ -39,7 +44,10 @@ char	*get_home(t_envs *my_envs, char *value)
 	value = ft_substr(my_envs->vars[dir], start, ft_strlen(my_envs->vars[dir]));
 	return (value);
 }
-
+/*
+	verifica o path que e dado, ve se existe
+	se e valido e da handle a alguns erros
+*/
 char	*check_cd(t_args *expr, char *value)
 {
 	struct stat	buf;
@@ -64,10 +72,14 @@ char	*check_cd(t_args *expr, char *value)
 
 void	get_oldpwd(t_envs *envs)
 {
-	free(envs->oldpwd);
+	free (envs->oldpwd);
 	envs->oldpwd = ft_substr(envs->vars[pos_env_var(envs, "OLDPWD")], 7, ft_strlen(envs->vars[pos_env_var(envs, "OLDPWD")]));
 }
-
+/*
+	funcao responsavel por dar handle a operacoes
+	do mudanca de diretorio consoante o argumento
+	, caso um pipe seja dado comoargumento retorna null
+*/
 char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs, char *value)
 {
 	if (check_for_pipe(expressions))
@@ -85,7 +97,10 @@ char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs, char *value
 		value = check_cd(expr, value);
 	return (value);
 }
-
+/*
+	funcao responsavel por mudar o diretorio atual consoante o argumento
+	dado
+*/
 int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
 {
 	char	*value;

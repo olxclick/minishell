@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/24 13:50:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 03:23:58 by vasco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
+/*
+	duplica um array de variaveis e guarda a copia
+	para ser usado mais tarde
+*/
 char	**set_envs(char **envs)
 {
 	char	**my_envs;
@@ -27,7 +30,11 @@ char	**set_envs(char **envs)
 	my_envs[i] = NULL;
 	return (my_envs);
 }
-
+/*
+	utiliza um loop para correr pelas variaveis
+	guardas na struct "my_envs" e da print nelas
+	retorna 0 caso tenho sido feito com sucesso
+*/
 int	do_env(t_envs *my_envs)
 {
 	int	i;
@@ -38,6 +45,10 @@ int	do_env(t_envs *my_envs)
 	return (0);
 }
 
+/*
+	cria uma copia das variaveis e manda da source struct
+	para a target strutc
+*/
 t_envs	*copy_envs(t_envs *new_envs, t_envs *envs)
 {
 	int	i;
@@ -78,7 +89,10 @@ void	sort_envs(t_envs *envs)
 	envs_printer(envs_copy);
 	copy_free(envs_copy);
 }
-
+/*
+	da sort nas variaveis atraves de um bubble sorte
+	da print nas mesmas e da free nas copias da variaveis
+*/
 void	envs_printer(t_envs *envs)
 {
 	int		i;
