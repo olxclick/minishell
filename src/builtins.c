@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:50:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:59:55 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	exec_child_builtin(t_args *expr, t_envs *my_envs)
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs)
+int	exec_parent_builtin(t_list *expressions, t_args *expr,
+	t_params *params, t_envs *my_envs)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
 		g_exit = ver_exit(expressions, expr, params);
@@ -145,7 +146,6 @@ int	add_env(t_envs *envs, char *expr)
 		free(envs->vars[pos]);
 		envs->vars[pos] = ft_strdup(expr);
 	}
-	// envs->vars[envs->len] = NULL;
 	free(key);
 	return (0);
 }
@@ -258,14 +258,15 @@ int	digits_in(char *arg)
 */
 int	check_for_pipe(t_list *expressions)
 {
-   	while (expressions->next)
-   	{
-		t_args *expr = expressions->content;
+
+	t_args	*expr = expressions->content;
+	while (expressions->next)
+	{
 		if (expr->state == PIPE)
-			return 1;
+			return (1);
 		expressions = expressions->next;
-    	}
-	return 0;
+	}
+	return (0);
 }
 
 /*
@@ -283,7 +284,8 @@ long int	do_exit(t_args *expr, long int mini_exit)
 	}
 	else if (expr->len == 2)
 	{
-		if (digits_in((char *)expr->args[1]) || ft_atoi(expr->args[1]) > INT_MAX)
+		if (digits_in((char *)expr->args[1])
+			|| ft_atoi(expr->args[1]) > INT_MAX)
 		{
 			printf("%s: numeric argument required\n",
 				(char *)expr->args[1]);
@@ -297,7 +299,7 @@ long int	do_exit(t_args *expr, long int mini_exit)
 
 int	ver_exit(t_list *expressions, t_args *expr, t_params *params)
 {
-	long int mini_exit;
+	long int	mini_exit;
 
 	mini_exit = 0;
 	if (check_for_pipe(expressions) || params->exit_flag)

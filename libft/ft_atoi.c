@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 15:38:55 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/13 13:34:59 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:56:13 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ static int	ft_check_white_spaces(char *s)
 
 long int	ft_atoi(const char *str)
 {
-	int	i;
-	int	signal;
+	int			i;
+	int			signal;
 	long int	atoi;
 
 	i = ft_check_white_spaces((char *)str);

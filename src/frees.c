@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 14:35:03 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:06:50 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	copy_free(t_envs *my_envs)
 				free(my_envs->pwd);
 			free(my_envs->vars);
 		}
-	free(my_envs);
+		free(my_envs);
 	}
 }
 

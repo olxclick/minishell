@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 15:10:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:58:57 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 # define SINGLE_QUOTE '\''
 
 extern int			g_exit;
-extern char	**global_args;
-extern char	**global_envs;
 typedef enum
 {
 	CMD,
@@ -92,16 +90,18 @@ size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params);
 int					get_lenght(t_envs *envs, int i);
-int					do_heredoc(t_list *expressions, t_params *params, t_envs *envs);
-int					ver_exit(t_list *expressions, t_args *expr, t_params *params);
+int					do_heredoc(t_list *expressions, t_params *params,
+						t_envs *envs);
+int					ver_exit(t_list *expressions, t_args *expr,
+						t_params *params);
 int					do_echo(t_args *expr);
 int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value);
-long int	do_exit(t_args *expr, long int mini_exit);
-void   				ft_here_sig(int signal);
+long int			do_exit(t_args *expr, long int mini_exit);
+void				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
@@ -113,7 +113,8 @@ char				*redo_token(char *input, char c, int flag, t_envs *envs);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params);
 t_args				*get_parsed(t_token t);
-char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs, char *value);
+char				*change_dir(t_list *expressions,
+						t_args *expr, t_envs *my_envs, char *value);
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs);
@@ -126,7 +127,8 @@ char				*check_token(char *input, t_envs *envs, bool flag_exp);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);
-int					dir_change(t_list *expressions, t_args *expr, t_envs *my_envs);
+int					dir_change(t_list *expressions,
+						t_args *expr, t_envs *my_envs);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
 int					is_same_quotes(char *str);
@@ -140,11 +142,11 @@ void				signals(int sig);
 void				cd_free(char *value, t_envs *my_envs);
 void				restore(int sig);
 void				ctrl_c(int sig);
-int	check_for_pipe(t_list *expressions);
+int					check_for_pipe(t_list *expressions);
 void				update_pwd(t_envs *envs);
 void				back_slash(int sig);
 char				**get_args(t_token t, int end);
-void				handle_pipes(t_list *expressions, t_params *parameters);
+void				handle_pipes(t_list *expressions, t_params *params);
 t_state				get_state(t_args *args, t_state prev_state);
 int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
@@ -155,7 +157,8 @@ void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs);
 
 t_state				get_delim_state(char *token);
-int					exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params,
+int					exec_parent_builtin(t_list *expressions,
+						t_args *expr, t_params *params,
 						t_envs *my_envs);
 char				**set_envs(char **envs);
 int					exec_child_builtin(t_args *expr, t_envs *my_envs);
@@ -179,7 +182,8 @@ static inline void	close_file_descriptors(t_params *params)
 
 static inline int	is_child_builtin(char *cmd)
 {
-	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0));
+	return ((ft_strcmp(cmd, "pwd") == 0)
+		|| (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0));
 }
 
 static inline int	is_parent_builtin(char *cmd, int len)

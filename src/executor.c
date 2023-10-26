@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/25 15:42:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:08:18 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*check_path(char *path)
 {
 	char	*new_path;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (path[i] != '/')
@@ -30,7 +30,7 @@ char	*define_path(t_envs *envs, char *expr)
 	char		*full_path;
 	char		*bin;
 	char		**path_env;
-	size_t	i;
+	size_t		i;
 
 	i = 0;
 	bin = ft_strjoin("/", expr);
@@ -67,7 +67,8 @@ char	*get_path(char *expr, t_envs *envs)
 void	exec(t_args *expr, t_envs *my_envs, char *path)
 {
 	expr->args[expr->len] = NULL;
-	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
+	if (is_child_builtin(expr->args[0]) 
+		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 		exec_child_builtin(expr, my_envs);
 	else
 		execve(path, expr->args, my_envs->vars);
@@ -87,12 +88,12 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 	else if (redir_needed(expressions) == 2)
 	{
 		params->heredoc_fd = open(".heredoc.tmp", O_CREAT
-		| O_TRUNC | O_RDWR, 0644);
+				| O_TRUNC | O_RDWR, 0644);
 		do_heredoc(expressions, params, envs);
 	}
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path
-    		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)))
+		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)))
 	{
 		handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)

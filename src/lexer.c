@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 03:36:15 by vasco            ###   ########.fr       */
+/*   Updated: 2023/10/26 16:00:38 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*get_token(char *input)
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
 				|| input[i] == '<') && !in_quote)
-					return (ft_substr(input, 0, i));
+			return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
 		i++;

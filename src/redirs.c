@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 03:34:58 by vasco            ###   ########.fr       */
+/*   Updated: 2023/10/26 16:06:28 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*get_heredoc_delim(t_list *expressions)
 char	*check_line(char *line, t_envs *envs)
 {
 	char	*new_line;
-	int	i;
+	int		i;
 
 	i = 0;
 	new_line = NULL;
@@ -162,7 +162,7 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs)
 	while (true)
 	{
 		signal (SIGQUIT, SIG_IGN);
-      		signal (SIGINT, &ft_here_sig);
+		signal (SIGINT, &ft_here_sig);
 		heredoc_line = readline("> ");
 		line = ft_strjoin(heredoc_line, "\n");
 		free (heredoc_line);

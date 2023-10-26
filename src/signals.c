@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/31 12:01:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 03:33:44 by vasco            ###   ########.fr       */
+/*   Updated: 2023/10/26 16:00:15 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ void	ctrl_c(int sig)
 	(void)sig;
 }
 
-void    back_slash(int sig)
+void	back_slash(int sig)
 {
 	g_exit = 131;
-   	(void)sig;
+	(void)sig;
 }
 
-void    ft_here_sig(int signal)
+void	ft_here_sig(int signal)
 {
 	if (signal == SIGINT)
 		printf ("\n");
-        exit (1);
+	exit (1);
 }

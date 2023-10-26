@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 03:23:58 by vasco            ###   ########.fr       */
+/*   Updated: 2023/10/26 16:44:51 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	**set_envs(char **envs)
 	my_envs[i] = NULL;
 	return (my_envs);
 }
+
 /*
 	utiliza um loop para correr pelas variaveis
 	guardas na struct "my_envs" e da print nelas
@@ -89,6 +90,7 @@ void	sort_envs(t_envs *envs)
 	envs_printer(envs_copy);
 	copy_free(envs_copy);
 }
+
 /*
 	da sort nas variaveis atraves de um bubble sorte
 	da print nas mesmas e da free nas copias da variaveis
