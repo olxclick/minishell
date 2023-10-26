@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/23 16:04:10 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 03:36:15 by vasco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**ft_realloc(char **str, size_t new_size)
 		}
 	}
 	new_str[new_size - 1] = NULL;
-	free(str);
+	free (str);
 	return (new_str);
 }
 

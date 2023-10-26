@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasco <vasco@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 17:12:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/26 03:36:18 by vasco            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	**get_args(t_token t, int end)
 	char	**args;
 
 	i = 0;
-	args = malloc((end + 1) * sizeof(char *));
+	args = malloc ((end + 1) * sizeof(char *));
 	while (i < end)
 	{
 		args[i] = ft_strdup(t.token[i]);
@@ -41,9 +41,9 @@ t_list	*get_all_tokens(t_token t)
 				|| ft_strcmp(expr->args[0], ">>") == 0
 				|| ft_strcmp(expr->args[0], "<<") == 0)))
 	{
-		printf("Expression error.\n");
-		free_token(expr->args);
-		free(expr);
+		printf ("Expression error.\n");
+		free_token (expr->args);
+		free (expr);
 		return (NULL);
 	}
 	head = ft_lstnew(expr);
@@ -51,7 +51,7 @@ t_list	*get_all_tokens(t_token t)
 	{
 		t.token += expr->len;
 		expr = get_parsed(t);
-		ft_lstadd_back(&head, ft_lstnew(expr));
+		ft_lstadd_back (&head, ft_lstnew(expr));
 	}
 	return (head);
 }
@@ -87,7 +87,7 @@ t_args	*get_parsed(t_token t)
 		}
 		i++;
 	}
-	free(expression);
+	free (expression);
 	return (NULL);
 }
 
