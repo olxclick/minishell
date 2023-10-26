@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handler.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 15:31:08 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:09:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,11 @@ void	handle_pipes(t_list *expressions, t_params *params)
 	if (nextexpr && nextexpr->state != HEREDOC && nextexpr->state != REDIR_IN)
 	{
 		close(params->pipe_fd[R]);
-		if (params->input_fd != STDIN_FILENO)
-		{
-			dup2(params->input_fd, STDIN_FILENO);
-			close(params->input_fd);
-		}
+		// if (params->input_fd != STDIN_FILENO)
+		// {
+		// 	dup2(params->input_fd, STDIN_FILENO);
+		// 	close(params->input_fd);
+		// }
 		dup2(params->pipe_fd[W], STDOUT_FILENO);
 		close(params->pipe_fd[W]);
 	}
@@ -93,10 +93,10 @@ void	handle_pipes(t_list *expressions, t_params *params)
 			dup2(params->input_fd, STDIN_FILENO);
 			close(params->input_fd);
 		}
-		if (params->output_fd != STDOUT_FILENO)
-		{
-			dup2(params->output_fd, STDOUT_FILENO);
-			close(params->output_fd);
-		}
+		// if (params->output_fd != STDOUT_FILENO)
+		// {
+		// 	dup2(params->output_fd, STDOUT_FILENO);
+		// 	close(params->output_fd);
+		// }
 	}
 }

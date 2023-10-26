@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:58:57 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:09:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_params
 	int				pipe_fd[2];
 	int				*files;
 	int				input_fd;
-	int				output_fd;
+	// int				output_fd;
 	int				heredoc_fd;
 	int				exit_flag;
 	long long		exit_status;
@@ -174,8 +174,8 @@ static inline void	close_file_descriptors(t_params *params)
 {
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
-	if (params->output_fd != STDOUT_FILENO)
-		close(params->output_fd);
+	// if (params->output_fd != STDOUT_FILENO)
+	// 	close(params->output_fd);
 	if (params->heredoc_fd)
 		close(params->heredoc_fd);
 }
