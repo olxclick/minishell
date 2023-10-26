@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:08:18 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:41:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ char	*get_path(char *expr, t_envs *envs)
 void	exec(t_args *expr, t_envs *my_envs, char *path)
 {
 	expr->args[expr->len] = NULL;
-	if (is_child_builtin(expr->args[0]) 
+	if (is_child_builtin(expr->args[0])
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
-		exec_child_builtin(expr, my_envs);
+			exec_child_builtin(expr, my_envs);
 	else
 		execve(path, expr->args, my_envs->vars);
 }

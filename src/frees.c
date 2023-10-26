@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   frees.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:06:50 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:18:58 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	free_token(char **my_envs)
 	int	i;
 
 	i = 0;
+	if (!my_envs || !my_envs[0])
+		return ;
 	while (i < get_envs_size(my_envs))
 	{
 		free(my_envs[i++]);
