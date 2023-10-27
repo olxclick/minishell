@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 17:53:15 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/27 23:54:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	if (params->pid == 0)
 	{
 		child_process(expressions, envs, params);
-		// free_list(expressions);
 		exit(g_exit);
 	}
 	if (!WTERMSIG(g_exit))
