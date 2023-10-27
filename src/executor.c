@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 23:54:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/28 00:17:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,7 @@ void	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path)
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
 			exec_child_builtin(expressions, expr, my_envs);
 	else
-	{
 		execve(path, expr->args, my_envs->vars);
-		free_args(expr);
-	}
 }
 
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
@@ -133,6 +130,7 @@ void	run_parent(t_list *expressions, t_params *params,
 		}
 		else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
 		{
+			waitpid(params->pid, &g_exit, 0);
 			if (open(".heredoc.tmp", O_RDONLY | 0644) == -1)
 				params->input_fd = params->pipe_fd[R];
 			else
@@ -156,7 +154,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 	envs->pwd = getcwd(envs->buf, PATH_MAX);
 	if (params->pid == 0)
 	{
-		child_process(expressions, envs, params);
+		g_exit = child_process(expressions, envs, params);
 		exit(g_exit);
 	}
 	if (!WTERMSIG(g_exit))

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 15:58:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/28 00:08:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	handle_pipes(t_list *expressions, t_params *params)
 		close(params->pipe_fd[R]);
 		dup2(params->pipe_fd[W], STDOUT_FILENO);
 		close(params->pipe_fd[W]);
-		// close(params->input_fd);
 	}
 	else
 	{
