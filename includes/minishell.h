@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 15:14:56 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:37:54 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
-void				exec(t_args *expr, t_envs *my_envs, char *path);
+void				exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
@@ -151,6 +151,7 @@ t_state				get_state(t_args *args, t_state prev_state);
 int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
 						t_params *params);
+void	free_args(t_args *expression);
 int					redir_needed(t_list *expressions);
 int					do_export(t_args *expr, t_envs *envs);
 void				print_list(t_list *head);
@@ -161,7 +162,7 @@ int					exec_parent_builtin(t_list *expressions,
 						t_args *expr, t_params *params,
 						t_envs *my_envs);
 char				**set_envs(char **envs);
-int					exec_child_builtin(t_args *expr, t_envs *my_envs);
+int					exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs);
 
 static inline int	is_delim(char *token)
 {

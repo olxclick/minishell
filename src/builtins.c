@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 17:40:17 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:34:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int	do_pwd(t_args *expr)
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_child_builtin(t_args *expr, t_envs *my_envs)
+int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs)
 {
+	(void)expressions;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
 		g_exit = do_echo(expr);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
