@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 17:41:23 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/27 15:14:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,10 @@ static inline void	close_file_descriptors(t_params *params)
 {
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
+	if (params->pipe_fd[0] != STDIN_FILENO)
+		close(params->pipe_fd[0]);
+	if (params->pipe_fd[1] != STDIN_FILENO)
+		close(params->pipe_fd[1]);
 	// if (params->output_fd != STDOUT_FILENO)
 	// 	close(params->output_fd);
 	if (params->heredoc_fd)

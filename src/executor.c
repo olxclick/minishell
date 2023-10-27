@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 17:41:06 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:03:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 {
 	t_args	*expr;
 
-	pipe(params->pipe_fd);
 	expr = expressions->content;
+	pipe(params->pipe_fd);
 	params->pid = fork();
 	signals(2);
 	if (envs->pwd)
@@ -160,12 +160,9 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		free_list(expressions);
 		exit(g_exit);
 	}
-	else
-	{
-		waitpid(params->pid, &g_exit, 0);
-		if (!WTERMSIG(g_exit))
-			g_exit = WEXITSTATUS(g_exit);
-		run_parent(expressions, params, envs, expr);
-		close_file_descriptors(params);
-	}
+	if (!WTERMSIG(g_exit))
+		g_exit = WEXITSTATUS(g_exit);
+	run_parent(expressions, params, envs, expr);
+	waitpid(-1, &g_exit, 0);
+	close_file_descriptors(params);
 }
