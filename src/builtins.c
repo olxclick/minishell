@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 16:34:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:49:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 			if (pos < 0)
 			{
 				printf("'%s' could not be found\n", expr->args[i]);
-				return (1);
+				g_exit = 1;
 			}
 			else
 				g_exit = remove_var(my_envs, pos);
@@ -113,7 +113,7 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 	else
 	{
 		printf("unset: invalid Syntax\n");
-		return (1);
+		g_exit = 1;
 	}
 	return (g_exit);
 }

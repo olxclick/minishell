@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/28 00:17:30 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:52:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,16 @@ char	*get_path(char *expr, t_envs *envs)
 	return (NULL);
 }
 
-void	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path)
+int	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path)
 {
 	free(expr->args[expr->len]);
 	expr->args[expr->len] = NULL;
 	if (is_child_builtin(expr->args[0])
 		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
-			exec_child_builtin(expressions, expr, my_envs);
+			g_exit = exec_child_builtin(expressions, expr, my_envs);
 	else
 		execve(path, expr->args, my_envs->vars);
+	return (g_exit);
 }
 
 int	child_process(t_list *expressions, t_envs *envs, t_params *params)
@@ -130,7 +131,7 @@ void	run_parent(t_list *expressions, t_params *params,
 		}
 		else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
 		{
-			waitpid(params->pid, &g_exit, 0);
+			waitpid(params->pid, NULL, 0);
 			if (open(".heredoc.tmp", O_RDONLY | 0644) == -1)
 				params->input_fd = params->pipe_fd[R];
 			else
@@ -157,9 +158,9 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		g_exit = child_process(expressions, envs, params);
 		exit(g_exit);
 	}
+	run_parent(expressions, params, envs, expr);
+	waitpid(-1, NULL, 0);
 	if (!WTERMSIG(g_exit))
 		g_exit = WEXITSTATUS(g_exit);
-	run_parent(expressions, params, envs, expr);
-	waitpid(-1, &g_exit, 0);
 	close_file_descriptors(params);
 }

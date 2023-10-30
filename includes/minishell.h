@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/27 23:51:31 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:41:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
-void				exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
+int				exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
