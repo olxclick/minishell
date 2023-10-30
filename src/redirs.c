@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:06:28 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:12:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*check_line(char *line, t_envs *envs)
 	new_line = NULL;
 	if (line[i] == '$' && ft_isalnum(line[i + 1]))
 	{
-		new_line = get_var(line, envs); 
+		new_line = get_var(line, envs, check_for_vars(line, false)); 
 		return (new_line);
 	}
 	return (line);

@@ -6,21 +6,60 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 14:50:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:40:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+/*
+	conta o numero de $ encontrados na string e 
+	retorna count
+*/
+int	check_for_vars(char *input, bool flag)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (input[i])
+	{	
+		if (input[i] == '$' && !flag)
+			count++;
+		i++;
+	}
+	return (count);
+}
+
+int	var_start(char *input, int n)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (input[i])
+	{
+		if (input[i] == '$')
+			count++;
+		if (count == n)
+			return (i + 1);
+		i++;
+	}
+	return (0);
+}
 
 char	*check_token(char *input, t_envs *envs, bool flag_exp)
 {
 	int	i;
 	int	flag;
+	int	n;
 
 	i = 0;
 	flag = is_same_quotes(input);
-	if (input[0] == '$' && !flag_exp)
-		return (get_var(input, envs));
+	n = check_for_vars(input, flag_exp);
+	if (n)
+		return (get_var(input, envs, n));
 	while (input[i])
 	{
 		if (flag > 0)
@@ -42,30 +81,41 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	return (input);
 }
 
-char	*get_var(char *input, t_envs *envs)
+char	*get_var(char *input, t_envs *envs, int n_vars)
 {
 	char	*res;
 	int		j;
 	int		start;
 	int		pos;
+	int		i;
 
+	i = 1;
 	j = 0;
-	pos = search_var(envs, &input[1]);
-	if (ft_strcmp(input, "$?") == 0)
-		res = ft_itoa(g_exit);
-	else
+	res = NULL;
+	while (i <= n_vars)
 	{
-		if (pos == -1)
+		j = 0;
+		pos = search_var(envs, &input[var_start(input, i)]);
+		if (ft_strcmp(input, "$?") == 0)
+			res = ft_itoa(g_exit);
+		else
 		{
-			free(input);
-			return (NULL);
+			if (pos == -1)
+			{
+				free(input);
+				return (NULL);
+			}
+			while (envs->vars[pos][j] != '=')
+				j++;
+			start = j + 1;
+			while (envs->vars[pos][j])
+				j++;
+			if (!res)
+				res = ft_substr(envs->vars[pos], start, j);
+			else
+				res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
 		}
-		while (envs->vars[pos][j] != '=')
-			j++;
-		start = j + 1;
-		while (envs->vars[pos][j])
-			j++;
-		res = ft_substr(envs->vars[pos], start, j);
+		i++;
 	}
 	free(input);
 	return (res);
@@ -81,7 +131,7 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	start = 0;
 	end = ft_strlen(input) - 1;
 	if (flag == -1)
-		return (get_var(remove_quotes(input), envs));
+		return (get_var(remove_quotes(input), envs, check_for_vars(input, flag)));
 	if (c == SINGLE_QUOTE)
 	{
 		while ((input[start] == SINGLE_QUOTE) && start <= end)

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 13:41:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 16:13:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,9 @@ long int			do_exit(t_args *expr, long int mini_exit);
 void				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
-char				*get_var(char *input, t_envs *envs);
-int				exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
+char				*get_var(char *input, t_envs *envs, int n_vars);
+int					check_for_vars(char *input, bool flag);
+int					exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
@@ -151,7 +152,7 @@ t_state				get_state(t_args *args, t_state prev_state);
 int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
 						t_params *params);
-void	free_args(t_args *expression);
+void				free_args(t_args *expression);
 int					redir_needed(t_list *expressions);
 int					do_export(t_args *expr, t_envs *envs);
 void				print_list(t_list *head);
