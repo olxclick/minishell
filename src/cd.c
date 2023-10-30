@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 15:54:00 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:38:40 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,10 @@ int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
 	value = NULL;
 	my_envs->buf = NULL;
 	if (expr->len > 2)
+	{
 		printf("cd: invalid number of arguments\n");
+		g_exit = 2;
+	}
 	else
 		value = change_dir(expressions, expr, my_envs, value);
 	if (chdir(value) == 0)
