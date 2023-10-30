@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 14:52:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/30 15:55:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,15 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params)
 		handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
 			|| redir_needed(expressions) != 2)
-			exec(expressions, expr, envs, path);
+			g_exit = exec(expressions, expr, envs, path);
 	}
 	else if (!is_parent_builtin(expr->args[0], expr->len))
 	{
 		g_exit = 127;
 		printf("%s: command not found\n", expr->args[0]);
 	}
+	else
+		g_exit = 1;
 	free(path);
 	return (g_exit);
 }
@@ -159,7 +161,7 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params)
 		exit(g_exit);
 	}
 	run_parent(expressions, params, envs, expr);
-	waitpid(-1, NULL, 0);
+	waitpid(-1, &g_exit, 0);
 	if (!WTERMSIG(g_exit))
 		g_exit = WEXITSTATUS(g_exit);
 	close_file_descriptors(params);
