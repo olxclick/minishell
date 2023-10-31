@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:59:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:08:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int	check_delim(t_args *expr, bool flag)
 			|| ft_strcmp(expr->args[j], "||") == 0)
 			{
 				if (flag)
-					printf("Error: character is not allowed with echo\n")
+					printf("Error: character is not allowed with echo\n");
 				return (1);
 			}
 	return (0);

@@ -6,22 +6,22 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 13:29:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:36:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	redirect(t_params *params)
+void	redirect(t_params *params, bool flag)
 {
-	if (params->input_fd != STDIN_FILENO)
+	if (params->input_fd != STDIN_FILENO && flag)
 	{
 		dup2(params->input_fd, STDIN_FILENO);
 		close(params->input_fd);
 	}
 }
 
-void	redir_input(t_list *expressions, t_params *params)
+void	redir_input(t_list *expressions, t_params *params, bool is_to_do)
 {
 	t_args	*expr;
 	int		flag;
@@ -31,9 +31,9 @@ void	redir_input(t_list *expressions, t_params *params)
 	while (expressions->next)
 	{
 		expr = expressions->content;
-		if (flag)
+		if (flag && is_to_do)
 			params->input_fd = read_fd(expr->args[0]);
-		if (expr->state == REDIR_IN)
+		if (expr->state == REDIR_IN && is_to_do)
 			flag = 1;
 		expressions = expressions->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:50:46 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:16:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,8 @@ char	*check_cd(t_args *expr, char *value, bool flag)
 {
 	struct stat	buf;
 
-	printf("expr: %s\n", expr->args[1]);
 	if (stat(expr->args[1], &buf) == 0)
 	{
-		printf("ola\n");
 		if (S_ISDIR(buf.st_mode))
 		{
 			if (flag)

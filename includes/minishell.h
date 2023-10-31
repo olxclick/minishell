@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:35:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:36:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ void				loop(t_envs *my_envs);
 char				*get_path(char *expr, t_envs *envs);
 size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
-void				redirect(t_params *params);
+void				redirect(t_params *params, bool flag);
 int					get_lenght(t_envs *envs, int i);
 int					do_heredoc(t_list *expressions, t_params *params,
-						t_envs *envs);
+						t_envs *envs, bool flag);
 int					ver_exit(t_list *expressions, t_args *expr,
 						t_params *params, bool flag);
 int					do_echo(t_args *expr, bool flag);
@@ -102,7 +102,7 @@ size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value, bool flag);
 long int			do_exit(t_args *expr, long int mini_exit, bool flag);
 void				ft_here_sig(int signal);
-int					check_delim(t_args *expr);
+int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, int n_vars);
 int					check_for_vars(char *input, bool flag);
@@ -119,7 +119,7 @@ char				*change_dir(t_list *expressions,
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs, bool flag);
-void				redir_input(t_list *expressions, t_params *params);
+void				redir_input(t_list *expressions, t_params *params, bool is_to_do);
 char				*get_token(char *input);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);

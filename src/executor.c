@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:30:37 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:50:05 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,14 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params, bool flag
 	expr = expressions->content;
 	if (redir_needed(expressions) == 1)
 	{
-		redir_input(expressions, params);
-		redirect(params);
+		redir_input(expressions, params, flag);
+		redirect(params, flag);
 	}
 	else if (redir_needed(expressions) == 2)
 	{
 		params->heredoc_fd = open(".heredoc.tmp", O_CREAT
 				| O_TRUNC | O_RDWR, 0644);
-		do_heredoc(expressions, params, envs);
+		do_heredoc(expressions, params, envs, flag);
 	}
 	path = get_path(expr->args[0], envs);
 	if (is_child_builtin(expr->args[0]) || path
@@ -131,12 +131,15 @@ int	run_parent(t_list *expressions, t_params *params,
 		}
 		else if (expr->state == REDIR_OUT || expr->state == REDIR_APPEND)
 		{
-			waitpid(params->pid, NULL, 0);
-			if (open(".heredoc.tmp", O_RDONLY | 0644) == -1)
-				params->input_fd = params->pipe_fd[R];
-			else
-				params->input_fd = open(".heredoc.tmp", O_RDONLY | 0644);
-			do_redir_out(params);
+			if (flag)
+			{
+				waitpid(params->pid, NULL, 0);
+				if (open(".heredoc.tmp", O_RDONLY | 0644) == -1)
+					params->input_fd = params->pipe_fd[R];
+				else
+					params->input_fd = open(".heredoc.tmp", O_RDONLY | 0644);
+				do_redir_out(params);
+			}
 		}
 		expressions = expressions->next;
 	}
