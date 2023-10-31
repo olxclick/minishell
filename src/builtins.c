@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:15:42 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:31:33 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs,
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params,
+int	exec_parent_builtin(t_list *expressions, t_params *params,
 		t_envs *my_envs, bool flag)
 {
+	t_args	*expr;
+
+	expr = expressions->content;
 	if (ft_strcmp(expr->args[0], "exit") == 0)
 		g_exit = ver_exit(expressions, expr, params, flag);
 	else if (ft_strcmp(expr->args[0], "env") == 0)
