@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:08:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:11:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	add_env(t_envs *envs, char *expr)
 		free(envs->vars[pos]);
 		envs->vars[pos] = ft_strdup(expr);
 	}
-	// envs->vars[envs->len] = NULL;
+	envs->vars[envs->len] = NULL;
 	free(key);
 	return (0);
 }
@@ -165,7 +165,7 @@ int	do_export(t_args *expr, t_envs *envs, bool flag)
 		return (0);
 	}
 	i = 1;
-	while (expr->args[i])
+	while (expr->args[i] && flag)
 	{
 		if (expr->args[i] && isalnum(expr->args[i][0]))
 			g_exit = add_env(envs, expr->args[i]);

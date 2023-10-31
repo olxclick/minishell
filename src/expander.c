@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:17:55 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:52:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	i = 0;
 	flag = is_same_quotes(input);
 	n = check_for_vars(input, flag_exp);
-	if ((n && flag < 0) || ft_strcmp(input, "$?") == 0)
+	if ((n && flag < 0) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
 		return (get_var(input, envs, n));
 	while (input[i])
 	{
@@ -100,20 +100,18 @@ char	*get_var(char *input, t_envs *envs, int n_vars)
 			res = ft_itoa(g_exit);
 		else
 		{
-			if (pos == -1)
+			if (pos != -1)
 			{
-				free(input);
-				return (NULL);
+				while (envs->vars[pos][j] != '=')
+					j++;
+				start = j + 1;
+				while (envs->vars[pos][j])
+					j++;
+				if (!res)
+					res = ft_substr(envs->vars[pos], start, j);
+				else
+					res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
 			}
-			while (envs->vars[pos][j] != '=')
-				j++;
-			start = j + 1;
-			while (envs->vars[pos][j])
-				j++;
-			if (!res)
-				res = ft_substr(envs->vars[pos], start, j);
-			else
-				res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
 		}
 		i++;
 	}
