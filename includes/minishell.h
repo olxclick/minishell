@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:36:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:36:14 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int					check_for_pipe(t_list *expressions);
 void				update_pwd(t_envs *envs);
 void				back_slash(int sig);
 char				**get_args(t_token t, int end);
-void				handle_pipes(t_list *expressions, t_params *params);
+void				handle_pipes(t_list *expressions, t_params *params, bool flag);
 t_state				get_state(t_args *args, t_state prev_state);
 int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
