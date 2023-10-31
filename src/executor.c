@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:50:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:31:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params, bool flag)
 	}
 	run_parent(expressions, params, envs, expr, true);
 	waitpid(-1, &g_exit, 0);
-	run_parent(original, params, envs, expr, false);
+	if (ft_strcmp(expr->args[0], "cat") != 0)
+		run_parent(original, params, envs, expr, false);
 	if (!WTERMSIG(g_exit))
 		g_exit = WEXITSTATUS(g_exit);
 	close_file_descriptors(params);
