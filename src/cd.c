@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 17:38:40 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:50:46 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,23 +50,30 @@ char	*get_home(t_envs *my_envs, char *value)
 	verifica o path que e dado, ve se existe
 	se e valido e da handle a alguns erros
 */
-char	*check_cd(t_args *expr, char *value)
+char	*check_cd(t_args *expr, char *value, bool flag)
 {
 	struct stat	buf;
 
+	printf("expr: %s\n", expr->args[1]);
 	if (stat(expr->args[1], &buf) == 0)
 	{
+		printf("ola\n");
 		if (S_ISDIR(buf.st_mode))
-			value = ft_strdup(expr->args[1]);
+		{
+			if (flag)
+				value = ft_strdup(expr->args[1]);
+		}
 		else
 		{
-			printf("cd: path is not a directory\n");
+			if (flag)
+				printf("cd: path is not a directory\n");
 			g_exit = 1;
 		}
 	}
 	else
 	{
-		printf("cd: unable to access path\n");
+		if (flag)
+			printf("cd: unable to access path\n");
 		g_exit = 1;
 	}
 	return (value);
@@ -85,21 +92,29 @@ void	get_oldpwd(t_envs *envs)
 	, caso um pipe seja dado comoargumento retorna null
 */
 char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs,
-	char *value)
+	char *value, bool flag)
 {
 	if (check_for_pipe(expressions))
 		return (NULL);
-	if (expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
-			&& expr->len == 2))
-		value = get_home(my_envs, value);
-	else if (ft_strcmp(expr->args[1], "-") == 0 && expr->len == 2)
+	if ((expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
+			&& expr->len == 2)))
 	{
-		if (my_envs->oldpwd)
-			get_oldpwd(my_envs);
-		value = ft_strdup(my_envs->oldpwd);
+		g_exit = 0;
+		if (flag)
+			value = get_home(my_envs, value);
+	}
+	else if (ft_strcmp(expr->args[1], "-") == 0 && expr->len == 2 && flag)
+	{
+		g_exit = 0;
+		if (flag)
+		{
+			if (my_envs->oldpwd)
+				get_oldpwd(my_envs);
+			value = ft_strdup(my_envs->oldpwd);
+		}
 	}
 	else if (expr->args[1] && expr->len == 2)
-		value = check_cd(expr, value);
+		value = check_cd(expr, value, flag);
 	return (value);
 }
 
@@ -107,7 +122,7 @@ char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs,
 	funcao responsavel por mudar o diretorio atual consoante o argumento
 	dado
 */
-int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
+int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag)
 {
 	char	*value;
 
@@ -115,12 +130,13 @@ int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs)
 	my_envs->buf = NULL;
 	if (expr->len > 2)
 	{
-		printf("cd: invalid number of arguments\n");
+		if (flag)
+			printf("cd: invalid number of arguments\n");
 		g_exit = 2;
 	}
 	else
-		value = change_dir(expressions, expr, my_envs, value);
-	if (chdir(value) == 0)
+		value = change_dir(expressions, expr, my_envs, value, flag);
+	if (chdir(value) == 0 && flag)
 		update_pwd(my_envs);
 	cd_free(value, my_envs);
 	return (g_exit);

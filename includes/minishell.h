@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 17:11:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:35:41 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,32 +93,32 @@ int					get_lenght(t_envs *envs, int i);
 int					do_heredoc(t_list *expressions, t_params *params,
 						t_envs *envs);
 int					ver_exit(t_list *expressions, t_args *expr,
-						t_params *params);
-int					do_echo(t_args *expr);
+						t_params *params, bool flag);
+int					do_echo(t_args *expr, bool flag);
 int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
 t_token				set_args_tokens(char *input, t_envs *envs);
 size_t				count_quotes(char *str);
-char				*check_cd(t_args *expr, char *value);
-long int			do_exit(t_args *expr, long int mini_exit);
+char				*check_cd(t_args *expr, char *value, bool flag);
+long int			do_exit(t_args *expr, long int mini_exit, bool flag);
 void				ft_here_sig(int signal);
 int					check_delim(t_args *expr);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, int n_vars);
 int					check_for_vars(char *input, bool flag);
-int					exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path);
+int					exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path, bool flag);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
 char				*redo_token(char *input, char c, int flag, t_envs *envs);
 void				executor(t_list *expressions, t_envs *envs,
-						t_params *params);
+						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);
 char				*change_dir(t_list *expressions,
-						t_args *expr, t_envs *my_envs, char *value);
+						t_args *expr, t_envs *my_envs, char *value, bool flag);
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
-int					do_env(t_envs *my_envs);
+int					do_env(t_envs *my_envs, bool flag);
 void				redir_input(t_list *expressions, t_params *params);
 char				*get_token(char *input);
 char				*remove_quotes(char *input);
@@ -129,7 +129,7 @@ char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);
 int					dir_change(t_list *expressions,
-						t_args *expr, t_envs *my_envs);
+						t_args *expr, t_envs *my_envs, bool flag);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
 int					is_same_quotes(char *str);
@@ -151,19 +151,19 @@ void				handle_pipes(t_list *expressions, t_params *params);
 t_state				get_state(t_args *args, t_state prev_state);
 int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
-						t_params *params);
+						t_params *params, bool flag);
 void				free_args(t_args *expression);
 int					redir_needed(t_list *expressions);
-int					do_export(t_args *expr, t_envs *envs);
+int					do_export(t_args *expr, t_envs *envs, bool flag);
 void				print_list(t_list *head);
-int					do_unset(t_args *expr, t_envs *my_envs);
+int					do_unset(t_args *expr, t_envs *my_envs, bool flag);
 
 t_state				get_delim_state(char *token);
 int					exec_parent_builtin(t_list *expressions,
 						t_args *expr, t_params *params,
-						t_envs *my_envs);
+						t_envs *my_envs, bool flag);
 char				**set_envs(char **envs);
-int					exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs);
+int					exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag);
 
 static inline int	is_delim(char *token)
 {

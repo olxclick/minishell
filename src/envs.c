@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envs.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/26 16:44:51 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:30:23 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ char	**set_envs(char **envs)
 	guardas na struct "my_envs" e da print nelas
 	retorna 0 caso tenho sido feito com sucesso
 */
-int	do_env(t_envs *my_envs)
+int	do_env(t_envs *my_envs, bool flag)
 {
 	int	i;
 
 	i = 0;
-	while (i < my_envs->len)
+	while (i < my_envs->len && flag)
 		printf("%s\n", my_envs->vars[i++]);
 	return (0);
 }

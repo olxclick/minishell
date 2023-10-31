@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/30 16:54:16 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:28:45 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 /*
     printa o diretorio atual
 */
-int	do_pwd(t_args *expr)
+int	do_pwd(t_args *expr, bool flag)
 {
 	(void)expr;
 	char	cwd[PATH_MAX];
-	printf("%s\n", getcwd(cwd, PATH_MAX));
+	if (flag)
+		printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
 }
 
@@ -29,15 +30,15 @@ int	do_pwd(t_args *expr)
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs)
+int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag)
 {
 	(void)expressions;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
-		g_exit = do_echo(expr);
+		g_exit = do_echo(expr, flag);
 	else if (ft_strcmp(expr->args[0], "pwd") == 0)
-		g_exit = do_pwd(expr);
+		g_exit = do_pwd(expr, flag);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
-		g_exit = do_export(expr, my_envs);
+		g_exit = do_export(expr, my_envs, flag);
 	return (g_exit);
 }
 
@@ -47,18 +48,18 @@ int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs)
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs)
+int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs, bool flag)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
-		g_exit = ver_exit(expressions, expr, params);
+		g_exit = ver_exit(expressions, expr, params, flag);
 	else if (ft_strcmp(expr->args[0], "env") == 0)
-		g_exit = do_env(my_envs);
+		g_exit = do_env(my_envs, flag);
 	else if (ft_strcmp(expr->args[0], "export") == 0)
-		g_exit = do_export(expr, my_envs);
+		g_exit = do_export(expr, my_envs, flag);
 	else if (ft_strcmp(expr->args[0], "unset") == 0)
-		g_exit = do_unset(expr, my_envs);
+		g_exit = do_unset(expr, my_envs, flag);
 	else if (ft_strcmp(expr->args[0], "cd") == 0)
-		g_exit = dir_change(expressions, expr, my_envs);
+		g_exit = dir_change(expressions, expr, my_envs, flag);
 	return (g_exit);
 }
 
@@ -89,7 +90,7 @@ int	remove_var(t_envs *my_envs, int pos)
     e remove-as. caso o nome nao seja especificado ou
     nao seja encontrado da return de 0
 */
-int	do_unset(t_args *expr, t_envs *my_envs)
+int	do_unset(t_args *expr, t_envs *my_envs, bool flag)
 {
 	int	i;
 	int	pos;
@@ -102,17 +103,19 @@ int	do_unset(t_args *expr, t_envs *my_envs)
 			pos = pos_env_var(my_envs, expr->args[i]);
 			if (pos < 0)
 			{
-				printf("'%s' could not be found\n", expr->args[i]);
+				if (flag)
+					printf("'%s' could not be found\n", expr->args[i]);
 				g_exit = 1;
 			}
-			else
+			else if (flag)
 				g_exit = remove_var(my_envs, pos);
 			i++;
 		}
 	}
 	else
 	{
-		printf("unset: invalid Syntax\n");
+		if (flag)
+			printf("unset: invalid Syntax\n");
 		g_exit = 1;
 	}
 	return (g_exit);
@@ -151,19 +154,20 @@ int	add_env(t_envs *envs, char *expr)
 	return (0);
 }
 
-int	do_export(t_args *expr, t_envs *envs)
+int	do_export(t_args *expr, t_envs *envs, bool flag)
 {
 	int	i;
 
 	if (expr->len == 1)
 	{
-		sort_envs(envs);
+		if (flag)
+			sort_envs(envs);
 		return (0);
 	}
 	i = 1;
 	while (expr->args[i])
 	{
-		if (expr->args[i] && isalnum(expr->args[i][0]))
+		if (expr->args[i] && isalnum(expr->args[i][0]) && flag)
 			g_exit = add_env(envs, expr->args[i]);
 		i++;
 	}
@@ -196,14 +200,14 @@ int	check_delim(t_args *expr)
     replica as funcionalidades do echo e 
     ignora o "\" e o "-n"
 */
-int	do_echo(t_args *expr)
+int	do_echo(t_args *expr, bool flag)
 {
 	size_t	i;
-	size_t	flag;
+	size_t	flag2;
 
 	flag = 0;
 	i = 1;
-	if (expr->len == 1)
+	if (expr->len == 1 && flag)
 		printf("\n");
 	if (expr->args[1])
 	{
@@ -216,17 +220,17 @@ int	do_echo(t_args *expr)
 	}
 	if (check_delim(expr))
 		return (1);
-	while (expr->args[i])
+	while (expr->args[i] && flag)
 	{
-		if (flag)
+		if (flag2)
 			printf(" ");
 		printf("%s", expr->args[i++]);
 		if (expr->args[i])
-			flag = 1;
+			flag2 = 1;
 		else
-			flag = 0;
+			flag2 = 0;
 	}
-	if (expr->args[1])
+	if (expr->args[1] && flag)
 		if (ft_strncmp(expr->args[1], "-n", 2) != 0)
 			printf("\n");
 	return (0);
@@ -277,20 +281,23 @@ int	check_for_pipe(t_list *expressions)
     exit status , da print a mensagem apropriada
     de acordo com o numero de argumentos
 */
-long int	do_exit(t_args *expr, long int mini_exit)
+long int	do_exit(t_args *expr, long int mini_exit, bool flag)
 {
-	printf("exit\n");
+	if (flag)
+		printf("exit\n");
 	if (expr->len >= 3)
 	{
 		mini_exit = 1;
-		printf("exit: too many arguments\n");
+		if (flag)
+			printf("exit: too many arguments\n");
 	}
 	else if (expr->len == 2)
 	{
 		if (digits_in((char *)expr->args[1]) || ft_atoi(expr->args[1]) > INT_MAX)
 		{
-			printf("%s: numeric argument required\n",
-				(char *)expr->args[1]);
+			if (flag)
+				printf("%s: numeric argument required\n",
+					(char *)expr->args[1]);
 			mini_exit = 2;
 		}
 		else
@@ -299,7 +306,7 @@ long int	do_exit(t_args *expr, long int mini_exit)
 	return (mini_exit);
 }
 
-int	ver_exit(t_list *expressions, t_args *expr, t_params *params)
+int	ver_exit(t_list *expressions, t_args *expr, t_params *params, bool flag)
 {
 	long int mini_exit;
 
@@ -312,7 +319,7 @@ int	ver_exit(t_list *expressions, t_args *expr, t_params *params)
 		return (g_exit);
 	}
 	else
-		mini_exit = do_exit(expr, mini_exit);
+		mini_exit = do_exit(expr, mini_exit, flag);
 	params->exit_flag = 0;
 	params->exited = 1;
 	return ((int)mini_exit);
