@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:15:31 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:28:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@ void	get_oldpwd(t_envs *envs)
 {
 	free(envs->oldpwd);
 	envs->oldpwd = ft_substr(envs->vars[pos_env_var(envs, "OLDPWD")],
-								7,
-								ft_strlen(envs->vars[pos_env_var(envs,
-											"OLDPWD")]));
+			7, ft_strlen(envs->vars[pos_env_var(envs, "OLDPWD")]));
 }
 
 /*
@@ -91,9 +89,12 @@ void	get_oldpwd(t_envs *envs)
 	do mudanca de diretorio consoante o argumento
 	, caso um pipe seja dado comoargumento retorna null
 */
-char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs,
+char	*change_dir(t_list *expressions, t_envs *my_envs,
 		char *value, bool flag)
 {
+	t_args	*expr;
+
+	expr = expressions->content;
 	if (check_for_pipe(expressions))
 		return (NULL);
 	if ((expr->len == 1 || (!ft_strcmp(expr->args[1], "~") && expr->len == 2)))
@@ -134,7 +135,7 @@ int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag)
 		g_exit = 2;
 	}
 	else
-		value = change_dir(expressions, expr, my_envs, value, flag);
+		value = change_dir(expressions, my_envs, value, flag);
 	if (chdir(value) == 0 && flag)
 		update_pwd(my_envs);
 	cd_free(value, my_envs);

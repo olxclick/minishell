@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 14:03:42 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/05 15:33:04 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:29:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,12 @@ static size_t	get_digits(int n)
 	size_t	i;
 
 	i = 1;
-	while (n /= 10)
+	n = n / 10;
+	while (n)
+	{
+		n = n / 10;
 		i++;
+	}
 	return (i);
 }
 

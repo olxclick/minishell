@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:15:13 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:29:11 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,12 @@ char	*get_path(char *expr, t_envs *envs)
 	return (NULL);
 }
 
-int	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path,
+int	exec(t_list *expressions, t_envs *my_envs, char *path,
 		bool flag)
 {
+	t_args	*expr;
+
+	expr = expressions->content;
 	free(expr->args[expr->len]);
 	expr->args[expr->len] = NULL;
 	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0],
@@ -103,7 +106,7 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params,
 			handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
 			|| redir_needed(expressions) != 2)
-			g_exit = exec(expressions, expr, envs, path, flag);
+			g_exit = exec(expressions, envs, path, flag);
 	}
 	else if (!is_parent_builtin(expr->args[0], expr->len))
 	{
@@ -114,9 +117,11 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params,
 	return (g_exit);
 }
 
-int	run_parent(t_list *expressions, t_params *params, t_envs *envs,
-		t_args *expr, bool flag)
+int	run_parent(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 {
+	t_args	*expr;
+
+	expr = expressions->content;
 	close(params->pipe_fd[W]);
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
@@ -167,10 +172,10 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params, bool flag)
 		g_exit = child_process(expressions, envs, params, flag);
 		exit(g_exit);
 	}
-	run_parent(expressions, params, envs, expr, true);
+	run_parent(expressions, params, envs, true);
 	waitpid(-1, &g_exit, 0);
 	if (ft_strcmp(expr->args[0], "cat") != 0)
-		run_parent(original, params, envs, expr, false);
+		run_parent(original, params, envs, false);
 	if (!WTERMSIG(g_exit))
 		g_exit = WEXITSTATUS(g_exit);
 	close_file_descriptors(params);

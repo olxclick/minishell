@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:16:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:27:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, int n_vars);
 int					check_for_vars(char *input, bool flag);
-int					exec(t_list *expressions, t_args *expr, t_envs *my_envs,
+int					exec(t_list *expressions, t_envs *my_envs,
 						char *path, bool flag);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
@@ -116,7 +116,6 @@ void				executor(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);
 char	*change_dir(t_list *expressions,
-					t_args *expr,
 					t_envs *my_envs,
 					char *value,
 					bool flag);
