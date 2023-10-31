@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:28:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:54:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ int	do_export(t_args *expr, t_envs *envs, bool flag)
 	i = 1;
 	while (expr->args[i])
 	{
-		if (expr->args[i] && isalnum(expr->args[i][0]) && flag)
+		if (expr->args[i] && isalnum(expr->args[i][0]))
 			g_exit = add_env(envs, expr->args[i]);
 		i++;
 	}
@@ -207,7 +207,7 @@ int	do_echo(t_args *expr, bool flag)
 
 	flag = 0;
 	i = 1;
-	if (expr->len == 1 && flag)
+	if (expr->len == 1)
 		printf("\n");
 	if (expr->args[1])
 	{
@@ -220,9 +220,9 @@ int	do_echo(t_args *expr, bool flag)
 	}
 	if (check_delim(expr))
 		return (1);
-	while (expr->args[i] && flag)
+	while (expr->args[i])
 	{
-		if (flag2)
+		if (flag2 && flag)
 			printf(" ");
 		printf("%s", expr->args[i++]);
 		if (expr->args[i])
@@ -230,7 +230,7 @@ int	do_echo(t_args *expr, bool flag)
 		else
 			flag2 = 0;
 	}
-	if (expr->args[1] && flag)
+	if (expr->args[1])
 		if (ft_strncmp(expr->args[1], "-n", 2) != 0)
 			printf("\n");
 	return (0);
