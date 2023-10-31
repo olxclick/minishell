@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 14:36:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:45:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,18 +68,21 @@ int	read_fd(char *file_name)
 	return (fd);
 }
 
-void	handle_pipes(t_list *expressions, t_params *params, bool flag)
+void	handle_pipes(t_list *expressions, t_params *params)
 {
 	t_args	*nextexpr;
 
 	nextexpr = NULL;
-	if (!flag)
-		return ;
 	if (expressions->next)
 		nextexpr = expressions->next->content;
 	if (nextexpr && nextexpr->state != HEREDOC && nextexpr->state != REDIR_IN)
 	{
 		close(params->pipe_fd[R]);
+		if (params->input_fd != STDIN_FILENO)
+		{
+			dup2(params->input_fd, STDIN_FILENO);
+			close(params->input_fd);
+		}
 		dup2(params->pipe_fd[W], STDOUT_FILENO);
 		close(params->pipe_fd[W]);
 	}

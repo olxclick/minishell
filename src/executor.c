@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 14:36:44 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 14:46:01 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params, bool flag
 	if (is_child_builtin(expr->args[0]) || path
 		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)))
 	{
-		handle_pipes(expressions, params, flag);
+		if (flag)
+			handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
 			|| redir_needed(expressions) != 2)
 			g_exit = exec(expressions, expr, envs, path, flag);
