@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:54:07 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 12:59:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int	do_export(t_args *expr, t_envs *envs, bool flag)
     procura pelo delimitador e printa 
     uma mensagem de erro caso encontre
 */
-int	check_delim(t_args *expr)
+int	check_delim(t_args *expr, bool flag)
 {
 	size_t	j;
 
@@ -192,7 +192,11 @@ int	check_delim(t_args *expr)
 			|| ft_strcmp(expr->args[j], "<<") == 0
 			|| ft_strcmp(expr->args[j], "|") == 0
 			|| ft_strcmp(expr->args[j], "||") == 0)
-			return (printf("Error: character is not allowed with echo\n"));
+			{
+				if (flag)
+					printf("Error: character is not allowed with echo\n")
+				return (1);
+			}
 	return (0);
 }
 
@@ -218,7 +222,7 @@ int	do_echo(t_args *expr, bool flag)
 		else
 			i = 1;
 	}
-	if (check_delim(expr))
+	if (check_delim(expr, flag))
 		return (1);
 	while (expr->args[i])
 	{
