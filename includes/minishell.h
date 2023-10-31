@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 14:45:33 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:16:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include "../get_next_line/get_next_line.h"
 # include "../libft/libft.h"
+# include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <linux/limits.h>
 # include <readline/history.h>
-# include <errno.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
-# include <limits.h>
 # include <stdint.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -106,7 +106,8 @@ int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs, int n_vars);
 int					check_for_vars(char *input, bool flag);
-int					exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path, bool flag);
+int					exec(t_list *expressions, t_args *expr, t_envs *my_envs,
+						char *path, bool flag);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
@@ -114,12 +115,16 @@ char				*redo_token(char *input, char c, int flag, t_envs *envs);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);
-char				*change_dir(t_list *expressions,
-						t_args *expr, t_envs *my_envs, char *value, bool flag);
+char	*change_dir(t_list *expressions,
+					t_args *expr,
+					t_envs *my_envs,
+					char *value,
+					bool flag);
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs, bool flag);
-void				redir_input(t_list *expressions, t_params *params, bool is_to_do);
+void				redir_input(t_list *expressions, t_params *params,
+						bool is_to_do);
 char				*get_token(char *input);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
@@ -128,8 +133,10 @@ char				*check_token(char *input, t_envs *envs, bool flag_exp);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);
-int					dir_change(t_list *expressions,
-						t_args *expr, t_envs *my_envs, bool flag);
+int	dir_change(t_list *expressions,
+				t_args *expr,
+				t_envs *my_envs,
+				bool flag);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
 int					is_same_quotes(char *str);
@@ -159,11 +166,14 @@ void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs, bool flag);
 
 t_state				get_delim_state(char *token);
-int					exec_parent_builtin(t_list *expressions,
-						t_args *expr, t_params *params,
-						t_envs *my_envs, bool flag);
+int	exec_parent_builtin(t_list *expressions,
+						t_args *expr,
+						t_params *params,
+						t_envs *my_envs,
+						bool flag);
 char				**set_envs(char **envs);
-int					exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag);
+int					exec_child_builtin(t_list *expressions, t_args *expr,
+						t_envs *my_envs, bool flag);
 
 static inline int	is_delim(char *token)
 {
@@ -186,16 +196,14 @@ static inline void	close_file_descriptors(t_params *params)
 
 static inline int	is_child_builtin(char *cmd)
 {
-	return ((ft_strcmp(cmd, "pwd") == 0)
-		|| (ft_strcmp(cmd, "echo") == 0) || (ft_strcmp(cmd, "export") == 0));
+	return ((ft_strcmp(cmd, "pwd") == 0) || (ft_strcmp(cmd, "echo") == 0)
+		|| (ft_strcmp(cmd, "export") == 0));
 }
 
 static inline int	is_parent_builtin(char *cmd, int len)
 {
-	return ((ft_strcmp(cmd, "exit") == 0)
-		|| (ft_strcmp(cmd, "env") == 0 && len > 1)
-		|| (ft_strcmp(cmd, "cd") == 0)
-		|| (ft_strcmp(cmd, "export") == 0 && len > 1)
-		|| (ft_strcmp(cmd, "unset") == 0));
+	return ((ft_strcmp(cmd, "exit") == 0) || (ft_strcmp(cmd, "env") == 0
+			&& len > 1) || (ft_strcmp(cmd, "cd") == 0) || (ft_strcmp(cmd,
+				"export") == 0 && len > 1) || (ft_strcmp(cmd, "unset") == 0));
 }
 #endif

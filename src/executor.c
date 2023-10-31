@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 14:46:01 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:13 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ char	*check_path(char *path)
 
 char	*define_path(t_envs *envs, char *expr)
 {
-	char		*full_path;
-	char		*bin;
-	char		**path_env;
-	size_t		i;
+	char	*full_path;
+	char	*bin;
+	char	**path_env;
+	size_t	i;
 
 	i = 0;
 	bin = ft_strjoin("/", expr);
@@ -64,19 +64,21 @@ char	*get_path(char *expr, t_envs *envs)
 	return (NULL);
 }
 
-int	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path, bool flag)
+int	exec(t_list *expressions, t_args *expr, t_envs *my_envs, char *path,
+		bool flag)
 {
 	free(expr->args[expr->len]);
 	expr->args[expr->len] = NULL;
-	if (is_child_builtin(expr->args[0])
-		|| (ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1))
+	if (is_child_builtin(expr->args[0]) || (ft_strcmp(expr->args[0],
+				"export") == 0 && expr->len == 1))
 		g_exit = exec_child_builtin(expressions, expr, my_envs, flag);
 	else if (flag)
 		execve(path, expr->args, my_envs->vars);
 	return (g_exit);
 }
 
-int	child_process(t_list *expressions, t_envs *envs, t_params *params, bool flag)
+int	child_process(t_list *expressions, t_envs *envs, t_params *params,
+		bool flag)
 {
 	t_args	*expr;
 	char	*path;
@@ -89,13 +91,13 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params, bool flag
 	}
 	else if (redir_needed(expressions) == 2)
 	{
-		params->heredoc_fd = open(".heredoc.tmp", O_CREAT
-				| O_TRUNC | O_RDWR, 0644);
+		params->heredoc_fd = open(".heredoc.tmp", O_CREAT | O_TRUNC | O_RDWR,
+				0644);
 		do_heredoc(expressions, params, envs, flag);
 	}
 	path = get_path(expr->args[0], envs);
-	if (is_child_builtin(expr->args[0]) || path
-		|| ((ft_strcmp(expr->args[0], "export") == 0 && expr->len == 1)))
+	if (is_child_builtin(expr->args[0]) || path || ((ft_strcmp(expr->args[0],
+					"export") == 0 && expr->len == 1)))
 	{
 		if (flag)
 			handle_pipes(expressions, params);
@@ -112,8 +114,8 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params, bool flag
 	return (g_exit);
 }
 
-int	run_parent(t_list *expressions, t_params *params,
-	t_envs *envs, t_args *expr, bool flag)
+int	run_parent(t_list *expressions, t_params *params, t_envs *envs,
+		t_args *expr, bool flag)
 {
 	close(params->pipe_fd[W]);
 	if (params->input_fd != STDIN_FILENO)

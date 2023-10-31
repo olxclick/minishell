@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 15:45:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:02 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_for_vars(char *input, bool flag)
 	i = 0;
 	count = 0;
 	while (input[i])
-	{	
+	{
 		if (input[i] == '$' && !flag)
 			count++;
 		i++;
@@ -65,7 +65,7 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 		if (flag > 0)
 			return (remove_quotes(input));
 		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input)
-				- 1] == SINGLE_QUOTE)
+			- 1] == SINGLE_QUOTE)
 		{
 			input = redo_token(input, SINGLE_QUOTE, flag, envs);
 			break ;
@@ -129,7 +129,8 @@ char	*redo_token(char *input, char c, int flag, t_envs *envs)
 	start = 0;
 	end = ft_strlen(input) - 1;
 	if (flag == -1)
-		return (get_var(remove_quotes(input), envs, check_for_vars(input, flag)));
+		return (get_var(remove_quotes(input), envs, check_for_vars(input,
+					flag)));
 	if (c == SINGLE_QUOTE)
 	{
 		while ((input[start] == SINGLE_QUOTE) && start <= end)

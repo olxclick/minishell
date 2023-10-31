@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:32:41 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 12:30:23 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,9 @@ void	sort_envs(t_envs *envs)
 */
 void	envs_printer(t_envs *envs)
 {
-	int		i;
-	int		j;
-	int		flag;
+	int	i;
+	int	j;
+	int	flag;
 
 	i = 0;
 	flag = 0;

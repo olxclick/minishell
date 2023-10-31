@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:37:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:14:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	do_redir_out(t_params *params)
 		if (line)
 		{
 			write(params->files[0], line, ft_strlen(line));
-			free (line);
+			free(line);
 		}
 		else
 			break ;
@@ -32,9 +32,9 @@ void	do_redir_out(t_params *params)
 void	define_file(t_args *expr, int *files, t_state prev_state)
 {
 	if (prev_state == REDIR_OUT)
-		*files = open (expr->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		*files = open(expr->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		*files = open (expr->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+		*files = open(expr->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
 int	*create_files(t_list *expressions)
@@ -78,8 +78,8 @@ int	count_files_needed(t_list *expressions)
 		expr = expressions->content;
 		if (expr->args[0])
 		{
-			if (ft_strcmp(expr->args[0], ">") == 0
-				|| ft_strcmp(expr->args[0], ">>") == 0)
+			if (ft_strcmp(expr->args[0], ">") == 0 || ft_strcmp(expr->args[0],
+					">>") == 0)
 				count++;
 		}
 		expressions = expressions->next;
@@ -134,7 +134,7 @@ char	*check_line(char *line, t_envs *envs)
 	new_line = NULL;
 	if (line[i] == '$' && ft_isalnum(line[i + 1]))
 	{
-		new_line = get_var(line, envs, check_for_vars(line, false)); 
+		new_line = get_var(line, envs, check_for_vars(line, false));
 		return (new_line);
 	}
 	return (line);
@@ -163,29 +163,29 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 	{
 		while (true)
 		{
-			signal (SIGQUIT, SIG_IGN);
-			signal (SIGINT, &ft_here_sig);
+			signal(SIGQUIT, SIG_IGN);
+			signal(SIGINT, &ft_here_sig);
 			heredoc_line = readline("> ");
 			line = ft_strjoin(heredoc_line, "\n");
-			free (heredoc_line);
+			free(heredoc_line);
 			done = heredoc_checker(line, delim);
 			if (check_vars(line))
 			{
-				line = check_line (line, envs);
-				line = ft_strjoin (line, "\n");
+				line = check_line(line, envs);
+				line = ft_strjoin(line, "\n");
 			}
 			if (done)
 				break ;
 			if (ft_strcmp(((t_args *)expressions->content)->args[1], "<<") == 0)
-				write (params->heredoc_fd, line, ft_strlen(line));
+				write(params->heredoc_fd, line, ft_strlen(line));
 			if (line)
-				free (line);
+				free(line);
 		}
-		params->heredoc_fd = open (".heredoc.tmp", O_RDONLY | 0644);
+		params->heredoc_fd = open(".heredoc.tmp", O_RDONLY | 0644);
 		params->input_fd = params->heredoc_fd;
-		free (delim);
+		free(delim);
 		if (line)
-			free (line);
+			free(line);
 	}
 	return (0);
 }

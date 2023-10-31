@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 15:11:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:42 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,9 @@
 */
 int	do_pwd(t_args *expr, bool flag)
 {
-	(void)expr;
 	char	cwd[PATH_MAX];
+
+	(void)expr;
 	if (flag)
 		printf("%s\n", getcwd(cwd, PATH_MAX));
 	return (0);
@@ -30,7 +31,8 @@ int	do_pwd(t_args *expr, bool flag)
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag)
+int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs,
+		bool flag)
 {
 	(void)expressions;
 	if (ft_strcmp(expr->args[0], "echo") == 0)
@@ -48,7 +50,8 @@ int	exec_child_builtin(t_list *expressions, t_args *expr, t_envs *my_envs, bool 
     na estrutura "expr" e chama a funcao para 
     tratar do built in
 */
-int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params, t_envs *my_envs, bool flag)
+int	exec_parent_builtin(t_list *expressions, t_args *expr, t_params *params,
+		t_envs *my_envs, bool flag)
 {
 	if (ft_strcmp(expr->args[0], "exit") == 0)
 		g_exit = ver_exit(expressions, expr, params, flag);
@@ -186,17 +189,15 @@ int	check_delim(t_args *expr, bool flag)
 
 	j = -1;
 	while (++j < expr->len)
-		if (ft_strcmp(expr->args[j], ">") == 0
-			|| ft_strcmp(expr->args[j], "<") == 0
-			|| ft_strcmp(expr->args[j], ">>") == 0
-			|| ft_strcmp(expr->args[j], "<<") == 0
-			|| ft_strcmp(expr->args[j], "|") == 0
-			|| ft_strcmp(expr->args[j], "||") == 0)
-			{
-				if (flag)
-					printf("Error: character is not allowed with echo\n");
-				return (1);
-			}
+		if (ft_strcmp(expr->args[j], ">") == 0 || ft_strcmp(expr->args[j],
+				"<") == 0 || ft_strcmp(expr->args[j], ">>") == 0
+			|| ft_strcmp(expr->args[j], "<<") == 0 || ft_strcmp(expr->args[j],
+				"|") == 0 || ft_strcmp(expr->args[j], "||") == 0)
+		{
+			if (flag)
+				printf("Error: character is not allowed with echo\n");
+			return (1);
+		}
 	return (0);
 }
 
@@ -267,16 +268,17 @@ int	digits_in(char *arg)
 */
 int	check_for_pipe(t_list *expressions)
 {
-	int	i;
+	int		i;
+	t_args	*expr;
 
 	i = 0;
-   	while (expressions->next)
-   	{
-		t_args *expr = expressions->content;
+	while (expressions->next)
+	{
+		expr = expressions->content;
 		if (expr->state == PIPE)
 			i++;
 		expressions = expressions->next;
-    	}
+	}
 	return (i);
 }
 
@@ -297,11 +299,12 @@ long int	do_exit(t_args *expr, long int mini_exit, bool flag)
 	}
 	else if (expr->len == 2)
 	{
-		if (digits_in((char *)expr->args[1]) || ft_atoi(expr->args[1]) > INT_MAX)
+		if (digits_in((char *)expr->args[1])
+			|| ft_atoi(expr->args[1]) > INT_MAX)
 		{
 			if (flag)
 				printf("%s: numeric argument required\n",
-					(char *)expr->args[1]);
+						(char *)expr->args[1]);
 			mini_exit = 2;
 		}
 		else
@@ -312,7 +315,7 @@ long int	do_exit(t_args *expr, long int mini_exit, bool flag)
 
 int	ver_exit(t_list *expressions, t_args *expr, t_params *params, bool flag)
 {
-	long int mini_exit;
+	long int	mini_exit;
 
 	mini_exit = 0;
 	if (check_for_pipe(expressions) || params->exit_flag)

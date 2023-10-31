@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 13:16:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:15:31 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,11 @@ char	*check_cd(t_args *expr, char *value, bool flag)
 
 void	get_oldpwd(t_envs *envs)
 {
-	free (envs->oldpwd);
+	free(envs->oldpwd);
 	envs->oldpwd = ft_substr(envs->vars[pos_env_var(envs, "OLDPWD")],
-			7, ft_strlen(envs->vars[pos_env_var(envs, "OLDPWD")]));
+								7,
+								ft_strlen(envs->vars[pos_env_var(envs,
+											"OLDPWD")]));
 }
 
 /*
@@ -90,12 +92,11 @@ void	get_oldpwd(t_envs *envs)
 	, caso um pipe seja dado comoargumento retorna null
 */
 char	*change_dir(t_list *expressions, t_args *expr, t_envs *my_envs,
-	char *value, bool flag)
+		char *value, bool flag)
 {
 	if (check_for_pipe(expressions))
 		return (NULL);
-	if ((expr->len == 1 || (!ft_strcmp(expr->args[1], "~")
-			&& expr->len == 2)))
+	if ((expr->len == 1 || (!ft_strcmp(expr->args[1], "~") && expr->len == 2)))
 	{
 		g_exit = 0;
 		if (flag)
