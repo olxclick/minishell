@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:14:24 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 16:15:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,8 @@ t_args	*get_parsed(t_token t)
 {
 	t_args			*expression;
 	int				i;
-	static t_state	prev_state;
+	static t_state	prev_state = DEFAULT;
 
-	prev_state = DEFAULT;
 	i = 0;
 	expression = malloc(sizeof(t_args));
 	while (t.token[i])
