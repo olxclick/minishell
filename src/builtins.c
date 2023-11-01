@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:31:33 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:56:55 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ int	do_echo(t_args *expr, bool flag)
 		return (1);
 	while (expr->args[i])
 	{
-		if (flag2 && flag)
+		if (flag2 && i != 1)
 			printf(" ");
 		printf("%s", expr->args[i++]);
 		if (expr->args[i])

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:15:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:40:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	i = 0;
 	flag = is_same_quotes(input);
 	n = check_for_vars(input, flag_exp);
-	if ((n && flag < 0) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
+	if ((n && flag != 0) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
 		return (get_var(input, envs, n));
 	while (input[i])
 	{
@@ -81,13 +81,14 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	return (input);
 }
 
-char	*get_var(char *input, t_envs *envs, int n_vars)
+char *get_var(char *input, t_envs *envs, int n_vars)
 {
-	char	*res;
-	int		j;
-	int		start;
-	int		pos;
-	int		i;
+	char *res;
+	int j;
+	int start;
+	int pos;
+	int i;
+	bool is_variable = false;
 
 	i = 1;
 	j = 0;
@@ -97,7 +98,7 @@ char	*get_var(char *input, t_envs *envs, int n_vars)
 		j = 0;
 		pos = search_var(envs, &input[var_start(input, i)]);
 		if (ft_strcmp(input, "$?") == 0)
-			res = ft_itoa(g_exit);
+			return (ft_itoa(g_exit));
 		else
 		{
 			if (pos != -1)
@@ -110,11 +111,20 @@ char	*get_var(char *input, t_envs *envs, int n_vars)
 				if (!res)
 					res = ft_substr(envs->vars[pos], start, j);
 				else
+				{
+					if (is_variable)
+						res = ft_strjoin(res, " ");
 					res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
+				}
+				is_variable = true;
 			}
+			else
+				is_variable = false;
 		}
 		i++;
 	}
+	if (!res)
+		res = ft_strdup(input);
 	free(input);
 	return (res);
 }

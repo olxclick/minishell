@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:27:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:51:11 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,6 @@ int					do_unset(t_args *expr, t_envs *my_envs, bool flag);
 
 t_state				get_delim_state(char *token);
 int	exec_parent_builtin(t_list *expressions,
-						t_args *expr,
 						t_params *params,
 						t_envs *my_envs,
 						bool flag);

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:29:11 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 14:03:43 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	run_parent(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
 	if ((is_parent_builtin(expr->args[0], expr->len)))
-		g_exit = exec_parent_builtin(expressions, expr, params, envs, flag);
+		g_exit = exec_parent_builtin(expressions, params, envs, flag);
 	while (expressions->next)
 	{
 		expr = expressions->content;
