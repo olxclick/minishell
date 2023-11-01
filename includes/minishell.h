@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 13:51:11 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/01 19:14:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ typedef struct s_params
 	int				pipe_fd[2];
 	int				*files;
 	int				input_fd;
-	// int				output_fd;
 	int				heredoc_fd;
 	int				exit_flag;
 	long long		exit_status;
@@ -182,14 +181,9 @@ static inline int	is_delim(char *token)
 
 static inline void	close_file_descriptors(t_params *params)
 {
-	if (params->pipe_fd[0] != STDIN_FILENO)
-		close(params->pipe_fd[0]);
-	if (params->pipe_fd[1] != STDOUT_FILENO)
-		close(params->pipe_fd[1]);
 	if (params->input_fd != STDIN_FILENO)
 		close(params->input_fd);
-	if (params->heredoc_fd != -1)
-		close(params->heredoc_fd);
+	close(params->heredoc_fd);
 }
 
 static inline int	is_child_builtin(char *cmd)
