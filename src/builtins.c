@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 13:56:55 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:21:14 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	do_unset(t_args *expr, t_envs *my_envs, bool flag)
 	int	pos;
 
 	i = 1;
+	g_exit = 1;
 	if (expr->len > 1)
 	{
 		while (i < my_envs->len && expr->args[i])
@@ -111,7 +112,6 @@ int	do_unset(t_args *expr, t_envs *my_envs, bool flag)
 			{
 				if (flag)
 					printf("'%s' could not be found\n", expr->args[i]);
-				g_exit = 1;
 			}
 			else if (flag)
 				g_exit = remove_var(my_envs, pos);
@@ -119,11 +119,8 @@ int	do_unset(t_args *expr, t_envs *my_envs, bool flag)
 		}
 	}
 	else
-	{
 		if (flag)
 			printf("unset: invalid Syntax\n");
-		g_exit = 1;
-	}
 	return (g_exit);
 }
 
@@ -155,7 +152,6 @@ int	add_env(t_envs *envs, char *expr)
 		free(envs->vars[pos]);
 		envs->vars[pos] = ft_strdup(expr);
 	}
-	envs->vars[envs->len] = NULL;
 	free(key);
 	return (0);
 }
@@ -208,12 +204,27 @@ int	check_delim(t_args *expr, bool flag)
     replica as funcionalidades do echo e 
     ignora o "\" e o "-n"
 */
+
+void	run_echo(t_args *expr, size_t i, size_t flag2)
+{
+	while (expr->args[i])
+	{
+		if (flag2 && i != 1)
+			printf(" ");
+		printf("%s", expr->args[i++]);
+		if (expr->args[i])
+			flag2 = 1;
+		else
+			flag2 = 0;
+	}
+}
+
 int	do_echo(t_args *expr, bool flag)
 {
 	size_t	i;
 	size_t	flag2;
 
-	flag = 0;
+	flag2 = 0;
 	i = 1;
 	if (expr->len == 1)
 		printf("\n");
@@ -228,16 +239,7 @@ int	do_echo(t_args *expr, bool flag)
 	}
 	if (check_delim(expr, flag))
 		return (1);
-	while (expr->args[i])
-	{
-		if (flag2 && i != 1)
-			printf(" ");
-		printf("%s", expr->args[i++]);
-		if (expr->args[i])
-			flag2 = 1;
-		else
-			flag2 = 0;
-	}
+	run_echo(expr, i, flag2);
 	if (expr->args[1])
 		if (ft_strncmp(expr->args[1], "-n", 2) != 0)
 			printf("\n");

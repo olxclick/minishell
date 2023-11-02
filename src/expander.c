@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 14:40:22 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:23:29 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,28 +99,25 @@ char *get_var(char *input, t_envs *envs, int n_vars)
 		pos = search_var(envs, &input[var_start(input, i)]);
 		if (ft_strcmp(input, "$?") == 0)
 			return (ft_itoa(g_exit));
-		else
+		if (pos != -1)
 		{
-			if (pos != -1)
-			{
-				while (envs->vars[pos][j] != '=')
-					j++;
-				start = j + 1;
-				while (envs->vars[pos][j])
-					j++;
-				if (!res)
-					res = ft_substr(envs->vars[pos], start, j);
-				else
-				{
-					if (is_variable)
-						res = ft_strjoin(res, " ");
-					res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
-				}
-				is_variable = true;
-			}
+			while (envs->vars[pos][j] != '=')
+				j++;
+			start = j + 1;
+			while (envs->vars[pos][j])
+				j++;
+			if (!res)
+				res = ft_substr(envs->vars[pos], start, j);
 			else
-				is_variable = false;
+			{
+				if (is_variable)
+					res = ft_strjoin(res, " ");
+				res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
+			}
+			is_variable = true;
 		}
+		else
+			is_variable = false;
 		i++;
 	}
 	if (!res)
