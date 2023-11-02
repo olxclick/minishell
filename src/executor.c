@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/02 13:10:43 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/02 17:06:49 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,6 @@ void	built_in_exec(t_list *expressions, t_envs *envs, t_params *params, bool fla
 int	child_process(t_list *expressions, t_envs *envs, t_params *params,
 		bool flag)
 {
-	t_args	*expr;
-
-	expr = expressions->content;
 	if (redir_needed(expressions) == 1)
 	{
 		redir_input(expressions, params, flag);
