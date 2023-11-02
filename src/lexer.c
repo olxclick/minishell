@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 14:04:33 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:35:52 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,10 @@ int	is_same_quotes(char *str)
 		}
 		i++;
 	}
-	if ((count_s % 2 == 0 && count_s != 0) || (count_d % 2 == 0
-			&& count_d != 0))
-		return (count_s == count_quotes(str) || count_d == count_quotes(str));
+	if (count_s % 2 == 0 && count_s != 0) 
+		return (2);
+	else if (count_d % 2 == 0 && count_d != 0)
+		return (1);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/02 13:23:29 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:42:16 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 
 	i = 0;
 	flag = is_same_quotes(input);
+	printf("flag: %d\n", flag);
 	n = check_for_vars(input, flag_exp);
-	if ((n && flag != 0) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
+	if ((n && (flag == -1 || flag == 1)) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
 		return (get_var(input, envs, n));
 	while (input[i])
 	{
@@ -81,24 +82,24 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	return (input);
 }
 
-char *get_var(char *input, t_envs *envs, int n_vars)
+char	*get_var(char *input, t_envs *envs, int n_vars)
 {
-	char *res;
-	int j;
-	int start;
-	int pos;
-	int i;
-	bool is_variable = false;
+	char	*res;
+	int	j;
+	int	start;
+	int	pos;
+	int	i;
+	bool	is_variable = false;
 
 	i = 1;
 	j = 0;
 	res = NULL;
+	if (ft_strcmp(input, "$?") == 0)
+		return (ft_itoa(g_exit));
 	while (i <= n_vars)
 	{
 		j = 0;
 		pos = search_var(envs, &input[var_start(input, i)]);
-		if (ft_strcmp(input, "$?") == 0)
-			return (ft_itoa(g_exit));
 		if (pos != -1)
 		{
 			while (envs->vars[pos][j] != '=')
