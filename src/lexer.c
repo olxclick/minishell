@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/02 17:08:15 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/03 17:45:21 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,13 @@ int	is_same_quotes(char *str)
 		if (str[i] == SINGLE_QUOTE)
 			count_s++;
 		else if (str[i] == DOUBLE_QUOTE)
-		{
-			if (str[i + 1] == '$')
-				return (-1);
 			count_d++;
-		}
 		i++;
+	}
+	if (count_s % 2 != 0 || count_d % 2 != 0)
+	{
+		printf("error: unclosed quotes!\n");
+		return (0);
 	}
 	if (count_s % 2 == 0 && count_s != 0 && count_d == 0)
 		return (2);
@@ -128,7 +129,7 @@ t_token	set_args_tokens(char *input, t_envs *envs)
 	{
 		token = get_token(input);
 		size = ft_strlen(token);
-		token = check_token(token, envs, flag);
+		token = check_token(token, envs);
 		if (!token)
 			break ;
 		t.token[j++] = token;

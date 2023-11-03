@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 19:14:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/03 17:14:06 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ long int			do_exit(t_args *expr, long int mini_exit, bool flag);
 void				ft_here_sig(int signal);
 int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
-char				*get_var(char *input, t_envs *envs, int n_vars);
+char				*get_var(char *input, t_envs *envs);
 int					check_for_vars(char *input, bool flag);
 int					exec(t_list *expressions, t_envs *my_envs,
 						char *path, bool flag);
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
-char				*redo_token(char *input, char c, int flag, t_envs *envs);
+char				*redo_token(char *input, char c);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);
@@ -127,7 +127,7 @@ char				*get_token(char *input);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
 int					pos_env_var(t_envs *envs, char *find);
-char				*check_token(char *input, t_envs *envs, bool flag_exp);
+char				*check_token(char *input, t_envs *envs);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);

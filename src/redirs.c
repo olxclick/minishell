@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 19:17:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/03 17:14:23 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ char	*check_line(char *line, t_envs *envs)
 	new_line = NULL;
 	if (line[i] == '$' && ft_isalnum(line[i + 1]))
 	{
-		new_line = get_var(line, envs, check_for_vars(line, false));
+		new_line = get_var(line, envs);
 		return (new_line);
 	}
 	return (line);
