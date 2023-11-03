@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/03 17:49:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/03 18:03:24 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ char	*check_token(char *input, t_envs *envs)
 		free(input);
 		return (NULL);
 	}
-	if (flag == 1)
-		input = remove_quotes(input);
+	input = remove_quotes(input);
 	if ((flag == 1) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
 		input = get_var(input, envs);
 	while (input[i])
