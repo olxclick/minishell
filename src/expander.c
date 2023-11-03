@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/02 17:53:02 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/03 13:31:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 	printf("flag: %d\n", flag);
 	n = check_for_vars(input, flag_exp);
 	if (((flag == -1 || flag == 1)) || ft_strcmp(input, "$?") == 0 || input[i] == '$')
-		return (get_var(input, envs, n));
+		input = get_var(input, envs, n);
 	while (input[i])
 	{
-		if (flag > 0)
+		if (flag == 1 || flag == -1)
 			return (remove_quotes(input));
 		if (input[i] == SINGLE_QUOTE && input[ft_strlen(input)
 			- 1] == SINGLE_QUOTE)
@@ -85,41 +85,42 @@ char	*check_token(char *input, t_envs *envs, bool flag_exp)
 char	*get_var(char *input, t_envs *envs, int n_vars)
 {
 	char	*res;
+	char	*buf;
+	char	*buf2;
 	int	j;
-	int	x;
 	int	start;
-	int	input_start;
 	int	pos;
 	int	i;
 
 	i = 1;
 	j = 0;
-	x = 0;
-	input_start = 0;
 	res = NULL;
+	buf = NULL;
+	buf2 = NULL;
 	if (ft_strcmp(input, "$?") == 0)
 		return (ft_itoa(g_exit));
 	while (i <= n_vars)
 	{
 		j = 0;
-		while (input[x] && input[x] != '$')
-			x++;
-		if (x != 0)
-			res = ft_strjoin(res, ft_substr(input, input_start, x - 1));
 		pos = search_var(envs, &input[var_start(input, i)]);
 		if (pos != -1)
 		{
 			while (envs->vars[pos][j] != '=')
 				j++;
-			x = j - start;
-			input_start = x;
 			start = j + 1;
 			while (envs->vars[pos][j])
 				j++;
 			if (!res)
 				res = ft_substr(envs->vars[pos], start, j);
 			else
-				res = ft_strjoin(res, ft_substr(envs->vars[pos], start, j));
+			{
+				buf = ft_strdup(res);
+				buf2 = ft_substr(envs->vars[pos], start, j);
+				free(res);
+				res = ft_strjoin(buf, buf2);
+				free(buf);
+				free(buf2);
+			}
 		}
 		i++;
 	}
