@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:44:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:39:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*expand_var(char *input, t_envs *envs, int x, char *res)
 	j = 0;
 	buf = NULL;
 	buf2 = NULL;
-	pos = search_var(envs, &input[x]);
+	pos = pos_env_var(envs, &input[x]);
 	if (pos != -1)
 	{
 		while (envs->vars[pos][j] != '=')
@@ -87,8 +87,12 @@ char	*get_var(char *input, t_envs *envs)
 		if (input[x] == '$')
 		{
 			res = expand_var(input, envs, x + 1, res);
-			while (input[x] && input[x] != ' ')
+			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE && input[x] != DOUBLE_QUOTE)
+			{
 				x++;
+				if (input[x] == '$')
+					break ;
+			}
 		}
 		else
 		{

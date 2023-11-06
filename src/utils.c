@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:59:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:13:52 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 16:24:47 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,35 @@ int	get_envs_size(char **envs)
 	return (i);
 }
 
-int	search_var(t_envs *envs, char *find)
+int	find_end(char *str)
 {
 	int	i;
 
 	i = 0;
-	while (i < envs->len)
+	while (str[i])
 	{
-		if (ft_strncmp(find, envs->vars[i], get_lenght(envs, i) - 1) == 0)
+		if (str[i] == ' ' || str[i] == '$' || str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
 			return (i);
 		i++;
 	}
-	return (-1);
+	return (i);
 }
 
 int	pos_env_var(t_envs *envs, char *find)
 {
 	int	i;
+	int	end;
 	int	equal_sign;
 
 	i = 0;
 	equal_sign = 0;
-	while (find[equal_sign] && find[equal_sign] != '=')
-		equal_sign += 1;
+	end = find_end(find);
+	// while (find[equal_sign] && find[equal_sign] != '=')
+	// 	equal_sign += 1;
+	
 	while (i < envs->len)
 	{
-		if (ft_strncmp(find, envs->vars[i], equal_sign) == 0)
+		if (ft_strncmp(find, envs->vars[i], end) == 0)
 			return (i);
 		i++;
 	}
