@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 13:34:10 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:59:25 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ int					pos_env_var(t_envs *envs, char *find);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);
-char	*change_dir(t_list *expressions,
-					t_envs *my_envs,
-					char *value,
-					bool flag);
+char				*change_dir(t_list *expressions,
+						t_envs *my_envs,
+						char *value,
+						bool flag);
 int					*create_files(t_list *expressions);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs, bool flag);
@@ -130,10 +130,10 @@ char				*check_token(char *input, t_envs *envs);
 char				**ft_realloc(char **str, size_t new_size);
 void				sort_envs(t_envs *envs);
 void				envs_printer(t_envs *envs);
-int	dir_change(t_list *expressions,
-				t_args *expr,
-				t_envs *my_envs,
-				bool flag);
+int					dir_change(t_list *expressions,
+						t_args *expr,
+						t_envs *my_envs,
+						bool flag);
 void				do_redir_out(t_params *params);
 int					get_envs_size(char **envs);
 int					is_same_quotes(char *str);

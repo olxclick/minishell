@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:42:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:57:42 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_token(char *input)
 		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
-					|| input[i] == '<') && !in_quote)
+				|| input[i] == '<') && !in_quote)
 			return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
@@ -82,10 +82,9 @@ char	**ft_realloc(char **str, size_t new_size)
 	return (new_str);
 }
 
-
 int	is_same_quotes(char *str)
 {
-	int	i;
+	int		i;
 	size_t	count_s;
 	size_t	count_d;
 	char	c;
@@ -104,9 +103,10 @@ int	is_same_quotes(char *str)
 			count_d++;
 		i++;
 	}
-	if ((count_s % 2 != 0 && c == SINGLE_QUOTE) || (count_d % 2 != 0 && c == DOUBLE_QUOTE))
+	if ((count_s % 2 != 0 && c == SINGLE_QUOTE)
+		|| (count_d % 2 != 0 && c == DOUBLE_QUOTE))
 		return (printf("error: unclosed quotes!\n"));
-	if (str[0] == SINGLE_QUOTE )
+	if (str[0] == SINGLE_QUOTE)
 		return (2);
 	else if (str[0] == DOUBLE_QUOTE)
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/02 13:21:14 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:57:57 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -309,7 +309,7 @@ long int	do_exit(t_args *expr, long int mini_exit, bool flag)
 		{
 			if (flag)
 				printf("%s: numeric argument required\n",
-						(char *)expr->args[1]);
+					(char *)expr->args[1]);
 			mini_exit = 2;
 		}
 		else
