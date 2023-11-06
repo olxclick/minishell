@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 13:49:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:44:53 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ char	*check_token(char *input, t_envs *envs)
 
 	i = 0;
 	flag = is_same_quotes(input);
-	printf("flag: %d\n", flag);
-	if (flag != 0)
+	if (flag > 2)
+	{
+		free(input);
+		return (NULL);
+	}
+	if (flag == 1 || flag == 2)
 		input = remove_quotes(input);
 	if (ft_strcmp(input, "$?") == 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 13:11:28 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:42:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@ char	*get_token(char *input)
 
 	i = 0;
 	in_quote = false;
+	if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+	{
+		if (!in_quote)
+			in_quote = true;
+		else
+			in_quote = false;
+	}
 	while (input[i])
 	{
-		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
-		{
-			if (!in_quote)
-				in_quote = true;
-			else
-				in_quote = false;
-		}
-		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<')
-			&& !in_quote)
+		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
 					|| input[i] == '<') && !in_quote)
@@ -83,25 +82,30 @@ char	**ft_realloc(char **str, size_t new_size)
 	return (new_str);
 }
 
+
 int	is_same_quotes(char *str)
 {
-	int		i;
+	int	i;
 	size_t	count_s;
 	size_t	count_d;
+	char	c;
 
+	i = 0;
 	count_s = 0;
 	count_d = 0;
-	i = 0;
+	c = '\0';
+	if (str[0] == SINGLE_QUOTE || str[0] == DOUBLE_QUOTE)
+		c = str[0];
 	while (str[i])
 	{
-		if (str[i] == SINGLE_QUOTE)
+		if (str[i] == SINGLE_QUOTE && c == SINGLE_QUOTE)
 			count_s++;
-		else if (str[i] == DOUBLE_QUOTE)
+		if (str[i] == DOUBLE_QUOTE && c == DOUBLE_QUOTE)
 			count_d++;
 		i++;
 	}
-	if (count_s % 2 != 0 || count_d % 2 != 0)
-		printf("error: unclosed quotes!\n");
+	if ((count_s % 2 != 0 && c == SINGLE_QUOTE) || (count_d % 2 != 0 && c == DOUBLE_QUOTE))
+		return (printf("error: unclosed quotes!\n"));
 	if (str[0] == SINGLE_QUOTE )
 		return (2);
 	else if (str[0] == DOUBLE_QUOTE)
