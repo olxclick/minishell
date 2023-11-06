@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/03 17:45:21 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 13:11:28 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,10 @@ int	is_same_quotes(char *str)
 		i++;
 	}
 	if (count_s % 2 != 0 || count_d % 2 != 0)
-	{
 		printf("error: unclosed quotes!\n");
-		return (0);
-	}
-	if (count_s % 2 == 0 && count_s != 0 && count_d == 0)
+	if (str[0] == SINGLE_QUOTE )
 		return (2);
-	else if (count_d % 2 == 0 && count_d != 0 && count_s == 0)
+	else if (str[0] == DOUBLE_QUOTE)
 		return (1);
 	return (0);
 }

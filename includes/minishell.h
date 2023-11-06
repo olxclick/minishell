@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/03 17:14:06 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 13:34:10 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,6 @@ int					exec(t_list *expressions, t_envs *my_envs,
 void				swap(char **a, char **b);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
-char				*redo_token(char *input, char c);
 void				executor(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 t_args				*get_parsed(t_token t);

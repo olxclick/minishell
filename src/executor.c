@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/03 17:23:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 13:41:22 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,11 @@ char	*define_path(t_envs *envs, char *expr)
 char	*get_path(char *expr, t_envs *envs)
 {
 	if (expr[0] == '/' || ft_strncmp(expr, "./", 2) == 0)
-		return (expr);
+	{
+		if (access(expr, F_OK) == 0)
+			return (expr);
+		return (NULL);
+	}
 	if (pos_env_var(envs, "PATH") != -1)
 		return (define_path(envs, expr));
 	return (NULL);
@@ -159,7 +163,6 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params, bool flag)
 {
 	t_args	*expr;
 	t_list	*original;
-
 	original = expressions;
 	expr = expressions->content;
 	pipe(params->pipe_fd);
