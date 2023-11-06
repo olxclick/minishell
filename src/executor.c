@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:50:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:58:30 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,8 @@ int	exec(t_list *expressions, t_envs *my_envs, char *path,
 	return (g_exit);
 }
 
-void	built_in_exec(t_list *expressions, t_envs *envs, t_params *params, bool flag)
+void	built_in_exec(t_list *expressions, t_envs *envs,
+	t_params *params, bool flag)
 {
 	t_args	*expr;
 	char	*path;
@@ -128,7 +129,8 @@ int	child_process(t_list *expressions, t_envs *envs, t_params *params,
 	return (g_exit);
 }
 
-void	redir_parent(t_args *expr, t_params *params, t_list *original, bool flag)
+void	redir_parent(t_args *expr, t_params *params,
+	t_list *original, bool flag)
 {
 	if ((expr->state == REDIR_OUT || expr->state == REDIR_APPEND) && flag)
 	{

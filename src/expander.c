@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:44:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/06 15:56:50 by vasferre         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ char	*check_token(char *input, t_envs *envs)
 
 char	*expand_var(char *input, t_envs *envs, int x, char *res)
 {
-	int	start;
-	int	j;
-	int	pos;
+	int		start;
+	int		j;
+	int		pos;
 	char	*buf;
 	char	*buf2;
 
@@ -75,8 +75,8 @@ char	*get_var(char *input, t_envs *envs)
 	char	*res;
 	char	*buf;
 	char	*buf2;
-	int	x;
-	int	start;
+	int		x;
+	int		start;
 
 	x = 0;
 	res = NULL;
@@ -122,7 +122,7 @@ char	*remove_quotes(char *input)
 	int		j;
 	char	*new_input;
 	char	c;
-	int	end;
+	int		end;
 
 	i = 0;
 	j = 0;
