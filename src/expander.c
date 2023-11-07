@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 16:42:53 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/07 11:43:08 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,11 @@ char	*get_var(char *input, t_envs *envs)
 char	*remove_quotes(char *input)
 {
 	int		i;
-	int		j;
 	char	*new_input;
 	char	c;
 	int		end;
 
 	i = 0;
-	j = 0;
 	c = '\0';
 	if (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE)
 		c = input[i];
