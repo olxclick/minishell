@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/08 14:49:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/09 23:24:15 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,16 @@ void	built_in_exec(t_list *expressions, t_envs *envs,
 	if (is_child_builtin(expr->args[0]) || path || ((ft_strcmp(expr->args[0],
 					"export") == 0 && expr->len == 1)))
 	{
-		handle_pipes(expressions, params);
+		if (flag)
+			handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
 			|| redir_needed(expressions) != 2)
 				g_exit = exec(expressions, envs, path, flag);
 	}
 	else if (!is_parent_builtin(expr->args[0], expr->len))
 	{
-		printf("%s: command not found\n", expr->args[0]);
+		if (flag)
+			printf("%s: command not found\n", expr->args[0]);
 		g_exit = 127;
 	}
 	free(path);
