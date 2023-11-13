@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/10 10:44:41 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:00:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,23 @@
 char	*get_token(char *input)
 {
 	int		i;
-	bool	in_quote;
+	char	c;
 
 	i = 0;
-	in_quote = false;
+	c = '\0';
 	while (input[i])
 	{
 		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
 		{
-			if (!in_quote)
-				in_quote = true;
-			else
-				in_quote = false;
+			if (!c)
+				c = input[i];
+			else if (input[i] == c)
+				c = '\0';
 		}
 		if (i == 0 && (input[i] == '|' || input[i] == '>' || input[i] == '<'))
 			return (operator_return(input, i));
 		else if ((input[i] == ' ' || input[i] == '|' || input[i] == '>'
-				|| input[i] == '<') && !in_quote)
+				|| input[i] == '<') && !c)
 			return (ft_substr(input, 0, i));
 		else if (input[i + 1] == '\0')
 			return (ft_substr(input, 0, i + 1));
@@ -82,6 +82,15 @@ char	**ft_realloc(char **str, size_t new_size)
 	return (new_str);
 }
 
+int	quote_return(char *str)
+{
+	if (str[0] == SINGLE_QUOTE)
+		return (2);
+	else if (str[0] == DOUBLE_QUOTE)
+		return (1);
+	return (0);
+}
+
 int	is_same_quotes(char *str)
 {
 	int		i;
@@ -106,19 +115,14 @@ int	is_same_quotes(char *str)
 	if ((count_s % 2 != 0 && c == SINGLE_QUOTE)
 		|| (count_d % 2 != 0 && c == DOUBLE_QUOTE))
 		return (printf("error: unclosed quotes!\n"));
-	if (str[0] == SINGLE_QUOTE)
-		return (2);
-	else if (str[0] == DOUBLE_QUOTE)
-		return (1);
-	return (0);
+	return (quote_return(str));
 }
 
-t_token	set_args_tokens(char *input, t_envs *envs)
+t_token	set_args_tokens(char *input, t_envs *envs, t_token t)
 {
 	char	*token;
 	size_t	j;
 	size_t	size;
-	t_token	t;
 
 	j = 0;
 	t.token = malloc(1 * sizeof(char *));

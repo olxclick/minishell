@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:59:25 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:02:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,8 @@ int					do_heredoc(t_list *expressions, t_params *params,
 int					ver_exit(t_list *expressions, t_args *expr,
 						t_params *params, bool flag);
 int					do_echo(t_args *expr, bool flag);
-int					search_var(t_envs *envs, char *find);
 int					heredoc_checker(char *line, char *delim);
-t_token				set_args_tokens(char *input, t_envs *envs);
+t_token				set_args_tokens(char *input, t_envs *envs, t_token t);
 size_t				count_quotes(char *str);
 char				*check_cd(t_args *expr, char *value, bool flag);
 long int			do_exit(t_args *expr, long int mini_exit, bool flag);
@@ -104,7 +103,6 @@ void				ft_here_sig(int signal);
 int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
-int					check_for_vars(char *input, bool flag);
 int					exec(t_list *expressions, t_envs *my_envs,
 						char *path, bool flag);
 void				swap(char **a, char **b);
