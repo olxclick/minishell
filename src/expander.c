@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/07 11:43:08 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/13 14:06:18 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,37 +36,43 @@ char	*check_token(char *input, t_envs *envs)
 	return (input);
 }
 
-char	*expand_var(char *input, t_envs *envs, int x, char *res)
+char	*var_fill(char *res, t_envs *envs, int pos)
 {
 	int		start;
 	int		j;
-	int		pos;
 	char	*buf;
 	char	*buf2;
 
 	j = 0;
 	buf = NULL;
 	buf2 = NULL;
+	start = 0;
+	while (envs->vars[pos][j] != '=')
+		j++;
+	start = j + 1;
+	while (envs->vars[pos][j])
+		j++;
+	if (!res)
+		res = ft_substr(envs->vars[pos], start, j);
+	else
+	{
+		buf = ft_strdup(res);
+		buf2 = ft_substr(envs->vars[pos], start, j);
+		free(res);
+		res = ft_strjoin(buf, buf2);
+		free(buf);
+		free(buf2);
+	}
+	return (res);
+}
+
+char	*expand_var(char *input, t_envs *envs, int x, char *res)
+{
+	int		pos;
+
 	pos = pos_env_var(envs, &input[x]);
 	if (pos != -1)
-	{
-		while (envs->vars[pos][j] != '=')
-			j++;
-		start = j + 1;
-		while (envs->vars[pos][j])
-			j++;
-		if (!res)
-			res = ft_substr(envs->vars[pos], start, j);
-		else
-		{
-			buf = ft_strdup(res);
-			buf2 = ft_substr(envs->vars[pos], start, j);
-			free(res);
-			res = ft_strjoin(buf, buf2);
-			free(buf);
-			free(buf2);
-		}
-	}
+		res = var_fill(res, envs, pos);
 	return (res);
 }
 
@@ -93,7 +99,7 @@ char	*get_var(char *input, t_envs *envs)
 				if (input[x] == '$')
 					break ;
 			}
-		}
+		} 
 		else
 		{
 			start = x;
@@ -109,7 +115,7 @@ char	*get_var(char *input, t_envs *envs)
 				res = ft_strjoin(buf, buf2);
 				free(buf);
 				free(buf2);
-			}
+			}                           
 		}
 		if (!input[x])
 			break ;

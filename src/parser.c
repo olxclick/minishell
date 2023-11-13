@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 14:23:33 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/01 16:15:55 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/13 13:38:07 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,23 @@ t_list	*get_all_tokens(t_token t)
 	return (head);
 }
 
+void	parse_expr(t_args *expression, t_token t, int i)
+{
+	if (i == 0)
+	{
+		expression->args = get_args(t, 1);
+		expression->len = 1;
+	}
+	else
+	{
+		expression->args = get_args(t, i + 1);
+		if (!t.token[i + 1])
+			expression->len = i + 1;
+		else
+			expression->len = i;
+	}
+}
+
 t_args	*get_parsed(t_token t)
 {
 	t_args			*expression;
@@ -68,19 +85,7 @@ t_args	*get_parsed(t_token t)
 	{
 		if ((is_delim(t.token[i])) || (!t.token[i + 1]))
 		{
-			if (i == 0)
-			{
-				expression->args = get_args(t, 1);
-				expression->len = 1;
-			}
-			else
-			{
-				expression->args = get_args(t, i + 1);
-				if (!t.token[i + 1])
-					expression->len = i + 1;
-				else
-					expression->len = i;
-			}
+			parse_expr(expression, t, i);
 			expression->state = get_state(expression, prev_state);
 			prev_state = expression->state;
 			return (expression);
