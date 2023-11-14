@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/14 12:02:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:15:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,6 @@ char	*do_smth(char *res, char *input, t_envs *envs, int *x)
 	char	*final;
 	
 	final = expand_var(input, envs, *x + 1, res);
-	while (input[*x] && input[*x] != ' ' && input[*x] != SINGLE_QUOTE && input[*x] != DOUBLE_QUOTE)
-		*x = *x + 1;
 	return (final);
 }
 
@@ -121,8 +119,12 @@ char	*get_var(char *input, t_envs *envs)
 		if (input[x] == '$')
 		{
 			res = do_smth(res, input, envs, &x);
-			if (input[x] == '$')
-				break ;
+			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE && input[x] != DOUBLE_QUOTE)
+			{
+				x++;
+				if (input[x] == '$')
+					break ;
+			}
 		}
 		else
 			res = do_other(input, res, &x);
