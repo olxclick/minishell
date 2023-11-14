@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 10:58:35 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/08 14:48:54 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/14 13:58:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,15 +150,34 @@ int	check_vars(char *line)
 	return (0);
 }
 
+int	here(t_list *expressions, t_params *params, t_envs *envs, char *line)
+{
+	char	*delim;
+
+	delim = get_heredoc_delim(expressions);
+	if (check_vars(line))
+	{
+		line = check_line(line, envs);
+		line = ft_strjoin(line, "\n");
+	}
+	if (heredoc_checker(line, delim))
+	{
+		free(delim);
+		return (0);
+	}
+	if (ft_strcmp(((t_args *)expressions->content)->args[1], "<<") == 0)
+		write(params->heredoc_fd, line, ft_strlen(line));
+	if (line)
+		free(line);
+	free(delim);
+	return (1);
+}
+
 int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 {
 	char	*heredoc_line;
 	char	*line;
-	char	*delim;
-	size_t	done;
 
-	done = 0;
-	delim = get_heredoc_delim(expressions);
 	if (flag)
 	{
 		while (true)
@@ -168,22 +187,11 @@ int	do_heredoc(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 			heredoc_line = readline("> ");
 			line = ft_strjoin(heredoc_line, "\n");
 			free(heredoc_line);
-			done = heredoc_checker(line, delim);
-			if (check_vars(line))
-			{
-				line = check_line(line, envs);
-				line = ft_strjoin(line, "\n");
-			}
-			if (done)
+			if (!here(expressions, params, envs, line))
 				break ;
-			if (ft_strcmp(((t_args *)expressions->content)->args[1], "<<") == 0)
-				write(params->heredoc_fd, line, ft_strlen(line));
-			if (line)
-				free(line);
 		}
 		params->heredoc_fd = open(".heredoc.tmp", O_RDONLY | 0644);
 		params->input_fd = params->heredoc_fd;
-		free(delim);
 		if (line)
 			free(line);
 	}
