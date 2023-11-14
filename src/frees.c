@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:30:01 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:14:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:02:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ void	free_args(t_args *expression)
 	}
 	free(expression->args);
 	free(expression);
+}
+
+void	free_buf(char *s1, char *s2)
+{
+	free(s1);
+	free(s2);
 }
 
 void	free_list(t_list *head)

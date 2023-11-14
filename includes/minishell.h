@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/13 13:02:34 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:02:17 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ typedef struct s_args
 	size_t			len;
 }					t_args;
 
+typedef struct s_expander
+{
+	char			*buf;
+	char			*buf2;
+}					t_expander;
+
 typedef struct s_envs
 {
 	char			**vars;
@@ -89,6 +95,7 @@ size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params, bool flag);
 int					get_lenght(t_envs *envs, int i);
+void	free_buf(char *s1, char *s2);
 int					do_heredoc(t_list *expressions, t_params *params,
 						t_envs *envs, bool flag);
 int					ver_exit(t_list *expressions, t_args *expr,

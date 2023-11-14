@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/13 14:06:18 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/14 12:02:48 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ char	*var_fill(char *res, t_envs *envs, int pos)
 		buf2 = ft_substr(envs->vars[pos], start, j);
 		free(res);
 		res = ft_strjoin(buf, buf2);
-		free(buf);
-		free(buf2);
+		free_buf(buf, buf2);
 	}
 	return (res);
 }
@@ -69,56 +68,64 @@ char	*var_fill(char *res, t_envs *envs, int pos)
 char	*expand_var(char *input, t_envs *envs, int x, char *res)
 {
 	int		pos;
+	char	*final;
 
 	pos = pos_env_var(envs, &input[x]);
 	if (pos != -1)
-		res = var_fill(res, envs, pos);
+		final = var_fill(res, envs, pos);
+	return (final);
+}
+
+char	*do_smth(char *res, char *input, t_envs *envs, int *x)
+{
+	char	*final;
+	
+	final = expand_var(input, envs, *x + 1, res);
+	while (input[*x] && input[*x] != ' ' && input[*x] != SINGLE_QUOTE && input[*x] != DOUBLE_QUOTE)
+		*x = *x + 1;
+	return (final);
+}
+
+char	*do_other(char *input, char *res, int *x)
+{
+	int		start;
+	t_expander	expander;
+
+	expander.buf2 = NULL;
+	expander.buf = NULL;
+	start = *x;
+	while (input[*x] && input[*x] != '$')
+		*x = *x + 1;
+	if (!res)
+		res = ft_substr(input, start, *x);
+	else
+	{
+		expander.buf = ft_strdup(res);
+		free(res);
+		expander.buf2 = ft_substr(input, start, *x - start);
+		res = ft_strjoin(expander.buf, expander.buf2);
+		free_buf(expander.buf2, expander.buf);
+	}
 	return (res);
 }
 
 char	*get_var(char *input, t_envs *envs)
 {
 	char	*res;
-	char	*buf;
-	char	*buf2;
 	int		x;
-	int		start;
 
 	x = 0;
 	res = NULL;
-	buf = NULL;
-	buf2 = NULL;
 	while (input[x])
 	{
 		if (input[x] == '$')
 		{
-			res = expand_var(input, envs, x + 1, res);
-			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE && input[x] != DOUBLE_QUOTE)
-			{
-				x++;
-				if (input[x] == '$')
-					break ;
-			}
-		} 
-		else
-		{
-			start = x;
-			while (input[x] && input[x] != '$')
-				x++;
-			if (!res)
-				res = ft_substr(input, start, x);
-			else
-			{
-				buf = ft_strdup(res);
-				free(res);
-				buf2 = ft_substr(input, start, x - start);
-				res = ft_strjoin(buf, buf2);
-				free(buf);
-				free(buf2);
-			}                           
+			res = do_smth(res, input, envs, &x);
+			if (input[x] == '$')
+				break ;
 		}
-		if (!input[x])
-			break ;
+		else
+			res = do_other(input, res, &x);
 	}
 	if (!res)
 		res = ft_strdup(input);
