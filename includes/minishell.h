@@ -38,7 +38,8 @@
 # define SINGLE_QUOTE '\''
 
 extern int			g_exit;
-typedef enum
+
+typedef enum s_state
 {
 	CMD,
 	PIPE,
@@ -90,14 +91,15 @@ typedef struct s_token
 }					t_token;
 
 void				loop(t_envs *my_envs);
+void				free_buf(char *s1, char *s2);
 char				*get_path(char *expr, t_envs *envs);
 size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params, bool flag);
 int					get_lenght(t_envs *envs, int i);
-void	free_buf(char *s1, char *s2);
 int					do_heredoc(t_list *expressions, t_params *params,
 						t_envs *envs, bool flag);
+int					quote_return(char *str);
 int					ver_exit(t_list *expressions, t_args *expr,
 						t_params *params, bool flag);
 int					do_echo(t_args *expr, bool flag);
@@ -166,9 +168,8 @@ int					redir_needed(t_list *expressions);
 int					do_export(t_args *expr, t_envs *envs, bool flag);
 void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs, bool flag);
-
+int					exec_parent_builtin(t_list *expressions,
 t_state				get_delim_state(char *token);
-int	exec_parent_builtin(t_list *expressions,
 						t_params *params,
 						t_envs *my_envs,
 						bool flag);

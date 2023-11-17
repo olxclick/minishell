@@ -65,28 +65,17 @@ char	*var_fill(char *res, t_envs *envs, int pos)
 	return (res);
 }
 
-char	*expand_var(char *input, t_envs *envs, int x, char *res)
-{
-	int		pos;
-	char	*final;
-
-	pos = pos_env_var(envs, &input[x]);
-	if (pos != -1)
-		final = var_fill(res, envs, pos);
-	return (final);
-}
-
 char	*do_smth(char *res, char *input, t_envs *envs, int *x)
 {
 	char	*final;
-	
+
 	final = expand_var(input, envs, *x + 1, res);
 	return (final);
 }
 
 char	*do_other(char *input, char *res, int *x)
 {
-	int		start;
+	int			start;
 	t_expander	expander;
 
 	expander.buf2 = NULL;
@@ -119,7 +108,8 @@ char	*get_var(char *input, t_envs *envs)
 		if (input[x] == '$')
 		{
 			res = do_smth(res, input, envs, &x);
-			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE && input[x] != DOUBLE_QUOTE)
+			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE
+				&& input[x] != DOUBLE_QUOTE)
 			{
 				x++;
 				if (input[x] == '$')
@@ -133,53 +123,4 @@ char	*get_var(char *input, t_envs *envs)
 		res = ft_strdup(input);
 	free(input);
 	return (res);
-}
-
-char	*remove_quotes(char *input)
-{
-	int		i;
-	char	*new_input;
-	char	c;
-	int		end;
-
-	i = 0;
-	c = '\0';
-	if (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE)
-		c = input[i];
-	end = ft_strlen(input) - 1;
-	while (input[i] && (input[i] == c || input[i] == c))
-		i++;
-	while (input[end] && (input[end] == c || input[end] == c))
-		end--;
-	new_input = ft_substr(input, i, end);
-	free(input);
-	return (new_input);
-}
-
-size_t	count_quotes(char *str)
-{
-	size_t	count;
-	char	c;
-	int		i;
-	int		flag;
-
-	i = 0;
-	flag = 0;
-	count = 0;
-	c = 0;
-	if (!str)
-		return (0);
-	while (str[i])
-	{
-		if (flag && str[i] == c)
-			count++;
-		else if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
-		{
-			flag = 1;
-			c = str[i];
-			count++;
-		}
-		i++;
-	}
-	return (count);
 }

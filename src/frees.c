@@ -12,31 +12,6 @@
 
 #include "../includes/minishell.h"
 
-void	copy_free(t_envs *my_envs)
-{
-	int	i;
-
-	i = 0;
-	if (my_envs)
-	{
-		if (my_envs->vars)
-		{
-			while (i < my_envs->len)
-			{
-				if (my_envs->vars[i])
-					free(my_envs->vars[i]);
-				i++;
-			}
-			if (my_envs->oldpwd)
-				free(my_envs->oldpwd);
-			if (my_envs->pwd)
-				free(my_envs->pwd);
-			free(my_envs->vars);
-		}
-		free(my_envs);
-	}
-}
-
 void	free_token(char **my_envs)
 {
 	int	i;

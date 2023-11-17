@@ -15,39 +15,6 @@
 int			g_exit;
 
 /*
-    inicializa certos valores para os devidos
-    parametros que vao ser utlilizados pelo
-    programa
-*/
-t_params	init_params(t_list *expressions)
-{
-	t_params	params;
-
-	params.input_fd = STDIN_FILENO;
-	params.exited = 0;
-	params.heredoc_fd = open(".heredoc.tmp", O_CREAT | O_TRUNC | O_RDWR,
-			0644);
-	params.exit_flag = 0;
-	params.exit_status = 130;
-	params.files = create_files(expressions);
-	return (params);
-}
-
-/*
-    inicializa a estrotura t_envs com os devidos 
-    valores dados as variaveis ambientais
-*/
-t_envs	*init_envs(t_envs *my_envs, char **envs)
-{
-	my_envs->vars = set_envs(envs);
-	my_envs->len = get_envs_size(envs);
-	my_envs->buf = NULL;
-	my_envs->oldpwd = NULL;
-	my_envs->pwd = getcwd(my_envs->buf, PATH_MAX);
-	return (my_envs);
-}
-
-/*
     funcaorespnsavel por tratar do inputs
     e os paramtros do programa
 */
@@ -125,18 +92,4 @@ int	main(int argc, char **argv, char **envs)
 	copy_free(my_envs);
 	rl_clear_history();
 	return (g_exit);
-}
-
-void	print_list(t_list *expressions)
-{
-	int	i;
-
-	while (expressions->next)
-	{
-		i = 0;
-		while (((t_args *)expressions->content)->args[i])
-			printf("Token: %s\n", ((t_args *)expressions->content)->args[i++]);
-		printf("State: %d\n", ((t_args *)expressions->content)->state);
-		expressions = expressions->next;
-	}
 }

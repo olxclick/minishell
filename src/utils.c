@@ -38,7 +38,8 @@ int	find_end(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '$' || str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+		if (str[i] == ' ' || str[i] == '$' || str[i] == SINGLE_QUOTE
+			|| str[i] == DOUBLE_QUOTE)
 			return (i);
 		i++;
 	}
