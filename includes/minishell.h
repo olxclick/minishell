@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/14 12:02:17 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:59:04 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,12 @@ void				ft_here_sig(int signal);
 int					check_delim(t_args *expr, bool flag);
 int					get_envs_size(char **envs);
 char				*get_var(char *input, t_envs *envs);
+char				*get_heredoc_delim(t_list *expressions);
+char				*check_line(char *line, t_envs *envs);
 int					exec(t_list *expressions, t_envs *my_envs,
 						char *path, bool flag);
 void				swap(char **a, char **b);
+void				define_file(t_args *expr, int *files, t_state prev_state);
 t_params			init_params(t_list *expresisons);
 int					pos_env_var(t_envs *envs, char *find);
 void				executor(t_list *expressions, t_envs *envs,
@@ -125,11 +128,14 @@ char				*change_dir(t_list *expressions,
 						char *value,
 						bool flag);
 int					*create_files(t_list *expressions);
+int					check_vars(char *line);
 void				free_list(t_list *list);
 int					do_env(t_envs *my_envs, bool flag);
 void				redir_input(t_list *expressions, t_params *params,
 						bool is_to_do);
 char				*get_token(char *input);
+char				*var_fill(char *res, t_envs *envs, int pos);
+char				*expand_var(char *input, t_envs *envs, int x, char *res);
 char				*remove_quotes(char *input);
 void				copy_free(t_envs *my_envs);
 int					pos_env_var(t_envs *envs, char *find);
@@ -164,15 +170,18 @@ int					read_fd(char *file_name);
 int					child_process(t_list *expressions, t_envs *envs,
 						t_params *params, bool flag);
 void				free_args(t_args *expression);
+void				built_in_exec(t_list *expressions, t_envs *envs,
+						t_params *params, bool flag);
+void				get_oldpwd(t_envs *envs);
+void				parse_expr(t_args *expression, t_token t, int i);
 int					redir_needed(t_list *expressions);
 int					do_export(t_args *expr, t_envs *envs, bool flag);
-void				print_list(t_list *head);
 int					do_unset(t_args *expr, t_envs *my_envs, bool flag);
 int					exec_parent_builtin(t_list *expressions,
-t_state				get_delim_state(char *token);
 						t_params *params,
-						t_envs *my_envs,
+						t_envs *envs,
 						bool flag);
+t_state				get_delim_state(char *token);
 char				**set_envs(char **envs);
 int					exec_child_builtin(t_list *expressions, t_args *expr,
 						t_envs *my_envs, bool flag);

@@ -6,30 +6,11 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/10/31 16:28:08 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:53:51 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
- da update ao pwd dando free ao ultimo valor que tinha
- sido guardada antes e alloca o novo valor do pwd 
-*/
-void	update_pwd(t_envs *envs)
-{
-	int	pwd_pos;
-	int	oldpwd_pos;
-
-	pwd_pos = pos_env_var(envs, "PWD");
-	oldpwd_pos = pos_env_var(envs, "OLDPWD");
-	if (envs->oldpwd)
-		free(envs->oldpwd);
-	envs->oldpwd = getcwd(envs->buf, PATH_MAX);
-	free(envs->vars[oldpwd_pos]);
-	free(envs->vars[pwd_pos]);
-	envs->vars[pwd_pos] = ft_strjoin("PWD=", envs->oldpwd);
-	envs->vars[oldpwd_pos] = ft_strjoin("OLDPWD=", envs->pwd);
-}
 
 /*
 	funcao responsavel por adquirir o valor de home
@@ -75,13 +56,6 @@ char	*check_cd(t_args *expr, char *value, bool flag)
 		g_exit = 1;
 	}
 	return (value);
-}
-
-void	get_oldpwd(t_envs *envs)
-{
-	free(envs->oldpwd);
-	envs->oldpwd = ft_substr(envs->vars[pos_env_var(envs, "OLDPWD")],
-			7, ft_strlen(envs->vars[pos_env_var(envs, "OLDPWD")]));
 }
 
 /*

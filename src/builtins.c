@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vasferre <vasferre@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 16:02:15 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/06 15:57:57 by vasferre         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:57:34 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,14 @@ int	check_delim(t_args *expr, bool flag)
 
 	j = -1;
 	while (++j < expr->len)
-		if (ft_strcmp(expr->args[j], ">") == 0 || ft_strcmp(expr->args[j],
-				"<") == 0 || ft_strcmp(expr->args[j], ">>") == 0
-			|| ft_strcmp(expr->args[j], "<<") == 0 || ft_strcmp(expr->args[j],
-				"|") == 0 || ft_strcmp(expr->args[j], "||") == 0)
+	{
+		if (get_delim_state(expr->args[j]) != DEFAULT)
 		{
 			if (flag)
 				printf("Error: character is not allowed with echo\n");
 			return (1);
 		}
+	}
 	return (0);
 }
 

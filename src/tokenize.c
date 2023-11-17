@@ -1,7 +1,22 @@
-#include "includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenize.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/17 11:48:31 by jbranco-          #+#    #+#             */
+/*   Updated: 2023/11/17 11:51:19 by jbranco-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/minishell.h"
 
 char	*get_token(char *input)
 {
+	char	c;
+	int		i;
+
 	i = 0;
 	c = '\0';
 	while (input[i])
