@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:52:35 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:06:30 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	child_process(t_list *expressions, t_envs *envs, t_params *params,
 		bool flag)
 {
-	if (redir_needed(expressions) == 1)
+	if (redir_needed(expressions) == 1 && flag)
 	{
 		redir_input(expressions, params, flag);
 		redirect(params, flag);
