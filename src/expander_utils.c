@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:47:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:47:45 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:47:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@ char	*expand_var(char *input, t_envs *envs, int x, char *res)
 	char	*final;
 
 	pos = pos_env_var(envs, &input[x]);
+	final = ft_strdup(input);
 	if (pos != -1)
+	{
+		free(final);
 		final = var_fill(res, envs, pos);
+	}
 	return (final);
 }

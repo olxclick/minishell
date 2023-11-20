@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:47:29 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:51:05 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 12:54:21 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	do_unset(t_args *expr, t_envs *my_envs, bool flag)
 		while (i < my_envs->len && expr->args[i])
 		{
 			pos = pos_env_var(my_envs, expr->args[i]);
-			if (pos < 0)
+			if (pos <= 0)
 			{
 				if (flag)
 					printf("'%s' could not be found\n", expr->args[i]);

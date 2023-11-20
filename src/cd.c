@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:53:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:06:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,18 @@ char	*change_dir(t_list *expressions, t_envs *my_envs,
 		return (NULL);
 	if ((expr->len == 1 || (!ft_strcmp(expr->args[1], "~") && expr->len == 2)))
 	{
-		g_exit = 0;
 		if (flag)
 			value = get_home(my_envs, value);
 	}
 	else if (ft_strcmp(expr->args[1], "-") == 0 && expr->len == 2 && flag)
 	{
-		g_exit = 0;
 		if (flag)
 		{
+			if (!my_envs->oldpwd)
+			{
+				printf("oldpwd not set\n");
+				return (value);
+			}
 			if (my_envs->oldpwd)
 				get_oldpwd(my_envs);
 			value = ft_strdup(my_envs->oldpwd);
@@ -100,6 +103,7 @@ int	dir_change(t_list *expressions, t_args *expr, t_envs *my_envs, bool flag)
 {
 	char	*value;
 
+	g_exit = 0;
 	value = NULL;
 	my_envs->buf = NULL;
 	if (expr->len > 2)

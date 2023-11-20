@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:52:03 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:52:38 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:15:56 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ void	built_in_exec(t_list *expressions, t_envs *envs,
 	if (is_child_builtin(expr->args[0]) || path || ((ft_strcmp(expr->args[0],
 					"export") == 0 && expr->len == 1)))
 	{
-		if (flag)
-			handle_pipes(expressions, params);
+		handle_pipes(expressions, params);
 		if ((redir_needed(expressions) == 2 && ft_lstsize(expressions) <= 4)
 			|| redir_needed(expressions) != 2)
 			g_exit = exec(expressions, envs, path, flag);
