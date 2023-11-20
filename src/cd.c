@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 16:37:14 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/20 13:06:27 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:39:03 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,19 @@ char	*check_cd(t_args *expr, char *value, bool flag)
 	do mudanca de diretorio consoante o argumento
 	, caso um pipe seja dado comoargumento retorna null
 */
+
+int	check_oldpwd(t_envs *my_envs)
+{
+	if (!my_envs->oldpwd)
+	{
+		printf("oldpwd not set\n");
+		return (-1);
+	}
+	if (my_envs->oldpwd)
+		get_oldpwd(my_envs);
+	return (0);
+}
+
 char	*change_dir(t_list *expressions, t_envs *my_envs,
 		char *value, bool flag)
 {
@@ -80,13 +93,8 @@ char	*change_dir(t_list *expressions, t_envs *my_envs,
 	{
 		if (flag)
 		{
-			if (!my_envs->oldpwd)
-			{
-				printf("oldpwd not set\n");
+			if (check_oldpwd(my_envs) < 0)
 				return (value);
-			}
-			if (my_envs->oldpwd)
-				get_oldpwd(my_envs);
 			value = ft_strdup(my_envs->oldpwd);
 		}
 	}

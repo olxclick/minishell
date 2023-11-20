@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:07:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/20 15:11:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/11/20 16:36:47 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	redir_input(t_list *expressions, t_params *params, bool is_to_do)
 	while (expressions->next)
 	{
 		expr = expressions->content;
-		if (flag && is_to_do && params->input_fd == STDIN_FILENO) //talvez usar previous state aqui
+		if (flag && is_to_do && params->input_fd == STDIN_FILENO)
 			params->input_fd = read_fd(expr->args[0]);
 		if (expr->state == REDIR_IN && is_to_do)
 			flag = 1;
