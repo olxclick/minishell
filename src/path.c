@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:48:16 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:48:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:24:28 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ char	*get_path(char *expr, t_envs *envs)
 	{
 		if (access(expr, F_OK) == 0)
 		{
-			if (stat(expr, &buf) == 0 && expr[0] == '/')
+			printf("hello!/n");
+			if (stat(expr, &buf) == 0 && (expr[0] == '/' || expr[0] == '.'))
 			{
 				if (S_ISREG(buf.st_mode))
 					return (expr);
