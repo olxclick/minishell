@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 22:18:38 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/12/05 14:25:09 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/15 13:09:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,9 @@ int	run_parent(t_list *expressions, t_params *params, t_envs *envs, bool flag)
 
 void	executor(t_list *expressions, t_envs *envs, t_params *params, bool flag)
 {
-	t_args	*expr;
 	t_list	*original;
 
 	original = expressions;
-	expr = expressions->content;
 	pipe(params->pipe_fd);
 	params->pid = fork();
 	signals(2);
@@ -84,10 +82,10 @@ void	executor(t_list *expressions, t_envs *envs, t_params *params, bool flag)
 		g_exit = child_process(expressions, envs, params, flag);
 		exit(g_exit);
 	}
-	run_parent(expressions, params, envs, true);
+	if (flag)
+		run_parent(expressions, params, envs, true);
 	waitpid(-1, &g_exit, 0);
-	if (ft_strcmp(expr->args[0], "cat") != 0)
-		run_parent(original, params, envs, false);
+	run_parent(original, params, envs, false);
 	if (!WTERMSIG(g_exit))
 		g_exit = WEXITSTATUS(g_exit);
 	close_file_descriptors(params);
