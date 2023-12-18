@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:47:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/20 12:47:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:15:19 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*remove_quotes(char *input)
 
 	i = 0;
 	c = '\0';
-	if (input[i] == SINGLE_QUOTE || input[i] == DOUBLE_QUOTE)
+	if (input[i] == SINGLE_QUOTE[0] || input[i] == DOUBLE_QUOTE[0])
 		c = input[i];
 	end = ft_strlen(input) - 1;
 	while (input[i] && (input[i] == c || input[i] == c))
@@ -50,7 +50,7 @@ size_t	count_quotes(char *str)
 	{
 		if (flag && str[i] == c)
 			count++;
-		else if (str[i] == SINGLE_QUOTE || str[i] == DOUBLE_QUOTE)
+		else if (str[i] == SINGLE_QUOTE[0] || str[i] == DOUBLE_QUOTE[0])
 		{
 			flag = 1;
 			c = str[i];

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:48:31 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:51:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:16:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_token(char *input)
 	c = '\0';
 	while (input[i])
 	{
-		if (input[i] == DOUBLE_QUOTE || input[i] == SINGLE_QUOTE)
+		if (input[i] == DOUBLE_QUOTE[0] || input[i] == SINGLE_QUOTE[0])
 		{
 			if (!c)
 				c = input[i];
@@ -62,9 +62,9 @@ char	*operator_return(char *input, int i)
 
 int	quote_return(char *str)
 {
-	if (str[0] == SINGLE_QUOTE)
+	if (str[0] == SINGLE_QUOTE[0])
 		return (2);
-	else if (str[0] == DOUBLE_QUOTE)
+	else if (str[0] == DOUBLE_QUOTE[0])
 		return (1);
 	return (0);
 }

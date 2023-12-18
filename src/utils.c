@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:59:58 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/07 11:42:48 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:16:50 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ int	find_end(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' || str[i] == '$' || str[i] == SINGLE_QUOTE
-			|| str[i] == DOUBLE_QUOTE)
+		if (str[i] == ' ' || str[i] == '$' || str[i] == SINGLE_QUOTE[0]
+			|| str[i] == DOUBLE_QUOTE[0])
 			return (i);
 		i++;
 	}

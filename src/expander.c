@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 19:48:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/20 12:47:44 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:15:37 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ char	*get_var(char *input, t_envs *envs)
 		if (input[x] == '$')
 		{
 			res = do_smth(res, input, envs, &x);
-			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE
-				&& input[x] != DOUBLE_QUOTE)
+			while (input[x] && input[x] != ' ' && input[x] != SINGLE_QUOTE[0]
+				&& input[x] != DOUBLE_QUOTE[0])
 			{
 				x++;
 				if (input[x] == '$')

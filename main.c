@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/20 12:58:36 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 15:32:12 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ size_t	process(char *input, t_envs *envs)
 	t_token		tokens;
 	t_params	params;
 
+	tokens.token = NULL;
 	tokens = set_args_tokens(input, envs, tokens);
 	expressions = get_all_tokens(tokens);
 	if (!expressions)

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:39:44 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/13 13:00:51 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:16:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,18 @@ int	is_same_quotes(char *str)
 	count_s = 0;
 	count_d = 0;
 	c = '\0';
-	if (str[0] == SINGLE_QUOTE || str[0] == DOUBLE_QUOTE)
+	if (str[0] == SINGLE_QUOTE[0] || str[0] == DOUBLE_QUOTE[0])
 		c = str[0];
 	while (str[i])
 	{
-		if (str[i] == SINGLE_QUOTE && c == SINGLE_QUOTE)
+		if (str[i] == SINGLE_QUOTE[0] && c == SINGLE_QUOTE[0])
 			count_s++;
-		if (str[i] == DOUBLE_QUOTE && c == DOUBLE_QUOTE)
+		if (str[i] == DOUBLE_QUOTE[0] && c == DOUBLE_QUOTE[0])
 			count_d++;
 		i++;
 	}
-	if ((count_s % 2 != 0 && c == SINGLE_QUOTE) || (count_d % 2 != 0
-			&& c == DOUBLE_QUOTE))
+	if ((count_s % 2 != 0 && c == SINGLE_QUOTE[0]) || (count_d % 2 != 0
+			&& c == DOUBLE_QUOTE[0]))
 		return (printf("error: unclosed quotes!\n"));
 	return (quote_return(str));
 }

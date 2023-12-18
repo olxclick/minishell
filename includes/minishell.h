@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:59:04 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/18 16:14:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 
 # define W 1
 # define R 0
-# define DOUBLE_QUOTE '"'
-# define SINGLE_QUOTE '\''
+# define DOUBLE_QUOTE "\""
+# define SINGLE_QUOTE "\'"
 
 extern int			g_exit;
 
