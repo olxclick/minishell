@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:47:40 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/12/18 16:15:19 by jbranco-         ###   ########.fr       */
+/*   Updated: 2023/12/21 17:19:27 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*remove_quotes(char *input)
 {
 	int		i;
 	char	*new_input;
+	char	*buff;
 	char	c;
 	int		end;
 
@@ -24,10 +25,23 @@ char	*remove_quotes(char *input)
 	if (input[i] == SINGLE_QUOTE[0] || input[i] == DOUBLE_QUOTE[0])
 		c = input[i];
 	end = ft_strlen(input) - 1;
-	while (input[i] && (input[i] == c || input[i] == c))
+	while (input[i] && input[i] == c)
 		i++;
-	while (input[end] && (input[end] == c || input[end] == c))
-		end--;
+	if (input[end] != c)
+	{
+		while (input[end] != c)
+			end--;
+		buff = ft_substr(input, i, end - 1);
+		new_input = ft_strjoin(buff, &input[end + 1]);
+		free(buff);
+		free(input);
+		return (new_input);
+	}
+	else
+	{
+		while (end > i && input[end] == c)
+			end--;
+	}
 	new_input = ft_substr(input, i, end);
 	free(input);
 	return (new_input);
@@ -67,11 +81,17 @@ char	*expand_var(char *input, t_envs *envs, int x, char *res)
 	char	*final;
 
 	pos = pos_env_var(envs, &input[x]);
-	final = ft_strdup(input);
-	if (pos != -1)
-	{
-		free(final);
-		final = var_fill(res, envs, pos);
+	if (pos < 0)
+	{	
+		if (res)
+		{
+			final = ft_strdup(res);
+			free(res);
+		}
+		else
+			final = ft_strdup(input);
 	}
+	else
+		final = var_fill(res, envs, pos);
 	return (final);
 }
