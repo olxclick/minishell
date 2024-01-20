@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:30:11 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/12/18 15:32:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:15:23 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,12 @@ void	loop(t_envs *my_envs)
 			free(input);
 			continue ;
 		}
-		add_history(input);
-		if (process(input, my_envs))
-			break ;
+		if (search_input(input) == 1)
+		{
+			add_history(input);
+			if (process(input, my_envs))
+				break ;
+		}
 	}
 }
 

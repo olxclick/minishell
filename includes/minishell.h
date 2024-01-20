@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 16:29:48 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/12/18 16:14:20 by jbranco-         ###   ########.fr       */
+/*   Updated: 2024/01/20 15:59:20 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ size_t				process(char *input, t_envs *my_envs);
 t_envs				*init_envs(t_envs *my_envs, char **envs);
 void				redirect(t_params *params, bool flag);
 int					get_lenght(t_envs *envs, int i);
+int					search_input(char *input);
 int					do_heredoc(t_list *expressions, t_params *params,
 						t_envs *envs, bool flag);
 int					quote_return(char *str);

@@ -6,7 +6,7 @@
 /*   By: jbranco- <jbranco-@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:48:07 by jbranco-          #+#    #+#             */
-/*   Updated: 2023/11/17 11:48:12 by jbranco-         ###   ########.fr       */
+/*   Updated: 2024/01/20 17:15:32 by jbranco-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,24 @@ t_state	get_delim_state(char *token)
 	else if (ft_strcmp(token, "<<") == 0)
 		state = HEREDOC;
 	return (state);
+}
+
+int	search_input(char *input)
+{
+	int	i;
+	int	max;
+
+	i = 0;
+	max = ft_strlen(input);
+	while (i < max)
+	{
+		if (input[i] != '\0')
+		{
+			if (input[i] != ' ')
+				return (1);
+		}
+		i++;
+	}
+	free(input);
+	return (0);
 }
